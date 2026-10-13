@@ -1,0 +1,56 @@
+AI MULTIVERSE CINEMA 1.2.0 — KAPALI TEST GÜNCELLEMESİ
+Paket: com.aimultiverse.cinema
+Sürüm kodu: 3 / sürüm adı: 1.2.0
+Önceki sürümün yükleme anahtarı korunmuştur.
+
+PLAY CONSOLE'A YALNIZCA AI-Multiverse-Cinema-1.2.0.aab YÜKLEYİN.
+Kaynak ZIP'i, SVG, anahtar yedeği veya rapor dosyası yüklenmez.
+Kapalı test > Alpha > Sürümler > Yeni sürüm oluştur yolunu kullanın.
+Eski 1.0.0 sürümünü silmeyin. Aynı Alpha kanalına yeni sürüm ekleyin.
+AAB'yi yükleyin, sürüm notlarını girin, kaydedip inceleyin.
+Hesabınızdaki yayın akışına göre incelemeye gönderin/yayımlayın.
+Kullanıcı listelerini ve test katılım bağlantısını koruyun.
+Test ekibinden Play Store'dan güncelleme yapıp 1.2.0'ı doğrulamasını isteyin.
+
+ÖNERİLEN SÜRÜM NOTLARI:
+Video oynatma, yükleme hataları ve yeniden deneme akışı iyileştirildi.
+Hazır olmayan bölümlerin durumu açıkça gösterildi.
+Veri silme onayı, karakter adı sınırı ve bölüm geçiş ayarları düzeltildi.
+Mevcut videolar, üyelik ve dil seçenekleri yeni sürüme aktarıldı.
+
+MEVCUT İÇERİK:
+12 Ekim 2026 salt okunur sunucu kontrolünde 10 dizi / 150 bölüm kaydı bulundu.
+İki hazır bölüm: 1. bölüm 131 saniye, 2. bölüm 12 saniye.
+Bu iki dosyanın imzalı erişimi HTTP 206 yanıtıyla doğrulandı.
+Diğer bölümler taslaktır; 150 tam video veya çok dilli dublaj hazır değildir.
+Ses dosyası mevcut olduğunda ayrı ses parçası oynatımı desteklenir.
+Fotoğraf yalnızca afiş önizlemesinde görünür; videoya yüz yerleştirme yoktur.
+Jetonlar ücretsiz demodur. Gerçek abonelik / Google Play Billing / iyzico / PayTR yoktur.
+Bu sürüm ödeme almaya veya üretim yayınına hazır olduğu iddiası taşımaz.
+
+ÜYELİK VE GİZLİLİK:
+Android'de e-posta/şifre ile kayıt ve giriş kullanılır.
+Web'e özel Google OAuth düğmesi Android'de gösterilmez; native Google giriş
+ayrı sağlayıcı yapılandırması gerektirir.
+Misafir fotoğrafı cihazda, giriş yapılmış profil fotoğrafı sunucuda tutulur.
+Yerel veri temizleme sunucudaki hesabı silmez. Profilde hesap/veri silme
+talebi için geliştirici iletişim bağlantısı vardır. Bu talepleri yönetmeniz gerekir.
+Play Console Veri Güvenliği / uygulama erişimi / gizlilik politikasını
+üyelik, sunucu fotoğrafı, izleme ilerlemesi ve AdMob kullanımına göre güncelleyin.
+Herkese açık hesap silme talebi web adresini Console'a ekleyin.
+Yeni kayıt/giriş özelliklerini test ekibine bildirin; gerektiğinde gerçek bir test hesabı sağlayın.
+
+ADMOB:
+App ID: ca-app-pub-9404448916585248~6438423942
+Banner: ca-app-pub-9404448916585248/5845378885
+Interstitial: ca-app-pub-9404448916585248/6866808514
+UMP izin akışı ve reklam gizlilik seçenekleri korunmuştur.
+Gerçek reklamları tıklayarak test etmeyin. Reklam gösterimi native cihazda ayrıca kontrol edilmeli.
+
+SINIRLAR:
+Fiziksel telefonda bu sürüm çalıştırılmadı; test ekibinde yeniden doğrulama gerekir.
+Sunucu verileri ve erişim kuralları ZIP ile taşınmaz; mevcut Lovable/Supabase
+sunucusuna bağlanılır. Sunucu şeması ve gerçek ödeme güvenliği ayrıca yönetilir.
+Gerçek satışa geçmeden önce video erişim yetkileri, jeton RPC doğrulaması,
+hesap silme ve ödeme doğrulaması sunucuda denetlenmelidir.
+Android kaynak değişiklikleri Lovable projesine otomatik senkronize olmaz.

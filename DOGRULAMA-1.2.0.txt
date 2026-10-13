@@ -1,0 +1,10 @@
+1.2.0 / versionCode 3
+21 automated tests passed.
+Mobile production build passed.
+Android release build and lintVital passed.
+Bundletool validation passed.
+Original 1.0.0 upload certificate matches.
+Production AdMob App ID and unit IDs verified; testAds=false.
+Backend read-only check: 10 series, 150 episodes, 2 available videos (131s and 12s), HTTP206.
+Physical device playback/ads/login not tested.
+SHA256: 82ab533de0c38438535fe7c2cf37c7ed8fd4e04f37e2bbb02af5e54b0fa803e8
