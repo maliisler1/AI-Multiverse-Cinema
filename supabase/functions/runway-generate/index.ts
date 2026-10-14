@@ -112,6 +112,7 @@ Deno.serve(async (req: Request) => {
         status: "PENDING",
         model: genModel,
         prompt_text: promptText,
+        prompt_image: promptImage || null,
         duration_sec: genDuration,
       });
 
@@ -151,7 +152,7 @@ Deno.serve(async (req: Request) => {
 
       const { data: genRow } = await supabase
         .from("video_generations")
-        .select("id, episode_id")
+        .select("id, episode_id, duration_sec")
         .eq("runway_task_id", taskId)
         .maybeSingle();
 
@@ -185,10 +186,9 @@ Deno.serve(async (req: Request) => {
                   .upload(storagePath, videoBlob, { upsert: true, contentType: "video/mp4" });
 
                 if (!uploadError) {
-                  const durationSec = Math.round((body.duration || 5));
                   await supabase
                     .from("episodes")
-                    .update({ video_url: storagePath, status: "ready", duration_sec: durationSec })
+                    .update({ video_url: storagePath, status: "ready", duration_sec: genRow.duration_sec })
                     .eq("id", genRow.episode_id);
                   updateData.saved_to_storage = true;
                 }

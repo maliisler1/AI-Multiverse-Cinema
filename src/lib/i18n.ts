@@ -282,6 +282,13 @@ const extra: Partial<Record<Lang, Dict>> = {
     poster_file: "Afiş", save: "Kaydet", saved: "Kaydedildi", added_tokens: "{n} jeton eklendi",
     status_ready: "Yayında", status_draft: "Taslak", no_video_yet: "Video yüklenmemiş",
     audio_track: "Ses parçası", sub_track: "Altyazı", track_ready: "Hazır", track_planned: "Hazırlanıyor",
+    gen_tab: "Video Üret", gen_title: "Runway ile Video Üret", gen_sub: "Bölüm için AI video üret. Üretilen video otomatik depolamaya kaydedilir.",
+    gen_prompt: "Sahne açıklaması (prompt)", gen_prompt_ph: "Örn: Genç bir astronot, altın yansımalarla aydınlık saçlarla, uzay istasyonunda uyanıyor…",
+    gen_model: "Model", gen_duration: "Süre (sn)", gen_button: "Üretmeye Başla", gen_generating: "Üretiliyor…",
+    gen_status_pending: "Bekliyor", gen_status_running: "Üretiliyor", gen_status_succeeded: "Tamamlandı", gen_status_failed: "Başarısız",
+    gen_check: "Durumu Kontrol Et", gen_history: "Üretim Geçmişi", gen_no_history: "Henüz üretim yok.",
+    gen_key_missing: "Runway API anahtarı ayarlanmamış.",
+    gen_star_desc: "Başrol: Genç, aydınlık saçlar, altın yansımalar. Bazı bölümlerde saç toplu atkuyruğu.",
   },
   en: {
     sign_in: "Sign in", sign_up: "Sign up", email: "Email", password: "Password", your_name: "Your name",
@@ -304,6 +311,13 @@ const extra: Partial<Record<Lang, Dict>> = {
     poster_file: "Poster", save: "Save", saved: "Saved", added_tokens: "{n} tokens added",
     status_ready: "Published", status_draft: "Draft", no_video_yet: "No video uploaded",
     audio_track: "Audio track", sub_track: "Subtitle", track_ready: "Ready", track_planned: "In progress",
+    gen_tab: "Generate", gen_title: "Generate Video with Runway", gen_sub: "Generate AI video for an episode. Result saved to storage automatically.",
+    gen_prompt: "Scene prompt", gen_prompt_ph: "e.g. A young astronaut with bright golden-highlighted hair waking up in a space station…",
+    gen_model: "Model", gen_duration: "Duration (sec)", gen_button: "Start Generating", gen_generating: "Generating…",
+    gen_status_pending: "Pending", gen_status_running: "Generating", gen_status_succeeded: "Completed", gen_status_failed: "Failed",
+    gen_check: "Check Status", gen_history: "Generation History", gen_no_history: "No generations yet.",
+    gen_key_missing: "Runway API key not configured.",
+    gen_star_desc: "Lead: Young, bright hair with golden highlights. Ponytail in some episodes.",
   },
 };
 for (const [l, d] of Object.entries(extra)) Object.assign(dicts[l as Lang], d);
