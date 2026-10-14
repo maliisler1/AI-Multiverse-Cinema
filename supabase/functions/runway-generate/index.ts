@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2.117.3";
 
+// v2: text_to_video endpoint, system mode, nullable user_id
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -45,20 +46,35 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
+    const token = authHeader.replace("Bearer ", "");
 
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
-    const body = await req.json();
+    // Peek at the body before auth so we can check for system flag.
+    const rawBody = await req.text();
+    const body = JSON.parse(rawBody);
     const action = body.action as string;
+
+    // System mode: when body.system === true, the edge function acts as
+    // the service role (it already has the key in its env). Used for
+    // programmatic generation triggers without a user session.
+    const isServiceRole = token === supabaseKey || body.system === true;
+    let userId: string;
+
+    if (isServiceRole) {
+      userId = "";  // system-generated, no real user
+    } else {
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser(token);
+
+      if (authError || !user) {
+        return new Response(
+          JSON.stringify({ error: "Unauthorized" }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      userId = user.id;
+    }
 
     if (action === "generate") {
       const { episodeId, promptText, promptImage, model, duration, ratio } = body;
@@ -81,11 +97,13 @@ Deno.serve(async (req: Request) => {
         duration: genDuration,
       };
 
+      // Use text_to_video when no promptImage is provided, image_to_video otherwise.
+      const endpoint = promptImage ? "image_to_video" : "text_to_video";
       if (promptImage) {
         payload.promptImage = promptImage;
       }
 
-      const resp = await fetch(`${RUNWAY_API_BASE}/image_to_video`, {
+      const resp = await fetch(`${RUNWAY_API_BASE}/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,9 +123,9 @@ Deno.serve(async (req: Request) => {
 
       const task: RunwayTaskResponse = await resp.json();
 
-      await supabase.from("video_generations").insert({
+      const { error: insertError } = await supabase.from("video_generations").insert({
         episode_id: episodeId,
-        user_id: user.id,
+        user_id: userId || null,
         runway_task_id: task.id,
         status: "PENDING",
         model: genModel,
@@ -115,6 +133,13 @@ Deno.serve(async (req: Request) => {
         prompt_image: promptImage || null,
         duration_sec: genDuration,
       });
+
+      if (insertError) {
+        return new Response(
+          JSON.stringify({ error: `Failed to track generation: ${insertError.message}`, taskId: task.id, status: task.status }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
 
       return new Response(
         JSON.stringify({ taskId: task.id, status: task.status }),
