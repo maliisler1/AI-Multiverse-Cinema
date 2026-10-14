@@ -1,8 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2.117.3";
 
 // v2: text_to_video endpoint, system mode, nullable user_id
-// Deployed: initial deploy
-// Deployed: initial deploy
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
