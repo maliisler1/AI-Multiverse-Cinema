@@ -1,0 +1,93 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Unbounded", sans-serif;
+  --font-sans: "Manrope", sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.13 0.02 270);
+  --foreground: oklch(0.97 0.01 270);
+  --card: oklch(0.18 0.025 270);
+  --card-foreground: oklch(0.97 0.01 270);
+  --popover: oklch(0.18 0.025 270);
+  --popover-foreground: oklch(0.97 0.01 270);
+  --primary: oklch(0.82 0.15 200);
+  --primary-foreground: oklch(0.15 0.03 260);
+  --secondary: oklch(0.24 0.03 270);
+  --secondary-foreground: oklch(0.97 0.01 270);
+  --muted: oklch(0.22 0.025 270);
+  --muted-foreground: oklch(0.68 0.03 270);
+  --accent: oklch(0.68 0.25 350);
+  --accent-foreground: oklch(0.98 0 0);
+  --gold: oklch(0.85 0.16 85);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.82 0.15 200);
+  --gradient-neon: linear-gradient(120deg, var(--primary), var(--accent));
+  --gradient-fade: linear-gradient(to top, var(--background) 5%, transparent 70%);
+  --shadow-neon: 0 10px 40px -10px color-mix(in oklab, var(--accent) 60%, transparent);
+}
+
+@utility bg-neon { background-image: var(--gradient-neon); }
+@utility bg-fade { background-image: var(--gradient-fade); }
+@utility shadow-neon { box-shadow: var(--shadow-neon); }
+@utility text-neon {
+  background-image: var(--gradient-neon);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility glass {
+  background: color-mix(in oklab, var(--card) 75%, transparent);
+  backdrop-filter: blur(16px);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3 { font-family: var(--font-display); }
+}
+
+/* Capacitor 8 system bar insets, including Android 16 edge-to-edge. */
+.app-safe-top { padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px)); }
+.app-safe-bottom { padding-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)); }
+.app-ad-space { padding-bottom: calc(6rem + var(--ad-banner-height, 0px) + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))); }
+.app-ad-nav { bottom: var(--ad-banner-height, 0px); }

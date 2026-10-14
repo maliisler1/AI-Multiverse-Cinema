@@ -1,0 +1,4 @@
+project_id = "ryiqhupjfisxygrapwhv"
+
+[functions.runway-generate]
+verify_jwt = true

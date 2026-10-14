@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+
+def adMobFile = rootProject.file('admob.properties')
+def adMobValues = new Properties()
+if (adMobFile.exists()) adMobFile.withInputStream { adMobValues.load(it) }
+def releaseAdMobAppId = adMobValues.getProperty('appId', '')
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') } &&
+    !(releaseAdMobAppId ==~ /ca-app-pub-9404448916585248~[0-9]{10}/)) {
+    throw new GradleException('Real AdMob App ID missing. Set appId in android/admob.properties (the ID contains ~, not /).')
+}
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') }) {
+    def adBuildConfig = rootProject.file('app/src/main/assets/public/ad-build-config.json')
+    if (!adBuildConfig.exists() || new groovy.json.JsonSlurper().parse(adBuildConfig).testAds != false) {
+        throw new GradleException('Run pnpm run android:sync with production web assets before a release. Test ad assets cannot be released.')
+    }
+}
+
+def signingFile = rootProject.file('keystore.properties')
+def signingValues = new Properties()
+if (signingFile.exists()) signingFile.withInputStream { signingValues.load(it) }
+if (!signingFile.exists() && gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') }) {
+    throw new GradleException('Release signing requires android/keystore.properties. See keystore.properties.example.')
+}
+
+android {
+    namespace = "com.aimultiverse.cinema"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.aimultiverse.cinema"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 3
+        versionName "1.2.0"
+        manifestPlaceholders = [admobAppId: releaseAdMobAppId ?: 'ca-app-pub-3940256099942544~3347511713']
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    signingConfigs {
+        release {
+            if (signingFile.exists()) {
+                storeFile rootProject.file(signingValues['storeFile'])
+                storePassword signingValues['storePassword']
+                keyAlias signingValues['keyAlias']
+                keyPassword signingValues['keyPassword']
+            }
+        }
+    }
+    buildTypes {
+        release {
+            manifestPlaceholders = [admobAppId: releaseAdMobAppId]
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

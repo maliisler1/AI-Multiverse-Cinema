@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AI Multiverse Cinema</string>
+    <string name="title_activity_main">AI Multiverse Cinema</string>
+    <string name="package_name">com.aimultiverse.cinema</string>
+    <string name="custom_url_scheme">com.aimultiverse.cinema</string>
+</resources>
