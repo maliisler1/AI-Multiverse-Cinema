@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
-import { CloudUpload as UploadCloud, Check, Trash2, Plus, Film, Image as ImageIcon, Sparkles, Loader as Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CloudUpload as UploadCloud, Check, Plus, Film, Image as ImageIcon, Sparkles, Loader as Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { episodeListQuery, seriesListQuery, type EpisodeRow, type SeriesRow } from "@/lib/catalog";
@@ -279,6 +279,14 @@ function Users() {
 
 const RUNWAY_MODELS = ["gen4.5", "gen4_turbo", "gen3_alpha"] as const;
 
+const NEO_VERIDIA_PROMPTS: Record<number, string> = {
+  1: "A 16-year-old girl named Ada with bright golden-highlighted hair wakes from a dream in a neon-lit futuristic bedroom, holographic code fragments reading '23' float around her, cyberpunk city visible through the window, cinematic wide shot, teal and gold color palette, 16:9",
+  2: "Ada stands before a massive holographic display in the underground lab of Neo-Veridia, code streams cascade around her silhouette, other young researchers watch in awe, dramatic overhead lighting, teal and amber atmosphere",
+  3: "Neo-Veridia cityscape at night: towering skyscrapers with neon signs, Ada running through rain-slicked streets, glowing data trails following her footsteps, aerial tracking shot, cinematic",
+  4: "Ada holds a glowing crystal fragment — the Universal Fragment — in both hands inside an ancient vault beneath Neo-Veridia, the fragment pulses with golden light, her reflection multiplied infinitely, epic reveal moment",
+  5: "Final scene: Ada stands on the rooftop above Neo-Veridia at dawn, the city glowing below her, Code 23 resolving into a brilliant beam of light from her chest upward into the sky, triumphant wide shot",
+};
+
 type GenRow = {
   id: string;
   episode_id: string | null;
@@ -296,6 +304,13 @@ type GenRow = {
 function RunwayGenerate() {
   const { t } = useT();
   const qc = useQueryClient();
+  const { data: allSeries } = useSuspenseQuery(seriesListQuery);
+  const [selectedSeriesId, setSelectedSeriesId] = useState(() => {
+    const nv = allSeries.find((s) => s.slug === "neo-veridia-kod-23");
+    return nv?.id ?? allSeries[0]?.id ?? "";
+  });
+  const { data: seriesEps } = useSuspenseQuery(episodeListQuery(selectedSeriesId));
+  const [selectedEpId, setSelectedEpId] = useState("");
   const [prompt, setPrompt] = useState("");
   const [model, setModel] = useState<string>("gen4.5");
   const [duration, setDuration] = useState(5);
@@ -303,49 +318,59 @@ function RunwayGenerate() {
   const [gens, setGens] = useState<GenRow[]>([]);
   const [loaded, setLoaded] = useState(false);
 
+  useEffect(() => {
+    const ep1 = seriesEps.find((e) => e.n === 1);
+    const epId = ep1?.id ?? seriesEps[0]?.id ?? "";
+    setSelectedEpId(epId);
+    if (ep1 && selectedSeriesId === allSeries.find((s) => s.slug === "neo-veridia-kod-23")?.id) {
+      setPrompt(NEO_VERIDIA_PROMPTS[ep1.n] ?? "");
+    }
+  }, [selectedSeriesId, seriesEps]);
+
+  const onEpChange = (epId: string) => {
+    setSelectedEpId(epId);
+    const ep = seriesEps.find((e) => e.id === epId);
+    const isNeoVeridia = selectedSeriesId === allSeries.find((s) => s.slug === "neo-veridia-kod-23")?.id;
+    if (ep && isNeoVeridia && NEO_VERIDIA_PROMPTS[ep.n]) setPrompt(NEO_VERIDIA_PROMPTS[ep.n]);
+  };
+
   const loadGens = async () => {
     const { data, error } = await supabase
       .from("video_generations")
       .select("id,episode_id,runway_task_id,status,model,prompt_text,duration_sec,output_url,saved_to_storage,failure_reason,created_at")
       .order("created_at", { ascending: false })
       .limit(20);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
+    if (error) { toast.error(error.message); return; }
     setGens((data ?? []) as GenRow[]);
     setLoaded(true);
   };
 
+  useEffect(() => { void loadGens(); }, []);
+
+  useEffect(() => {
+    const pending = gens.filter((g) => g.status === "PENDING" || g.status === "THROTTLING" || g.status === "RUNNING");
+    if (pending.length === 0) return;
+    const timer = setInterval(() => { void Promise.all(pending.map((g) => pollStatus(g.runway_task_id, false))); }, 15000);
+    return () => clearInterval(timer);
+  }, [gens]);
+
+  const callEdge = async (body: object) => {
+    const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/runway-generate`;
+    const { data: sessionData } = await supabase.auth.getSession();
+    return fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${sessionData.session?.access_token}` },
+      body: JSON.stringify(body),
+    });
+  };
+
   const generate = async () => {
-    if (!prompt.trim()) {
-      toast.error(t("gen_prompt"));
-      return;
-    }
+    if (!prompt.trim()) { toast.error(t("gen_prompt")); return; }
     setBusy(true);
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/runway-generate`;
-      const { data: sessionData } = await supabase.auth.getSession();
-      const resp = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionData.session?.access_token}`,
-        },
-        body: JSON.stringify({
-          action: "generate",
-          episodeId: null,
-          promptText: prompt.trim(),
-          model,
-          duration,
-          ratio: "1280:720",
-        }),
-      });
+      const resp = await callEdge({ action: "generate", episodeId: selectedEpId || null, promptText: prompt.trim(), model, duration, ratio: "1280:720" });
       const result = await resp.json();
-      if (!resp.ok) {
-        toast.error(result.error || "Runway API error");
-        return;
-      }
+      if (!resp.ok) { toast.error(result.error || "Runway API error"); return; }
       toast.success(t("gen_status_pending") + ": " + result.taskId);
       setPrompt("");
       void loadGens();
@@ -356,36 +381,20 @@ function RunwayGenerate() {
     }
   };
 
-  const checkStatus = async (taskId: string) => {
-    const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/runway-generate`;
-    const { data: sessionData } = await supabase.auth.getSession();
+  const pollStatus = async (taskId: string, showToast = true) => {
     try {
-      const resp = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionData.session?.access_token}`,
-        },
-        body: JSON.stringify({ action: "status", taskId }),
-      });
+      const resp = await callEdge({ action: "status", taskId });
       const result = await resp.json();
-      if (!resp.ok) {
-        toast.error(result.error || "Status check failed");
-        return;
-      }
-      if (result.status === "SUCCEEDED") {
-        toast.success(t("gen_status_succeeded"));
-      } else if (result.status === "FAILED") {
-        toast.error(t("gen_status_failed") + ": " + (result.failure || ""));
-      } else {
-        toast.info(result.status);
+      if (!resp.ok) { if (showToast) toast.error(result.error || "Status check failed"); return; }
+      if (showToast) {
+        if (result.status === "SUCCEEDED") toast.success(t("gen_status_succeeded"));
+        else if (result.status === "FAILED") toast.error(t("gen_status_failed") + ": " + (result.failure || ""));
+        else toast.info(result.status);
       }
       void loadGens();
       qc.invalidateQueries({ queryKey: ["episodes"] });
       qc.invalidateQueries({ queryKey: ["series"] });
-    } catch {
-      toast.error("Network error");
-    }
+    } catch { if (showToast) toast.error("Network error"); }
   };
 
   const statusLabel = (s: string) => {
@@ -398,6 +407,7 @@ function RunwayGenerate() {
   const statusColor = (s: string) => {
     if (s === "SUCCEEDED") return "bg-primary/20 text-primary";
     if (s === "FAILED" || s === "CANCELED") return "bg-destructive/20 text-destructive";
+    if (s === "RUNNING") return "bg-amber-500/20 text-amber-600";
     return "bg-secondary text-muted-foreground";
   };
 
@@ -408,47 +418,46 @@ function RunwayGenerate() {
         <p className="mt-1 text-xs text-muted-foreground">{t("gen_sub")}</p>
         <p className="mt-2 text-xs text-muted-foreground italic">{t("gen_star_desc")}</p>
 
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-semibold">Dizi</label>
+            <select value={selectedSeriesId} onChange={(e) => setSelectedSeriesId(e.target.value)} className="mt-1 w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary">
+              {allSeries.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold">Bölüm</label>
+            <select value={selectedEpId} onChange={(e) => onEpChange(e.target.value)} className="mt-1 w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary">
+              {seriesEps.map((e) => <option key={e.id} value={e.id}>Bölüm {e.n}{e.status === "ready" ? " ✓" : ""}</option>)}
+            </select>
+          </div>
+        </div>
+
         <label className="mt-3 block text-xs font-semibold">{t("gen_prompt")}</label>
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder={t("gen_prompt_ph")}
-          rows={3}
+          rows={4}
           className="mt-1 w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
         />
 
         <div className="mt-3 flex flex-wrap gap-3">
           <div>
             <label className="block text-xs font-semibold">{t("gen_model")}</label>
-            <select
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-              className="mt-1 rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-            >
-              {RUNWAY_MODELS.map((m) => (
-                <option key={m} value={m}>{m}</option>
-              ))}
+            <select value={model} onChange={(e) => setModel(e.target.value)} className="mt-1 rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary">
+              {RUNWAY_MODELS.map((m) => <option key={m} value={m}>{m}</option>)}
             </select>
           </div>
           <div>
             <label className="block text-xs font-semibold">{t("gen_duration")}</label>
-            <select
-              value={duration}
-              onChange={(e) => setDuration(Number(e.target.value))}
-              className="mt-1 rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-            >
-              {[5, 10].map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
+            <select value={duration} onChange={(e) => setDuration(Number(e.target.value))} className="mt-1 rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:border-primary">
+              {[5, 10].map((d) => <option key={d} value={d}>{d}sn</option>)}
             </select>
           </div>
         </div>
 
-        <button
-          onClick={() => void generate()}
-          disabled={busy}
-          className="mt-3 flex items-center gap-2 rounded-full bg-neon px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-50"
-        >
+        <button onClick={() => void generate()} disabled={busy} className="mt-3 flex items-center gap-2 rounded-full bg-neon px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-50">
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
           {busy ? t("gen_generating") : t("gen_button")}
         </button>
@@ -457,13 +466,10 @@ function RunwayGenerate() {
       <div className="rounded-2xl bg-card p-4">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold">{t("gen_history")}</h2>
-          {!loaded && (
-            <button onClick={() => void loadGens()} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">
-              {t("gen_history")}
-            </button>
-          )}
+          <button onClick={() => void loadGens()} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">
+            {t("gen_check")}
+          </button>
         </div>
-        {!loaded && <p className="mt-2 text-xs text-muted-foreground">{t("gen_no_history")}</p>}
         {loaded && gens.length === 0 && <p className="mt-2 text-xs text-muted-foreground">{t("gen_no_history")}</p>}
         {gens.length > 0 && (
           <ul className="mt-3 space-y-2">
@@ -472,17 +478,15 @@ function RunwayGenerate() {
                 <div className="flex items-center justify-between gap-2">
                   <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${statusColor(g.status)}`}>
                     {statusLabel(g.status)}
+                    {(g.status === "RUNNING") && <span className="ml-1 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-current" />}
                   </span>
                   <span className="text-muted-foreground">{g.model} · {g.duration_sec}sn</span>
                 </div>
                 <p className="mt-1.5 line-clamp-2 text-muted-foreground">{g.prompt_text}</p>
                 {g.failure_reason && <p className="mt-1 text-destructive">{g.failure_reason}</p>}
-                {g.saved_to_storage && <p className="mt-1 text-primary">✓ {t("status_ready")}</p>}
+                {g.saved_to_storage && <p className="mt-1 font-semibold text-primary">✓ {t("status_ready")}</p>}
                 {(g.status === "PENDING" || g.status === "THROTTLING" || g.status === "RUNNING") && (
-                  <button
-                    onClick={() => void checkStatus(g.runway_task_id)}
-                    className="mt-2 flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold"
-                  >
+                  <button onClick={() => void pollStatus(g.runway_task_id)} className="mt-2 flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold">
                     <Loader2 className="h-3 w-3" /> {t("gen_check")}
                   </button>
                 )}
