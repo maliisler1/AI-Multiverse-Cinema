@@ -62,7 +62,7 @@ function FileButton({ label, onFile, accept }: { label: string; onFile: (f: File
 }
 
 function Episodes({ s }: { s: SeriesRow }) {
-  const { data: eps } = useSuspenseQuery(episodeListQuery(s.id));
+  const { data: eps } = useSuspenseQuery(episodeListQuery(s.id, s.slug));
   const qc = useQueryClient();
   const { t } = useT();
 

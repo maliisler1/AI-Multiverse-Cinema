@@ -14,7 +14,7 @@ export const Route = createFileRoute("/dizi/$slug")({
     const list = await context.queryClient.ensureQueryData(seriesListQuery);
     const s = list.find((x) => x.slug === params.slug);
     if (!s) throw notFound();
-    await context.queryClient.ensureQueryData(episodeListQuery(s.id));
+    await context.queryClient.ensureQueryData(episodeListQuery(s.id, s.slug));
     return { id: s.id, slug: s.slug };
   },
   head: ({ loaderData }) => ({
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/dizi/$slug")({
 function Detail() {
   const { id } = Route.useLoaderData();
   const { data: all } = useSuspenseQuery(seriesListQuery);
-  const { data: eps } = useSuspenseQuery(episodeListQuery(id));
+  const { data: eps } = useSuspenseQuery(episodeListQuery(id, slug));
   const { state, unlockEpisode, user } = useAppState();
   const { t, lang } = useT();
   const nav = useNavigate();

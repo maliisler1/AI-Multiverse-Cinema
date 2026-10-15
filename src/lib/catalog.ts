@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Lang } from "@/lib/i18n";
+import { getBundledVideo } from "@/lib/videos";
 
 export type TrackStatus = "ready" | "planned" | "none";
 export type Category = "scifi" | "comedy" | "romance";
@@ -33,6 +34,8 @@ export type EpisodeRow = {
 /** Özel kovalardaki dosyalar için geçici (imzalı) erişim bağlantısı üretir. */
 export async function signedUrl(bucket: "posters" | "videos" | "faces", path: string | null): Promise<string | null> {
   if (!path) return null;
+  // Bundled platform assets are served directly, no signed URL needed.
+  if (path.startsWith("/__l5e/")) return path;
   const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, 60 * 60 * 6);
   return error ? null : data.signedUrl;
 }
@@ -54,7 +57,7 @@ export const seriesListQuery = queryOptions({
   },
 });
 
-export const episodeListQuery = (seriesId: string) =>
+export const episodeListQuery = (seriesId: string, slug: string) =>
   queryOptions({
     queryKey: ["episodes", seriesId],
     queryFn: async (): Promise<EpisodeRow[]> => {
@@ -67,6 +70,10 @@ export const episodeListQuery = (seriesId: string) =>
       type Raw = EpisodeRow & { episode_titles?: { lang: string; title: string }[] };
       return ((data ?? []) as unknown as Raw[]).map((e) => {
         const { episode_titles: titles, ...rest } = e;
+        const bundled = getBundledVideo(slug, e.n);
+        if (bundled) {
+          return { ...rest, titles: titles ?? [], video_url: bundled, status: "ready" as const };
+        }
         return { ...rest, titles: titles ?? [] };
       });
     },

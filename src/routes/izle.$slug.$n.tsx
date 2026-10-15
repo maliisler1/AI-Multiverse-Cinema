@@ -17,7 +17,7 @@ export const Route = createFileRoute("/izle/$slug/$n")({
     const list = await context.queryClient.ensureQueryData(seriesListQuery);
     const s = list.find((x) => x.slug === params.slug);
     if (!s) throw notFound();
-    await context.queryClient.ensureQueryData(episodeListQuery(s.id));
+    await context.queryClient.ensureQueryData(episodeListQuery(s.id, s.slug));
     return { id: s.id, slug: s.slug, n: Number(params.n) };
   },
   component: Player,
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/izle/$slug/$n")({
 
 export function Player() {
   const { id, slug, n } = Route.useLoaderData();
-  const { data: eps } = useSuspenseQuery(episodeListQuery(id));
+  const { data: eps } = useSuspenseQuery(episodeListQuery(id, slug));
   const { state, user, update } = useAppState();
   const { t, lang } = useT();
   const nav = useNavigate();
