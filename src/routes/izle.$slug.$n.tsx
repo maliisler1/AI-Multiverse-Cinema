@@ -44,6 +44,7 @@ export function Player() {
   const allowed = !!ep && hasEpisodeAccess(ep, state.unlocked, FREE_EPISODES);
   const completed = useRef(false);
   const seek = useRef(0);
+  const mutedFallback = useRef(false);
   const updateRef = useRef(update);
   updateRef.current = update;
   const tr = (a: string, b: string) => lang === "tr" ? a : b;
@@ -54,6 +55,7 @@ export function Player() {
     let timer: ReturnType<typeof setTimeout>;
     setSrc(null); setSubSrc(null); setAudioSrc(null); setFailed(false); setBuffering(true); setCountdown(null);
     completed.current = false;
+    mutedFallback.current = false;
     seek.current = ep ? state.resume[ep.id] ?? 0 : 0;
     if (!canPlay(ep) || !allowed) return;
     const current = ep;
@@ -154,9 +156,9 @@ export function Player() {
           <p role="alert">{tr("Video yüklenemedi. İnternet bağlantınızı kontrol edin.","Video could not load. Check your connection.")}</p>
           <button className="rounded-full bg-primary p-3" onClick={() => setRetry(v=>v+1)}>{tr("Yeniden dene","Try again")}</button>
         </div> : src ? <>
-          <video key={ep.id+":"+retry} ref={video} src={src} controls autoPlay playsInline muted preload="auto" className="aspect-video w-full"
+          <video key={ep.id+":"+retry} ref={video} src={src} controls autoPlay playsInline preload="auto" className="aspect-video w-full"
             onLoadedMetadata={e=>{setFailed(false);setBuffering(false);if(seek.current>5 && seek.current<e.currentTarget.duration)e.currentTarget.currentTime=seek.current;}}
-            onError={()=>setFailed(true)} onWaiting={()=>setBuffering(true)} onPlaying={()=>setBuffering(false)} onCanPlay={()=>setBuffering(false)}
+            onError={()=>setFailed(true)} onWaiting={()=>setBuffering(true)} onPlaying={()=>setBuffering(false)} onCanPlay={()=>{setBuffering(false);const v=e?.currentTarget;if(v&&!mutedFallback.current){void v.play().catch(()=>{mutedFallback.current=true;v.muted=true;void v.play().catch(()=>{});});}}}
             onPlay={syncAudio} onPause={()=>{audio.current?.pause();save();}} onSeeking={syncAudio} onTimeUpdate={syncAudio} onRateChange={syncAudio} onVolumeChange={syncAudio}
             onEnded={()=>{audio.current?.pause();save(true); if(next && autoplay)setCountdown(3);}}
           >{subSrc && <track kind="subtitles" src={subSrc} srcLang={state.subLang} label={LANG_NAMES[state.subLang as keyof typeof LANG_NAMES]} default/>}</video>
