@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { episodeListQuery, seriesListQuery, signedUrl, trackStatus, episodeTitle } from "@/lib/catalog";
@@ -35,6 +35,7 @@ export function Player() {
   const [subSrc, setSubSrc] = useState<string | null>(null);
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
+  const [buffering, setBuffering] = useState(true);
   const [retry, setRetry] = useState(0);
   const [autoplay, setAutoplay] = useState(() => localStorage.getItem("amc-autoplay") !== "false");
   const [countdown, setCountdown] = useState<number | null>(null);
@@ -51,7 +52,7 @@ export function Player() {
     let live = true;
     let subBlob: string | null = null;
     let timer: ReturnType<typeof setTimeout>;
-    setSrc(null); setSubSrc(null); setAudioSrc(null); setFailed(false); setCountdown(null);
+    setSrc(null); setSubSrc(null); setAudioSrc(null); setFailed(false); setBuffering(true); setCountdown(null);
     completed.current = false;
     seek.current = ep ? state.resume[ep.id] ?? 0 : 0;
     if (!canPlay(ep) || !allowed) return;
@@ -79,7 +80,7 @@ export function Player() {
         }
       } catch { if (live) setFailed(true); }
     };
-    timer = setTimeout(() => { if (live && !video.current?.readyState) setFailed(true); }, 20000);
+    timer = setTimeout(() => { if (live && !video.current?.readyState) setFailed(true); }, 30000);
     void load();
     return () => { live = false; clearTimeout(timer); if (subBlob) URL.revokeObjectURL(subBlob); };
   }, [ep?.id, allowed, retry, state.audioLang, state.subLang]);
@@ -152,11 +153,15 @@ export function Player() {
         {failed ? <div className="grid aspect-video place-content-center gap-4 p-5 text-center">
           <p role="alert">{tr("Video yüklenemedi. İnternet bağlantınızı kontrol edin.","Video could not load. Check your connection.")}</p>
           <button className="rounded-full bg-primary p-3" onClick={() => setRetry(v=>v+1)}>{tr("Yeniden dene","Try again")}</button>
-        </div> : src ? <video key={ep.id+":"+retry} ref={video} src={src} controls autoPlay playsInline muted={!!audioSrc} className="aspect-video w-full"
-          onLoadedMetadata={e=>{setFailed(false);if(seek.current>5 && seek.current<e.currentTarget.duration)e.currentTarget.currentTime=seek.current;}}
-          onError={()=>setFailed(true)} onPlay={syncAudio} onPause={()=>{audio.current?.pause();save();}} onSeeking={syncAudio} onTimeUpdate={syncAudio} onRateChange={syncAudio} onVolumeChange={syncAudio}
-          onEnded={()=>{audio.current?.pause();save(true); if(next && autoplay)setCountdown(3);}}
-        >{subSrc && <track kind="subtitles" src={subSrc} srcLang={state.subLang} label={LANG_NAMES[state.subLang as keyof typeof LANG_NAMES]} default/>}</video> : <div className="grid aspect-video place-items-center">{t("loading")}</div>}
+        </div> : src ? <>
+          <video key={ep.id+":"+retry} ref={video} src={src} controls autoPlay playsInline muted preload="auto" className="aspect-video w-full"
+            onLoadedMetadata={e=>{setFailed(false);setBuffering(false);if(seek.current>5 && seek.current<e.currentTarget.duration)e.currentTarget.currentTime=seek.current;}}
+            onError={()=>setFailed(true)} onWaiting={()=>setBuffering(true)} onPlaying={()=>setBuffering(false)} onCanPlay={()=>setBuffering(false)}
+            onPlay={syncAudio} onPause={()=>{audio.current?.pause();save();}} onSeeking={syncAudio} onTimeUpdate={syncAudio} onRateChange={syncAudio} onVolumeChange={syncAudio}
+            onEnded={()=>{audio.current?.pause();save(true); if(next && autoplay)setCountdown(3);}}
+          >{subSrc && <track kind="subtitles" src={subSrc} srcLang={state.subLang} label={LANG_NAMES[state.subLang as keyof typeof LANG_NAMES]} default/>}</video>
+          {buffering && <div className="pointer-events-none absolute inset-0 grid place-items-center bg-black/50"><Loader2 className="h-10 w-10 animate-spin text-white"/></div>}
+        </> : <div className="grid aspect-video place-items-center"><Loader2 className="h-8 w-8 animate-spin text-white"/></div>}
         {audioSrc && <audio ref={audio} src={audioSrc} preload="auto" onError={()=>{setAudioSrc(null);toast.info(tr("Dublaj yüklenemedi; mevcut ses kullanılacak.","Dubbing unavailable; using original audio."));}}/>}
         {countdown !== null && <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-background/90 p-3">
           <p className="text-xs">{t("next_in",{n:countdown})}</p>

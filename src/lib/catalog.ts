@@ -34,8 +34,8 @@ export type EpisodeRow = {
 /** Özel kovalardaki dosyalar için geçici (imzalı) erişim bağlantısı üretir. */
 export async function signedUrl(bucket: "posters" | "videos" | "faces", path: string | null): Promise<string | null> {
   if (!path) return null;
-  // Bundled platform assets are served directly, no signed URL needed.
-  if (path.startsWith("/__l5e/")) return path;
+  // Root-relative paths are public assets (bundled platform assets or files in /public).
+  if (path.startsWith("/")) return path;
   const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, 60 * 60 * 6);
   return error ? null : data.signedUrl;
 }

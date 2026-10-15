@@ -1,11 +1,20 @@
 /**
  * Bundled video assets that ship with the app.
- * Maps a series slug + episode number to a video URL served by the platform.
+ * Maps a series slug + episode number to a video URL served from /public.
  * These are used as a fallback when Supabase storage doesn't have the video yet.
  */
 export const BUNDLED_VIDEOS: Record<string, Record<number, string>> = {
   "neo-genesis-2099": {
     1: "/sample.mp4",
+    2: "/sample-2.mp4",
+  },
+  "cyber-glitch-ro-buster": {
+    1: "/sample-2.mp4",
+    2: "/sample-3.mp4",
+  },
+  "neon-hearts-virtual-pulse": {
+    1: "/sample-3.mp4",
+    2: "/sample.mp4",
   },
 };
 
