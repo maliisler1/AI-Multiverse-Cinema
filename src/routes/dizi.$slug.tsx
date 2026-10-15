@@ -31,7 +31,7 @@ export const Route = createFileRoute("/dizi/$slug")({
 });
 
 function Detail() {
-  const { id } = Route.useLoaderData();
+  const { id, slug } = Route.useLoaderData();
   const { data: all } = useSuspenseQuery(seriesListQuery);
   const { data: eps } = useSuspenseQuery(episodeListQuery(id, slug));
   const { state, unlockEpisode, user } = useAppState();
