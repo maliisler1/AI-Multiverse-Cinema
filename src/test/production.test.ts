@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { neoGenesisE1 as p } from "../../supabase/functions/_shared/productions/neo-genesis-2099-e1.ts";
 import {
-  PRODUCTION_LANGS, VOICE_PRESETS, clipCredits, keyframeCredits, keyframePrompt, speechText, voiceCredits,
+  PRODUCTION_LANGS,
+  VOICE_PRESETS,
+  clipCredits,
+  keyframeCredits,
+  keyframePrompt,
+  speechText,
+  voiceCredits,
 } from "../../supabase/functions/_shared/productions/types.ts";
 
 describe("Neo-Genesis bölüm 1 üretim planı", () => {
@@ -16,12 +22,14 @@ describe("Neo-Genesis bölüm 1 üretim planı", () => {
   it("her replik 8 dilde dolu ve zamanlar artan sırada", () => {
     let prev = -1;
     for (const line of p.lines) {
-      for (const lang of PRODUCTION_LANGS) expect(line.text[lang]?.trim().length, `${line.key}/${lang}`).toBeGreaterThan(0);
+      for (const lang of PRODUCTION_LANGS)
+        expect(line.text[lang]?.trim().length, `${line.key}/${lang}`).toBeGreaterThan(0);
       expect(line.at).toBeGreaterThan(prev);
       expect(line.at).toBeLessThan(p.durationSec);
       prev = line.at;
     }
-    for (const c of p.captions) for (const lang of PRODUCTION_LANGS) expect(c.text[lang].length).toBeGreaterThan(0);
+    for (const c of p.captions)
+      for (const lang of PRODUCTION_LANGS) expect(c.text[lang].length).toBeGreaterThan(0);
   });
 
   it("varsayılan sesler Runway listesinde ve etiket kuralı geçerli", () => {

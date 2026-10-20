@@ -8,6 +8,7 @@ import { episodeListQuery, seriesListQuery, type EpisodeRow, type SeriesRow } fr
 import { useAppState } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { ProductionPanel } from "@/components/ProductionPanel";
 
 export const Route = createFileRoute("/yonetim")({
   loader: ({ context }) => context.queryClient.ensureQueryData(seriesListQuery),
@@ -497,8 +498,8 @@ function RunwayGenerate() {
 
 function AdminBody() {
   const { data: all } = useSuspenseQuery(seriesListQuery);
-  const { t } = useT();
-  const [tab, setTab] = useState<"series" | "episodes" | "users" | "generate">("series");
+  const { t, lang } = useT();
+  const [tab, setTab] = useState<"series" | "episodes" | "users" | "generate" | "production">("series");
   const [pick, setPick] = useState(all[0]?.id ?? "");
   const s = all.find((x) => x.id === pick) ?? all[0];
 
@@ -508,14 +509,14 @@ function AdminBody() {
         <Film className="h-5 w-5 text-neon" /> {t("admin_title")}
       </h1>
 
-      <div className="mt-4 flex gap-2">
-        {(["series", "episodes", "generate", "users"] as const).map((k) => (
+      <div className="mt-4 flex flex-wrap gap-2">
+        {(["series", "episodes", "production", "generate", "users"] as const).map((k) => (
           <button
             key={k}
             onClick={() => setTab(k)}
             className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-neon text-primary-foreground shadow-neon" : "bg-secondary text-muted-foreground"}`}
           >
-            {t(`${k}_tab`)}
+            {k === "production" ? (lang === "tr" ? "Bölüm Üretimi" : "Episode Production") : t(`${k}_tab`)}
           </button>
         ))}
       </div>
@@ -544,6 +545,8 @@ function AdminBody() {
           <Episodes key={s.id} s={s} />
         </div>
       )}
+
+      {tab === "production" && <ProductionPanel />}
 
       {tab === "generate" && <RunwayGenerate />}
 
