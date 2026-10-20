@@ -94,11 +94,16 @@ export function ProductionPanel({
   const [ov, setOv] = useState<Overview | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [confirm, setConfirm] = useState<{ step: StepName; credits: number } | null>(null);
+  const [confirm, setConfirm] = useState<{
+    step: StepName;
+    credits: number;
+    only?: string[] | undefined;
+  } | null>(null);
   const [dailyLimit, setDailyLimit] = useState(false);
   const [refUrl, setRefUrl] = useState<string | null>(null);
   const [voices, setVoices] = useState<Record<string, string>>({});
   const [ttsModel, setTtsModel] = useState("eleven_v3");
+  const [quality, setQuality] = useState<"economy" | "high">("economy");
   const [langs, setLangs] = useState<string[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const base = { seriesSlug, episode };
@@ -149,15 +154,22 @@ export function ProductionPanel({
     return () => clearInterval(id);
   }, [active, seriesSlug, episode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const options = (step: StepName) => (step === "voices" ? { voices, ttsModel, langs } : {});
+  const options = (step: StepName, only?: string[]) =>
+    step === "voices"
+      ? { voices, ttsModel, langs }
+      : step === "keyframes"
+        ? { imageQuality: quality }
+        : only
+          ? { only }
+          : {};
 
   /** Önce tutarı sunucudan öğrenir (409), sonra kullanıcı onayı ister. */
-  const ask = async (step: StepName) => {
+  const ask = async (step: StepName, only?: string[]) => {
     setBusy(true);
-    const r = await call("start", { ...base, step, expectedCredits: -1, ...options(step) });
+    const r = await call("start", { ...base, step, expectedCredits: -1, ...options(step, only) });
     setBusy(false);
     if (r.status === 409 && typeof r.body.credits === "number")
-      setConfirm({ step, credits: r.body.credits });
+      setConfirm({ step, credits: r.body.credits, only });
     else toast.error(r.body.error ?? tr("Başlatılamadı", "Could not start"));
   };
 
@@ -168,7 +180,7 @@ export function ProductionPanel({
       ...base,
       step: confirm.step,
       expectedCredits: confirm.credits,
-      ...options(confirm.step),
+      ...options(confirm.step, confirm.only),
     });
     setBusy(false);
     setConfirm(null);
@@ -239,7 +251,12 @@ export function ProductionPanel({
   const step = (name: StepName) => ov.steps.find((s) => s.step === name)!;
   const jobsOf = (kind: Job["kind"]) => ov.jobs.filter((j) => j.kind === kind);
   const failed = ov.jobs.filter((j) => j.status === "FAILED" || j.status === "CANCELED");
-  const allClips = step("clips").succeeded === step("clips").total;
+  const allFrames = step("keyframes").succeeded === step("keyframes").total;
+  const animated = new Set(
+    jobsOf("clip")
+      .filter((j) => j.status === "SUCCEEDED" || ACTIVE.includes(j.status))
+      .map((j) => j.item_key),
+  );
   const anyVoiceLang = ov.langs.some(
     (l) =>
       jobsOf("voice").filter((j) => j.lang === l && j.status === "SUCCEEDED").length ===
@@ -302,7 +319,11 @@ export function ProductionPanel({
               className="mt-3 rounded-full bg-neon px-4 py-2 text-sm font-bold text-primary-foreground disabled:opacity-50"
             >
               {s.succeeded ? tr("Kalanları üret", "Generate the rest") : tr("Üret", "Generate")}
-              {name !== "voices" ? ` · ≈${s.nextCredits} ${tr("kredi", "credits")}` : ""}
+              {name === "keyframes"
+                ? ` · ≈${quality === "high" ? (s.total - s.succeeded) * 8 : s.nextCredits} ${tr("kredi", "credits")}`
+                : name === "clips"
+                  ? ` · ≈${s.nextCredits} ${tr("kredi", "credits")}`
+                  : ""}
             </button>
           ))}
       </section>
@@ -424,15 +445,44 @@ export function ProductionPanel({
         icon: <ImageIcon className="h-4 w-4" />,
         title: tr("1. Başlangıç kareleri", "1. Keyframes"),
         desc: tr(
-          "Her klibin ilk karesi, yüzünüz referans alınarak üretilir. Beğenmediğiniz kareyi yeniden üretebilirsiniz.",
-          "The first frame of each clip, using your face as reference. Regenerate any frame you don't like.",
+          "Her sahnenin görseli yüzünüz referans alınarak üretilir. Birleştirmede kamera hareketiyle canlanır. Beğenmediğiniz kareyi yeniden üretebilir, istediğinizi gerçek videoya çevirebilirsiniz.",
+          "Each scene's image uses your face as reference and comes alive with camera motion when assembled. Regenerate any frame, or turn selected ones into real video.",
         ),
         disabled: !ov.hasReference
           ? tr("Önce başrol fotoğrafını yükleyin.", "Upload the lead photo first.")
           : undefined,
         children: (
           <>
-            <Thumbs jobs={jobsOf("keyframe")} clips={ov.clips} kind="image" onRetry={retry} />
+            <div
+              className="mt-3 flex flex-wrap gap-2"
+              role="radiogroup"
+              aria-label={tr("Görsel kalitesi", "Image quality")}
+            >
+              {(
+                [
+                  ["economy", tr("Ekonomik · 2-5 kredi/kare", "Economy · 2-5 credits/frame")],
+                  ["high", tr("Yüksek · 8 kredi/kare", "High · 8 credits/frame")],
+                ] as const
+              ).map(([q, label]) => (
+                <button
+                  key={q}
+                  role="radio"
+                  aria-checked={quality === q}
+                  onClick={() => setQuality(q)}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${quality === q ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground"}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <Thumbs
+              jobs={jobsOf("keyframe")}
+              clips={ov.clips}
+              kind="image"
+              onRetry={retry}
+              onAnimate={(key) => void ask("clips", [key])}
+              animated={animated}
+            />
           </>
         ),
       })}
@@ -440,10 +490,10 @@ export function ProductionPanel({
       {renderStep({
         name: "clips",
         icon: <Film className="h-4 w-4" />,
-        title: tr("2. Video klipler", "2. Video clips"),
+        title: tr("2. Gerçek video (isteğe bağlı)", "2. Real video (optional)"),
         desc: tr(
-          "Kareler 5-10 saniyelik videolara dönüşür (gen4_turbo).",
-          "Frames become 5-10 second videos (gen4_turbo).",
+          "Gerekli değil: Videosu olmayan sahneler kamera hareketiyle canlanır. Önemli anları karelerdeki film düğmesiyle tek tek videoya çevirebilirsiniz (saniyesi 5 kredi).",
+          "Optional: scenes without video come alive with camera motion. Turn key moments into video one by one with the film button on a frame (5 credits per second).",
         ),
         disabled:
           step("keyframes").succeeded === 0
@@ -530,7 +580,7 @@ export function ProductionPanel({
             "Clips are joined into one video, lines into one audio track per language; subtitles are generated and the episode goes live in the app.",
           )}
         </p>
-        {allClips && anyVoiceLang ? (
+        {allFrames && anyVoiceLang ? (
           <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm">
             <li>
               <a
@@ -558,8 +608,8 @@ export function ProductionPanel({
         ) : (
           <p className="mt-3 text-xs text-muted-foreground">
             {tr(
-              "Tüm klipler ve en az bir dilin sesleri hazır olunca açılır.",
-              "Available once all clips and at least one language's voices are ready.",
+              "Tüm kareler ve en az bir dilin sesleri hazır olunca açılır.",
+              "Available once all frames and at least one language's voices are ready.",
             )}
           </p>
         )}
@@ -597,11 +647,15 @@ function Thumbs({
   clips,
   kind,
   onRetry,
+  onAnimate,
+  animated,
 }: {
   jobs: Job[];
   clips: Overview["clips"];
   kind: "image" | "video";
   onRetry: (j: Job) => void;
+  onAnimate?: (key: string) => void;
+  animated?: Set<string>;
 }) {
   if (!jobs.length) return null;
   return (
@@ -641,6 +695,16 @@ function Thumbs({
                 className="absolute right-1 top-1 rounded bg-background/80 p-0.5"
               >
                 <RotateCcw className="h-3 w-3" />
+              </button>
+            )}
+            {onAnimate && j?.status === "SUCCEEDED" && !animated?.has(c.key) && (
+              <button
+                title={`Videoya çevir (${c.duration * 5} kredi)`}
+                aria-label={`${c.key} videoya çevir`}
+                onClick={() => onAnimate(c.key)}
+                className="absolute bottom-1 right-1 rounded bg-background/80 p-0.5"
+              >
+                <Film className="h-3 w-3" />
               </button>
             )}
           </div>

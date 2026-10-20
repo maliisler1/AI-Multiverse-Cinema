@@ -1,8 +1,8 @@
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2.117.3";
 import { PRODUCTIONS } from "../_shared/productions/index.ts";
 import {
-  PRODUCTION_LANGS, TTS_MODELS, VOICE_PRESETS, keyframePrompt, lineCredits, speechText, storagePaths,
-  CREDITS, type Production, type ProductionLang, type SpeakerId, type TtsModel, type VoicePreset,
+  PRODUCTION_LANGS, TTS_MODELS, VOICE_PRESETS, IMAGE_QUALITIES, keyframeCost, keyframeModel, keyframePrompt,
+  lineCredits, speechText, storagePaths, CREDITS, type ImageQuality, type Production, type ProductionLang, type SpeakerId, type TtsModel, type VoicePreset,
 } from "../_shared/productions/types.ts";
 
 const RUNWAY = "https://api.dev.runwayml.com/v1";
@@ -126,7 +126,7 @@ export class Ctx {
   }
 
   /** Bir adım için yapılacak (henüz başarılı ya da yolda olmayan) işler ve kredileri. */
-  private plan(step: Step, jobs: Job[], opts: { model: TtsModel; langs: ProductionLang[]; voices: Record<SpeakerId, VoicePreset> }) {
+  private plan(step: Step, jobs: Job[], opts: ReturnType<Ctx["options"]>) {
     const kind = STEP_KIND[step];
     const done = new Set(
       jobs.filter((j) => j.kind === kind && (j.status === "SUCCEEDED" || j.status === "queued" || IN_FLIGHT.includes(j.status)))
@@ -134,11 +134,14 @@ export class Ctx {
     );
     const items: { item_key: string; lang: string | null; credits: number; params: Record<string, unknown> }[] = [];
     if (kind === "keyframe") {
-      for (const c of this.p.clips) if (!done.has(c.key)) items.push({ item_key: c.key, lang: null, credits: CREDITS.keyframe1080p, params: {} });
+      for (const c of this.p.clips) {
+        if (done.has(c.key) || (opts.only && !opts.only.includes(c.key))) continue;
+        items.push({ item_key: c.key, lang: null, credits: keyframeCost(c, opts.quality), params: { quality: opts.quality } });
+      }
     } else if (kind === "clip") {
       const ready = new Set(jobs.filter((j) => j.kind === "keyframe" && j.status === "SUCCEEDED").map((j) => j.item_key));
       for (const c of this.p.clips) {
-        if (!done.has(c.key) && ready.has(c.key)) {
+        if (!done.has(c.key) && ready.has(c.key) && (!opts.only || opts.only.includes(c.key))) {
           items.push({ item_key: c.key, lang: null, credits: c.duration * CREDITS.gen4TurboPerSec, params: {} });
         }
       }
@@ -169,7 +172,12 @@ export class Ctx {
       const v = asked[id];
       voices[id] = VOICE_PRESETS.includes(v as VoicePreset) ? (v as VoicePreset) : sp.defaultVoice;
     }
-    return { model, langs, voices };
+    const quality: ImageQuality = IMAGE_QUALITIES.includes(body.imageQuality as ImageQuality)
+      ? (body.imageQuality as ImageQuality)
+      : "economy";
+    /** Yalnızca bu klipler (ör. tek bir kareyi videoya çevirmek için). */
+    const only = Array.isArray(body.only) ? (body.only as unknown[]).map(String) : null;
+    return { model, langs, voices, quality, only };
   }
 
   // ---------- Eylemler ----------
@@ -198,6 +206,7 @@ export class Ctx {
       creditBalance: await this.creditBalance(),
       speakers: this.p.speakers,
       voicePresets: VOICE_PRESETS,
+      imageQualities: IMAGE_QUALITIES,
       ttsModels: TTS_MODELS,
       langs: PRODUCTION_LANGS,
       clips: this.p.clips.map((c) => ({ key: c.key, scene: c.scene, duration: c.duration, face: c.face, motion: c.motion })),
@@ -355,10 +364,10 @@ export class Ctx {
     if (job.kind === "keyframe") {
       const clip = this.p.clips.find((c) => c.key === job.item_key);
       if (!clip) throw new Error("Klip planda yok");
+      const quality: ImageQuality = job.params.quality === "high" ? "high" : "economy";
       const body: Record<string, unknown> = {
-        model: "gen4_image",
+        ...keyframeModel(clip, quality),
         promptText: keyframePrompt(this.p, clip),
-        ratio: "1920:1080",
       };
       if (clip.face) body.referenceImages = [{ uri: await this.signed(this.paths.reference), tag: this.p.faceTag }];
       return { path: "/text_to_image", body };

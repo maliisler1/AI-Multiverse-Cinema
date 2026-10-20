@@ -129,7 +129,7 @@ async function drain(ctx: Ctx, rounds = 40) {
 
 Deno.test("başrol fotoğrafı olmadan kare üretimi başlamaz", async () => {
   fakeRunway();
-  await rejects(() => ctxOf(new FakeDb()).start({ step: "keyframes", expectedCredits: 160 }), 400);
+  await rejects(() => ctxOf(new FakeDb()).start({ step: "keyframes", expectedCredits: 64 }), 400);
 });
 
 Deno.test("kredi onayı tutmazsa 409 ve doğru tutar döner, Runway'e istek gitmez", async () => {
@@ -137,15 +137,15 @@ Deno.test("kredi onayı tutmazsa 409 ve doğru tutar döner, Runway'e istek gitm
   const db = new FakeDb();
   db.files.set(paths.reference, new Uint8Array([1]));
   const e = await rejects(() => ctxOf(db).start({ step: "keyframes", expectedCredits: -1 }), 409);
-  eq(e.extra.credits, 160);
+  eq(e.extra.credits, 64);
   eq(rw.requests.length, 0);
 });
 
 Deno.test("yetersiz kredide 402", async () => {
-  fakeRunway({ balance: 100 });
+  fakeRunway({ balance: 50 });
   const db = new FakeDb();
   db.files.set(paths.reference, new Uint8Array([1]));
-  await rejects(() => ctxOf(db).start({ step: "keyframes", expectedCredits: 160 }), 402);
+  await rejects(() => ctxOf(db).start({ step: "keyframes", expectedCredits: 64 }), 402);
 });
 
 Deno.test("kareler → klipler → sesler uçtan uca", async () => {
@@ -155,7 +155,7 @@ Deno.test("kareler → klipler → sesler uçtan uca", async () => {
   const ctx = ctxOf(db);
 
   // Kareler
-  const s1 = await ctx.start({ step: "keyframes", expectedCredits: 160 });
+  const s1 = await ctx.start({ step: "keyframes", imageQuality: "high", expectedCredits: 160 });
   eq(s1.queued, 20);
   eq(s1.submitted, 3, "eşzamanlı sınır");
   const faceReq = rw.requests.find((r) => r.body.referenceImages);
@@ -164,6 +164,7 @@ Deno.test("kareler → klipler → sesler uçtan uca", async () => {
   assert(String(faceReq.body.promptText).startsWith("@AyShe, "), "komut @AyShe ile başlamalı");
   eq(rw.requests[0]!.body.model, "gen4_image");
   eq(rw.requests[0]!.body.ratio, "1920:1080");
+  eq(faceReq.body.model, "gen4_image", "yüksek kalitede yüzlü kare de gen4_image");
   await drain(ctx);
   eq(p.clips.every((c) => db.files.has(paths.keyframe(c.key))), true, "tüm kareler kaydedildi");
 
@@ -204,7 +205,7 @@ Deno.test("günlük sınır (429) kuyruğu durdurur, işler sırada kalır", asy
   fakeRunway({ limitAfter: 2 });
   const db = new FakeDb();
   db.files.set(paths.reference, new Uint8Array([1]));
-  const r = await ctxOf(db).start({ step: "keyframes", expectedCredits: 160 });
+  const r = await ctxOf(db).start({ step: "keyframes", expectedCredits: 64 });
   eq(r.submitted, 2);
   eq(r.dailyLimit, true);
   eq(db.rows.filter((x) => x.status === "queued").length, 18);
@@ -215,12 +216,35 @@ Deno.test("başarısız iş yeniden denenebilir", async () => {
   const db = new FakeDb();
   db.files.set(paths.reference, new Uint8Array([1]));
   const ctx = ctxOf(db);
-  await ctx.start({ step: "keyframes", expectedCredits: 160 });
+  await ctx.start({ step: "keyframes", expectedCredits: 64 });
   const job = db.rows.find((x) => x.item_key === "c01")!;
   job.status = "FAILED";
   job.failure = "SAFETY.OUTPUT";
   const r = await ctx.retry("keyframe", "c01");
-  eq(r.credits, 8);
+  eq(r.credits, 5, "c01 yüzsüz ekonomik kare");
   eq(db.rows.find((x) => x.item_key === "c01")!.failure, null);
   await rejects(() => ctx.retry("keyframe", "c02"), 400);
+});
+
+Deno.test("ekonomik kareler: yüzlü kare turbo (2), yüzsüz 720p (5); tek kare videoya çevrilebilir", async () => {
+  const rw = fakeRunway();
+  const db = new FakeDb();
+  db.files.set(paths.reference, new Uint8Array([1]));
+  const ctx = ctxOf(db);
+  await ctx.start({ step: "keyframes", expectedCredits: 64 });
+  await drain(ctx);
+  const imgs = rw.requests.filter((r) => r.path === "/text_to_image");
+  eq(imgs.length, 20);
+  const face = imgs.filter((r) => r.body.referenceImages);
+  eq(face.length, p.clips.filter((c) => c.face).length);
+  assert(face.every((r) => r.body.model === "gen4_image_turbo" && r.body.ratio === "1920:1080"), "yüzlü kareler turbo");
+  assert(imgs.filter((r) => !r.body.referenceImages).every((r) => r.body.model === "gen4_image" && r.body.ratio === "1280:720"), "yüzsüz kareler 720p");
+
+  // Yalnızca c11'i videoya çevir: 10 sn × 5 = 50 kredi
+  const e = await rejects(() => ctx.start({ step: "clips", only: ["c11"], expectedCredits: -1 }), 409);
+  eq(e.extra.credits, 50);
+  const r = await ctx.start({ step: "clips", only: ["c11"], expectedCredits: 50 });
+  eq(r.queued, 1);
+  eq(rw.requests.at(-1)!.path, "/image_to_video");
+  eq((await ctx.overview()).steps.find((s) => s.step === "clips")!.nextCredits, 900 - 50);
 });

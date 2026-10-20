@@ -47,6 +47,7 @@ describe("Neo-Genesis bölüm 1 üretim planı", () => {
 
   it("kredi tahmini bütçeye sığıyor", () => {
     expect(keyframeCredits(p)).toBe(160);
+    expect(keyframeCredits(p, "economy")).toBe(64);
     expect(clipCredits(p)).toBe(900);
     const voices = voiceCredits(p, PRODUCTION_LANGS, "eleven_v3");
     expect(voices).toBeGreaterThan(100);

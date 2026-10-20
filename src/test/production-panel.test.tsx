@@ -65,7 +65,11 @@ describe("Bölüm üretimi paneli", () => {
     expect(screen.getByText("1923")).toBeVisible();
     expect(screen.getByText("1. Başlangıç kareleri")).toBeVisible();
     expect(screen.getByRole("button", { name: /Üret · ≈8 kredi/ })).toBeEnabled();
-    expect(calls[0]).toMatchObject({ action: "overview", seriesSlug: "neo-genesis-2099", episode: 1 });
+    expect(calls[0]).toMatchObject({
+      action: "overview",
+      seriesSlug: "neo-genesis-2099",
+      episode: 1,
+    });
   });
 
   it("onay vermeden üretim başlamaz; onayla sunucunun tutarı gönderilir", async () => {
@@ -81,7 +85,11 @@ describe("Bölüm üretimi paneli", () => {
     expect(calls.filter((c) => c.action === "start")).toHaveLength(1);
     fireEvent.click(screen.getByRole("button", { name: "Onayla ve başlat" }));
     await waitFor(() =>
-      expect(calls.at(-2)).toMatchObject({ action: "start", step: "keyframes", expectedCredits: 8 }),
+      expect(calls.at(-2)).toMatchObject({
+        action: "start",
+        step: "keyframes",
+        expectedCredits: 8,
+      }),
     );
   });
 
@@ -90,6 +98,38 @@ describe("Bölüm üretimi paneli", () => {
     render(<ProductionPanel />);
     expect(await screen.findByText("Önce başrol fotoğrafını yükleyin.")).toBeVisible();
     expect(screen.queryByRole("button", { name: /Üret · ≈8 kredi/ })).toBeNull();
+  });
+
+  it("tek kareyi videoya çevir düğmesi yalnızca o kareyi ister", async () => {
+    const job = {
+      id: "j1",
+      kind: "keyframe",
+      item_key: "c01",
+      lang: null,
+      status: "SUCCEEDED",
+      credits: 5,
+      failure: null,
+      url: "https://example.test/c01.png",
+    };
+    respond = (c) =>
+      c.action === "start"
+        ? { status: 409, body: { credits: 50 } }
+        : { status: 200, body: overview({ jobs: [job] }) };
+    render(<ProductionPanel />);
+    fireEvent.click(await screen.findByRole("button", { name: "c01 videoya çevir" }));
+    expect(await screen.findByText(/yaklaşık 50 Runway kredisi/)).toBeVisible();
+    expect(calls.at(-1)).toMatchObject({ action: "start", step: "clips", only: ["c01"] });
+  });
+
+  it("varsayılan kare kalitesi ekonomik", async () => {
+    respond = (c) =>
+      c.action === "start"
+        ? { status: 409, body: { credits: 64 } }
+        : { status: 200, body: overview() };
+    render(<ProductionPanel />);
+    fireEvent.click(await screen.findByRole("button", { name: /Üret · ≈8 kredi/ }));
+    await screen.findByText(/yaklaşık 64 Runway kredisi/);
+    expect(calls.at(-1)).toMatchObject({ step: "keyframes", imageQuality: "economy" });
   });
 
   it("sunucu hatasını gösterir", async () => {

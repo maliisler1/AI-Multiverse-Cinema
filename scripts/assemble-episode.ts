@@ -97,33 +97,70 @@ async function putFile(path: string, file: string, contentType: string) {
   if (error) throw new Error(`${path} yüklenemedi: ${error.message}`);
 }
 
+/**
+ * Durağan kareyi sinematik kamera hareketiyle canlandırır. Sırayla yavaş yakınlaşma,
+ * uzaklaşma, sağa ve sola kaydırma; her karenin başı ve sonu kısa geçişle yumuşatılır.
+ * Titremeyi önlemek için kare önce 4K'ya büyütülür.
+ */
+export function kenBurns(index: number, duration: number): string {
+  const n = Math.round(duration * 30);
+  const t = `on/${n}`;
+  const center = `x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'`;
+  const moves = [
+    `z='1+0.12*${t}':${center}`,
+    `z='1.12-0.12*${t}':${center}`,
+    `z='1.1':x='(iw-iw/zoom)*${t}':y='ih/2-(ih/zoom/2)'`,
+    `z='1.1':x='(iw-iw/zoom)*(1-${t})':y='ih/2-(ih/zoom/2)'`,
+  ];
+  return (
+    `scale=3840:2160:force_original_aspect_ratio=increase,crop=3840:2160,setsar=1,` +
+    `zoompan=${moves[index % moves.length]}:d=${n}:s=1280x720:fps=30,` +
+    `fade=t=in:st=0:d=0.4,fade=t=out:st=${duration - 0.4}:d=0.4`
+  );
+}
+
 async function main() {
   const total = prod!.durationSec;
 
-  // 1) Video: klipleri planlanan sürelere kırp/uzat, birleştir, başta ve sonda yumuşak geçiş.
-  console.log(`▶ ${prod!.clips.length} klip indiriliyor…`);
-  const clipFiles: string[] = [];
+  // 1) Video: her sahne için gerçek klip varsa onu, yoksa başlangıç karesini kamera hareketiyle
+  //    (yakınlaşma / uzaklaşma / kaydırma) canlandırarak kullanır; sonra hepsini birleştirir.
+  console.log(`▶ ${prod!.clips.length} sahne indiriliyor…`);
+  const inputs: string[][] = [];
+  const filters: string[] = [];
   const missing: string[] = [];
-  for (const c of prod!.clips) {
-    const f = await fetchFile(paths.clip(c.key));
-    if (f) clipFiles.push(f);
-    else missing.push(c.key);
+  let stills = 0;
+  for (const [i, c] of prod!.clips.entries()) {
+    const clip = await fetchFile(paths.clip(c.key));
+    if (clip) {
+      inputs.push(["-i", clip]);
+      filters.push(
+        `[${i}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,` +
+          `tpad=stop_mode=clone:stop_duration=${c.duration},trim=duration=${c.duration},setpts=PTS-STARTPTS[v${i}]`,
+      );
+      continue;
+    }
+    const still = await fetchFile(paths.keyframe(c.key));
+    if (!still) {
+      missing.push(c.key);
+      continue;
+    }
+    stills++;
+    inputs.push(["-i", still]);
+    filters.push(`[${i}:v]${kenBurns(i, c.duration)},setpts=PTS-STARTPTS[v${i}]`);
   }
   if (missing.length)
-    throw new Error(`Eksik klipler: ${missing.join(", ")}. Önce yönetim panelinden üretin.`);
+    throw new Error(
+      `Eksik kareler: ${missing.join(", ")}. Önce yönetim panelinden kareleri üretin.`,
+    );
+  console.log(`  ${prod!.clips.length - stills} gerçek video, ${stills} hareketli kare`);
 
-  const filters = prod!.clips.map(
-    (c, i) =>
-      `[${i}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,` +
-      `tpad=stop_mode=clone:stop_duration=${c.duration},trim=duration=${c.duration},setpts=PTS-STARTPTS[v${i}]`,
-  );
   const concat =
     `${prod!.clips.map((_, i) => `[v${i}]`).join("")}concat=n=${prod!.clips.length}:v=1:a=0,` +
     `fade=t=in:st=0:d=1.5,fade=t=out:st=${total - 2}:d=2[out]`;
   const video = join(work, "episode.mp4");
   console.log("▶ Video birleştiriliyor…");
   ff([
-    ...clipFiles.flatMap((f) => ["-i", f]),
+    ...inputs.flat(),
     "-filter_complex",
     [...filters, concat].join(";"),
     "-map",

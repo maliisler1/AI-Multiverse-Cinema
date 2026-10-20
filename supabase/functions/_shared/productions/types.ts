@@ -76,12 +76,34 @@ export type Production = {
 /** Runway kredi tarifeleri (Ekim 2026, docs.dev.runwayml.com/guides/pricing). */
 export const CREDITS = {
   keyframe1080p: 8,
+  keyframe720p: 5,
+  keyframeTurbo: 2,
   gen4TurboPerSec: 5,
   ttsCharsPerCredit: 50,
 } as const;
 
-export function keyframeCredits(p: Production): number {
-  return p.clips.length * CREDITS.keyframe1080p;
+/**
+ * Kare kalitesi:
+ * - high: gen4_image 1080p (8 kredi)
+ * - economy: yüzlü karelerde gen4_image_turbo (2 kredi, referans fotoğraf zorunlu),
+ *   yüzsüz karelerde gen4_image 720p (5 kredi)
+ */
+export const IMAGE_QUALITIES = ["economy", "high"] as const;
+export type ImageQuality = (typeof IMAGE_QUALITIES)[number];
+
+export function keyframeCost(clip: Clip, quality: ImageQuality): number {
+  if (quality === "high") return CREDITS.keyframe1080p;
+  return clip.face ? CREDITS.keyframeTurbo : CREDITS.keyframe720p;
+}
+
+/** Runway text_to_image isteğinin model ve oranı. */
+export function keyframeModel(clip: Clip, quality: ImageQuality): { model: string; ratio: string } {
+  if (quality === "high") return { model: "gen4_image", ratio: "1920:1080" };
+  return clip.face ? { model: "gen4_image_turbo", ratio: "1920:1080" } : { model: "gen4_image", ratio: "1280:720" };
+}
+
+export function keyframeCredits(p: Production, quality: ImageQuality = "high"): number {
+  return p.clips.reduce((sum, c) => sum + keyframeCost(c, quality), 0);
 }
 
 export function clipCredits(p: Production): number {
