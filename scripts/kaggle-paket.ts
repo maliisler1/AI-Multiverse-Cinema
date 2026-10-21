@@ -76,10 +76,11 @@ writeFileSync(
         key: c.key,
         duration: c.duration,
         face: c.face,
-        // Kaggle'da referans etiketi (@AyShe) yok; karakter tarifi doğrudan komuta yazılır.
+        // SDXL komutu 77 parçayla sınırlı: önce sahne, sonra kısa karakter tarifi; stil ayrı alanda
+        // (style) ikinci metin kodlayıcıya gider. Yüzü referans portre taşır.
         keyframe: c.face
-          ? `${prod.characterLook}, ${c.keyframe}. ${prod.style}`
-          : `${c.keyframe}. ${prod.style}`,
+          ? `${c.keyframe}, ${prod.characterShort ?? prod.characterLook}`
+          : c.keyframe,
         motion: c.motion,
       })),
     },
