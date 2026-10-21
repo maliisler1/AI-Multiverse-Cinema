@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run --configLoader native --pool threads",
+    "bolum": "npx --yes tsx@4.20.3 scripts/produce-local.ts",
     "test:watch": "vitest",
     "build:mobile": "vite build --config vite.mobile.config.ts --configLoader native",
     "android:sync": "pnpm run build:mobile && cap sync android",
