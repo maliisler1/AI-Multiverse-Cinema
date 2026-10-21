@@ -2,3 +2,6 @@ project_id = "ryiqhupjfisxygrapwhv"
 
 [functions.runway-generate]
 verify_jwt = true
+
+[functions.episode-production]
+verify_jwt = true

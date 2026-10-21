@@ -1,0 +1,48 @@
+# Bölüm birleştirme: Runway'de üretilen klipleri ve 8 dildeki sesleri tek bölümde birleştirir,
+# altyazıları üretir ve uygulamaya bağlar.
+#
+# Çalıştırma: GitHub → Actions → "Bölümü birleştir" → Run workflow
+# Gerekli gizli anahtarlar (Settings → Secrets and variables → Actions):
+#   SUPABASE_URL               örn. https://ryiqhupjfisxygrapwhv.supabase.co
+#   SUPABASE_SERVICE_ROLE_KEY  Supabase → Project Settings → API → service_role
+name: Bölümü birleştir
+
+on:
+  workflow_dispatch:
+    inputs:
+      series:
+        description: Dizi (slug)
+        default: neo-genesis-2099
+        required: true
+      episode:
+        description: Bölüm numarası
+        default: "1"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: assemble-${{ github.event.inputs.series }}-${{ github.event.inputs.episode }}
+  cancel-in-progress: false
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: ffmpeg kur
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Bağımlılıklar
+        run: npm install --no-save --no-audit --no-fund @supabase/supabase-js@2.117.3
+      - name: Birleştir ve yükle
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SERIES: ${{ github.event.inputs.series }}
+          EPISODE: ${{ github.event.inputs.episode }}
+        run: node --experimental-strip-types --no-warnings scripts/assemble-episode.ts "$SERIES" "$EPISODE"

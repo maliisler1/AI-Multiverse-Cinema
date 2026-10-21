@@ -70,7 +70,8 @@ export const episodeListQuery = (seriesId: string, slug: string) =>
       type Raw = EpisodeRow & { episode_titles?: { lang: string; title: string }[] };
       return ((data ?? []) as unknown as Raw[]).map((e) => {
         const { episode_titles: titles, ...rest } = e;
-        const bundled = getBundledVideo(slug, e.n);
+        // Örnek videolar yalnızca bölümün gerçek videosu yokken yedek olarak kullanılır.
+        const bundled = e.video_url ? null : getBundledVideo(slug, e.n);
         if (bundled) {
           return { ...rest, titles: titles ?? [], video_url: bundled, status: "ready" as const };
         }

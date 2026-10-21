@@ -48,15 +48,12 @@ Deno.serve(async (req: Request) => {
 
     const token = authHeader.replace("Bearer ", "");
 
-    // Peek at the body before auth so we can check for system flag.
-    const rawBody = await req.text();
-    const body = JSON.parse(rawBody);
+    const body = await req.json();
     const action = body.action as string;
 
-    // System mode: when body.system === true, the edge function acts as
-    // the service role (it already has the key in its env). Used for
-    // programmatic generation triggers without a user session.
-    const isServiceRole = token === supabaseKey || body.system === true;
+    // Only the service role key or a signed-in admin may spend Runway credits.
+    // (A client-supplied "system" flag is never trusted.)
+    const isServiceRole = token === supabaseKey;
     let userId: string;
 
     if (isServiceRole) {
@@ -71,6 +68,13 @@ Deno.serve(async (req: Request) => {
         return new Response(
           JSON.stringify({ error: "Unauthorized" }),
           { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+      if (isAdmin !== true) {
+        return new Response(
+          JSON.stringify({ error: "Forbidden: admin only" }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
       userId = user.id;

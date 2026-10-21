@@ -65,7 +65,9 @@ export function Player() {
         if (!url) throw new Error("video unavailable");
         if (!live) return;
         setSrc(url);
-        const dub = current.tracks.find(x => x.kind === "audio" && x.lang === state.audioLang && x.status === "ready" && x.url);
+        // Seçilen dilde dublaj yoksa orijinal Türkçe sesle devam edilir (video dosyası konuşma içermez).
+        const readyDub = (lang: string) => current.tracks.find(x => x.kind === "audio" && x.lang === lang && x.status === "ready" && x.url);
+        const dub = readyDub(state.audioLang) ?? readyDub("tr");
         if (dub) {
           const au = await signedUrl("videos", dub.url);
           if (live) setAudioSrc(au);
@@ -158,7 +160,7 @@ export function Player() {
         </div> : src ? <>
           <video key={ep.id+":"+retry} ref={video} src={src} controls autoPlay playsInline preload="auto" className="aspect-video w-full"
             onLoadedMetadata={e=>{setFailed(false);setBuffering(false);if(seek.current>5 && seek.current<e.currentTarget.duration)e.currentTarget.currentTime=seek.current;}}
-            onError={()=>setFailed(true)} onWaiting={()=>setBuffering(true)} onPlaying={()=>setBuffering(false)} onCanPlay={()=>{setBuffering(false);const v=e?.currentTarget;if(v&&!mutedFallback.current){void v.play().catch(()=>{mutedFallback.current=true;v.muted=true;void v.play().catch(()=>{});});}}}
+            onError={()=>setFailed(true)} onWaiting={()=>setBuffering(true)} onPlaying={()=>setBuffering(false)} onCanPlay={e=>{setBuffering(false);const v=e.currentTarget;if(v&&!mutedFallback.current){void v.play().catch(()=>{mutedFallback.current=true;v.muted=true;void v.play().catch(()=>{});});}}}
             onPlay={syncAudio} onPause={()=>{audio.current?.pause();save();}} onSeeking={syncAudio} onTimeUpdate={syncAudio} onRateChange={syncAudio} onVolumeChange={syncAudio}
             onEnded={()=>{audio.current?.pause();save(true); if(next && autoplay)setCountdown(3);}}
           >{subSrc && <track kind="subtitles" src={subSrc} srcLang={state.subLang} label={LANG_NAMES[state.subLang as keyof typeof LANG_NAMES]} default/>}</video>
