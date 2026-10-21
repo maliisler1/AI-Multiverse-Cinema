@@ -1,11 +1,14 @@
 /**
- * Kaggle paketi: bölümün başlangıç karelerini ve hareket komutlarını tek bir zip'te toplar.
- * Bu zip Kaggle'a "dataset" olarak yüklenir; kaggle/klip-uret.ipynb kareleri oradan okuyup
- * ücretsiz ekran kartında hareketli kliplere çevirir.
+ * Kaggle paketi: bölümün kare ve hareket komutlarını (istenirse mevcut başlangıç karelerini de)
+ * tek bir zip'te toplar. Bu zip Kaggle'a "dataset" olarak yüklenir:
+ *   - kaggle/kare-uret.ipynb komutlardan karakter portresini ve 20 kareyi çizer,
+ *   - kaggle/klip-uret.ipynb kareleri ücretsiz ekran kartında hareketli kliplere çevirir.
  *
  * Kullanım:
- *   npm run kaggle:paket                         (Neo-Genesis 1. bölüm)
+ *   npm run kaggle:paket                         (Neo-Genesis 1. bölüm, yalnızca komutlar)
+ *   npm run kaggle:paket -- --kareler            (uretim/ içindeki mevcut kareleri de ekler)
  *   npm run kaggle:paket -- --dizi=neo-genesis-2099 --bolum=2
+ *   npm run kaggle:paket -- --portre=uretim/karakter.png   (hazır karakter portresini de ekler)
  *
  * Çıktı: uretim/kaggle/<dizi>-e<bölüm>.zip
  */
@@ -42,17 +45,24 @@ const dir = join(ROOT, "kaggle", name);
 rmSync(dir, { recursive: true, force: true });
 mkdirSync(join(dir, "keyframes"), { recursive: true });
 
-const missing: string[] = [];
-for (const c of prod.clips) {
+// Kareler yalnızca istenirse eklenir; yoksa paket komutları taşır ve kareler Kaggle'da çizilir.
+let copied = 0;
+for (const c of args["kareler"] === "true" ? prod.clips : []) {
   const src = join(ROOT, paths.keyframe(c.key));
-  if (!existsSync(src)) {
-    missing.push(c.key);
-    continue;
-  }
+  if (!existsSync(src)) continue;
   copyFileSync(src, join(dir, "keyframes", `${c.key}.png`));
+  copied++;
 }
-if (missing.length)
-  fail(`Eksik kareler: ${missing.join(", ")}. Önce 'npm run bolum' ile kareleri üretin.`);
+if (copied && copied < prod.clips.length)
+  console.log(`⚠ ${prod.clips.length - copied} karesi eksik; eksikler Kaggle'da çizilebilir.`);
+
+const files = ["plan.json", "keyframes"];
+if (args["portre"]) {
+  const portre = resolve(args["portre"]);
+  if (!existsSync(portre)) fail(`Portre bulunamadı: ${portre}`);
+  copyFileSync(portre, join(dir, "portre.png"));
+  files.push("portre.png");
+}
 
 writeFileSync(
   join(dir, "plan.json"),
@@ -61,7 +71,17 @@ writeFileSync(
       series: prod.seriesSlug,
       episode: prod.episode,
       style: prod.style,
-      clips: prod.clips.map((c) => ({ key: c.key, duration: c.duration, motion: c.motion })),
+      characterLook: prod.characterLook,
+      clips: prod.clips.map((c) => ({
+        key: c.key,
+        duration: c.duration,
+        face: c.face,
+        // Kaggle'da referans etiketi (@AyShe) yok; karakter tarifi doğrudan komuta yazılır.
+        keyframe: c.face
+          ? `${prod.characterLook}, ${c.keyframe}. ${prod.style}`
+          : `${c.keyframe}. ${prod.style}`,
+        motion: c.motion,
+      })),
     },
     null,
     2,
@@ -72,13 +92,12 @@ const zip = join(ROOT, "kaggle", `${name}.zip`);
 rmSync(zip, { force: true });
 // Windows 10+ ile gelen tar (bsdtar) -a ile zip yazar; diğer sistemlerde zip kullanılır.
 if (process.platform === "win32")
-  execFileSync("tar", ["-a", "-c", "-f", zip, "plan.json", "keyframes"], {
+  execFileSync("tar", ["-a", "-c", "-f", zip, ...files], {
     cwd: dir,
     stdio: "inherit",
   });
-else
-  execFileSync("zip", ["-q", "-r", zip, "plan.json", "keyframes"], { cwd: dir, stdio: "inherit" });
+else execFileSync("zip", ["-q", "-r", zip, ...files], { cwd: dir, stdio: "inherit" });
 
 console.log(`\n✔ Kaggle paketi hazır: ${zip}`);
-console.log(`  ${prod.clips.length} kare + plan.json`);
+console.log(`  ${copied ? `${copied} kare + ` : ""}plan.json (${prod.clips.length} sahne)`);
 console.log(`  Kaggle'da: Datasets → New Dataset → bu zip'i yükleyin.`);

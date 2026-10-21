@@ -15,7 +15,7 @@ export const neoGenesisE1: Production = {
   durationSec: 180,
   faceTag: "AyShe",
   characterLook:
-    "a young woman in her early twenties with a bright, glowing, youthful face, wavy dark golden hair falling to her chest, warm brown eyes, defined dark eyebrows and a wide warm smile, wearing a fitted white-silver spacesuit with a glowing blue \"23\" badge on the chest",
+    "a young woman of about twenty with a short blunt chin-length bob of dark chestnut hair, large hazel eyes, delicate features, light olive skin and a serious, curious expression, wearing a fitted white-silver spacesuit with a glowing blue \"23\" badge on the chest",
   style:
     "Cinematic science-fiction film still, violet, turquoise and gold color palette, volumetric light, anamorphic 35mm look, highly detailed, 16:9",
   speakers: {
