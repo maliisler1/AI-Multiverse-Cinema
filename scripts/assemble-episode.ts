@@ -145,7 +145,7 @@ async function main() {
     if (clip) {
       inputs.push(["-i", clip]);
       filters.push(
-        `[${i}:v]scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,` +
+        `[${i}:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,fps=30,` +
           `tpad=stop_mode=clone:stop_duration=${c.duration},trim=duration=${c.duration},setpts=PTS-STARTPTS[v${i}]`,
       );
       continue;

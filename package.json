@@ -15,7 +15,10 @@
     "test:watch": "vitest",
     "build:mobile": "vite build --config vite.mobile.config.ts --configLoader native",
     "android:sync": "pnpm run build:mobile && cap sync android",
-    "android:open": "cap open android"
+    "android:open": "cap open android",
+    "kaggle:paket": "npx --yes tsx@4.20.3 scripts/kaggle-paket.ts",
+    "kaggle:al": "npx --yes tsx@4.20.3 scripts/kaggle-al.ts",
+    "birlestir": "npx --yes tsx@4.20.3 scripts/birlestir.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"
