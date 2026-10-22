@@ -77,7 +77,7 @@ writeFileSync(
         duration: c.duration,
         face: c.face,
         // SDXL komutu 77 parçayla sınırlı: önce sahne, sonra kısa karakter tarifi; stil ayrı alanda
-        // (style) ikinci metin kodlayıcıya gider. Yüzü referans portre taşır.
+        // ile birlikte ikinci metin kodlayıcıya da gider. Yüzü referans portre taşır.
         keyframe: c.face
           ? `${c.keyframe}, ${prod.characterShort ?? prod.characterLook}`
           : c.keyframe,
