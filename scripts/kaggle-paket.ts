@@ -93,10 +93,15 @@ const zip = join(ROOT, "kaggle", `${name}.zip`);
 rmSync(zip, { force: true });
 // Windows 10+ ile gelen tar (bsdtar) -a ile zip yazar; diğer sistemlerde zip kullanılır.
 if (process.platform === "win32")
-  execFileSync("tar", ["-a", "-c", "-f", zip, ...files], {
-    cwd: dir,
-    stdio: "inherit",
-  });
+  // Git Bash'in GNU tar'ı değil, Windows'un kendi tar'ı (bsdtar) zip yazabilir.
+  execFileSync(
+    join(process.env["SystemRoot"] ?? "C:\\Windows", "System32", "tar.exe"),
+    ["-a", "-c", "-f", zip, ...files],
+    {
+      cwd: dir,
+      stdio: "inherit",
+    },
+  );
 else execFileSync("zip", ["-q", "-r", zip, ...files], { cwd: dir, stdio: "inherit" });
 
 console.log(`\n✔ Kaggle paketi hazır: ${zip}`);

@@ -8,7 +8,7 @@
  *   npm run kaggle:al -- --zip="C:\\yol\\klipler-neo-genesis-2099-e1.zip"
  */
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, renameSync, rmSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import { PRODUCTIONS } from "../supabase/functions/_shared/productions/index.ts";
@@ -52,10 +52,12 @@ const zip = args["zip"] ? resolve(args["zip"]) : newestDownload();
 if (!zip || !existsSync(zip))
   fail("Klip zip'i bulunamadı. Kaggle'dan indirdiğiniz dosyanın yolunu --zip=... ile verin.");
 
+// Windows'ta Git Bash'in GNU tar'ı "C:\\..." yollarını açamaz; Windows'un kendi tar'ı (bsdtar) zip açar.
+const WIN_TAR = join(process.env["SystemRoot"] ?? "C:\\Windows", "System32", "tar.exe");
+
 function unzip(file: string, dest: string) {
-  // Windows 10+ ile gelen tar (bsdtar) zip açabilir; diğer sistemlerde unzip kullanılır.
   if (process.platform === "win32")
-    execFileSync("tar", ["-x", "-f", file, "-C", dest], { stdio: "inherit" });
+    execFileSync(WIN_TAR, ["-x", "-f", file, "-C", dest], { stdio: "inherit" });
   else execFileSync("unzip", ["-o", "-q", file, "-d", dest], { stdio: "inherit" });
 }
 
@@ -65,13 +67,18 @@ const base = join(ROOT, paths.base);
 if (frames) {
   // Kare zip'i: keyframes/, plan.json ve portre.png içerir. Eski kareler silinmez, yedeklenir.
   const keyDir = join(base, "keyframes");
+  // Önce geçici klasöre aç; açılamazsa mevcut kareler yerinde kalır.
+  const tmp = join(base, `.kareler-${Date.now()}`);
+  mkdirSync(tmp, { recursive: true });
+  unzip(zip, tmp);
+  if (!existsSync(join(tmp, "keyframes"))) fail("Zip'te keyframes/ klasörü yok.");
   if (existsSync(keyDir)) {
     const backup = join(base, `keyframes-eski-${Date.now()}`);
     renameSync(keyDir, backup);
     console.log(`  Eski kareler yedeklendi: ${backup}`);
   }
-  mkdirSync(base, { recursive: true });
-  unzip(zip, base);
+  renameSync(join(tmp, "keyframes"), keyDir);
+  rmSync(tmp, { recursive: true, force: true });
   const have = prod.clips.filter((c) => existsSync(join(ROOT, paths.keyframe(c.key)))).length;
   console.log(`\n✔ ${have}/${prod.clips.length} kare yerleştirildi: ${keyDir}`);
   console.log(
