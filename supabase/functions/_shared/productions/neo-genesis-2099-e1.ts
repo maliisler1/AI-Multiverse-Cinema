@@ -62,7 +62,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "lying asleep with eyes closed inside a frost-covered cryo capsule, the lid marked with a glowing blue number 23, close-up through frosted glass",
+        "peaceful sleeping face, lips closed, no smile, lying asleep with eyes closed inside a frost-covered cryo capsule, the lid marked with a glowing blue number 23, close-up through frosted glass",
       motion: "Frost cracks across the glass, soft blue light pulses, her eyelids tremble",
     },
     {
@@ -71,7 +71,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "the cryo capsule lid opening in a cloud of cold vapor, she opens her eyes, a small display reads 201",
+        "dazed, confused expression, no smile, the cryo capsule lid opening in a cloud of cold vapor, she opens her eyes, a small display reads 201",
       motion:
         "The lid slides open, vapor pours out, she opens her eyes and takes a deep breath, gentle camera move",
     },
@@ -83,7 +83,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "sitting up in an open cryo capsule in a dim futuristic chamber, a small floating turquoise orb of light hovering in front of her",
+        "quiet wonder, lips slightly parted, no smile, sitting up in an open cryo capsule in a dim futuristic chamber, a small floating turquoise orb of light hovering in front of her",
       motion:
         "The turquoise orb pulses gently as if speaking, she looks at it in wonder, shallow depth of field",
     },
@@ -93,7 +93,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "standing up beside the capsule, the small turquoise orb floating at her shoulder, a glowing doorway behind her",
+        "calm, determined expression, no smile, standing up beside the capsule, the small turquoise orb floating at her shoulder, a glowing doorway behind her",
       motion: "She rises to her feet, the orb circles her once and drifts toward the doorway",
     },
 
@@ -104,7 +104,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "stepping out of a crystal doorway onto an alien continent, two suns in a violet sky, waterfalls flowing upward, floating islands",
+        "awestruck, serious expression, no smile, stepping out of a crystal doorway onto an alien continent, two suns in a violet sky, waterfalls flowing upward, floating islands",
       motion:
         "She steps outside, camera pulls back slowly to reveal the vast landscape, her hair moves in the wind",
     },
@@ -114,7 +114,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "standing small on a cliff edge in a wide epic shot of Elyra, upward-flowing waterfalls and floating islands under two suns",
+        "contemplative, serious expression, no smile, standing small on a cliff edge in a wide epic shot of Elyra, upward-flowing waterfalls and floating islands under two suns",
       motion: "Slow aerial crane shot around her, waterfalls stream upward into the sky",
     },
     {
@@ -134,7 +134,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "walking into the center of a circle of 23 ancient stone pillars carved with glowing symbols",
+        "focused, cautious expression, no smile, walking into the center of a circle of 23 ancient stone pillars carved with glowing symbols",
       motion: "She walks slowly into the circle, camera orbits around her, symbols flicker",
     },
     {
@@ -143,7 +143,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "close-up of her raised left palm where a glowing blue number 23 appears, her amazed face behind it",
+        "amazed expression, eyes wide, mouth slightly open, no smile, close-up of her raised left palm where a glowing blue number 23 appears, her face behind it",
       motion:
         "The blue 23 on her palm brightens, light reflects on her face, symbols on the pillars light up one by one",
     },
@@ -173,7 +173,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "looking up at a tall semi-transparent guardian with golden eyes, over-the-shoulder shot, mystical light between them",
+        "serious, attentive expression, no smile, looking up at a tall semi-transparent guardian with golden eyes, over-the-shoulder shot, mystical light between them",
       motion: "Subtle push-in on her face as she listens, light particles float between them",
     },
     {
@@ -193,7 +193,7 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "placing her palm on the trunk of a grey crystal tree, the blue 23 glowing on her hand",
+        "concentrated, serious expression, no smile, placing her palm on the trunk of a grey crystal tree, the blue 23 glowing on her hand",
       motion: "A wave of light spreads from her palm into the trunk and down into the roots",
     },
     {
@@ -202,9 +202,9 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "smiling with tears in her eyes as the crystal forest around her lights up in violet, turquoise and gold",
+        "deeply moved, tears in her eyes, a very faint closed-lip smile, no teeth showing, as the crystal forest around her lights up in violet, turquoise and gold",
       motion:
-        "Colors bloom across the crystals behind her, flowers open, she smiles with tears in her eyes",
+        "Colors bloom across the crystals behind her, flowers open, tears in her eyes, deeply moved",
     },
     {
       key: "c18",
@@ -223,8 +223,8 @@ export const neoGenesisE1: Production = {
       duration: 10,
       face: true,
       keyframe:
-        "standing on a hilltop at sunset under two setting suns, the small turquoise orb beside her, 22 tiny lights on the far horizon",
-      motion: "The 22 lights ignite one by one on the horizon, she smiles warmly",
+        "calm, hopeful expression, no smile, standing on a hilltop at sunset under two setting suns, the small turquoise orb beside her, 22 tiny lights on the far horizon",
+      motion: "The 22 lights ignite one by one on the horizon, her face calm and hopeful",
     },
     {
       key: "c20",
