@@ -61,6 +61,16 @@ function unzip(file: string, dest: string) {
   else execFileSync("unzip", ["-o", "-q", file, "-d", dest], { stdio: "inherit" });
 }
 
+// Yarım inen zip (Chrome indirmesi kesilince) sessizce eksik açılmasın: önce bütünlüğü sına.
+try {
+  if (process.platform === "win32") execFileSync(WIN_TAR, ["-t", "-f", zip], { stdio: "ignore" });
+  else execFileSync("unzip", ["-tqq", zip], { stdio: "ignore" });
+} catch {
+  fail(
+    `Zip bozuk ya da yarım inmiş: ${zip}\n  Kaggle'dan yeniden indirin ve indirme bitene kadar bekleyin.`,
+  );
+}
+
 const paths = storagePaths(prod);
 const base = join(ROOT, paths.base);
 
