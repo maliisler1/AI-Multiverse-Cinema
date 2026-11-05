@@ -70,7 +70,7 @@ function Shop() {
       <div className="mx-5 mt-6 rounded-3xl bg-card p-5">
         <p className="flex items-center gap-2 text-sm font-bold"><Crown className="h-4 w-4 text-gold" /> Paket Avantajları</p>
         <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-          {["Tüm dizilerde geçerli", "Jetonların süresi dolmaz", "Başrol Ol özelliğiyle uyumlu", "Gerçek ödeme alınmaz"].map((t) => (
+          {["Tüm dizilerde geçerli", "Jetonların süresi dolmaz", "Gerçek ödeme alınmaz"].map((t) => (
             <li key={t} className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{t}</li>
           ))}
         </ul>

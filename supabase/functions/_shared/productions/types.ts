@@ -13,11 +13,55 @@ export type SpeakerId = "narrator" | "ayshe" | "pusula" | "taran";
 
 /** Runway'in hazır ses listesi (SDK 4.22 text_to_speech presetId). */
 export const VOICE_PRESETS = [
-  "Maya", "Arjun", "Serene", "Bernard", "Billy", "Mark", "Clint", "Mabel", "Chad", "Leslie",
-  "Eleanor", "Elias", "Elliot", "Grungle", "Brodie", "Sandra", "Kirk", "Kylie", "Lara", "Lisa",
-  "Malachi", "Marlene", "Martin", "Miriam", "Monster", "Paula", "Pip", "Rusty", "Ragnar", "Xylar",
-  "Maggie", "Jack", "Katie", "Noah", "James", "Rina", "Ella", "Mariah", "Frank", "Claudia",
-  "Niki", "Vincent", "Kendrick", "Myrna", "Tom", "Wanda", "Benjamin", "Kiana", "Rachel",
+  "Maya",
+  "Arjun",
+  "Serene",
+  "Bernard",
+  "Billy",
+  "Mark",
+  "Clint",
+  "Mabel",
+  "Chad",
+  "Leslie",
+  "Eleanor",
+  "Elias",
+  "Elliot",
+  "Grungle",
+  "Brodie",
+  "Sandra",
+  "Kirk",
+  "Kylie",
+  "Lara",
+  "Lisa",
+  "Malachi",
+  "Marlene",
+  "Martin",
+  "Miriam",
+  "Monster",
+  "Paula",
+  "Pip",
+  "Rusty",
+  "Ragnar",
+  "Xylar",
+  "Maggie",
+  "Jack",
+  "Katie",
+  "Noah",
+  "James",
+  "Rina",
+  "Ella",
+  "Mariah",
+  "Frank",
+  "Claudia",
+  "Niki",
+  "Vincent",
+  "Kendrick",
+  "Myrna",
+  "Tom",
+  "Wanda",
+  "Benjamin",
+  "Kiana",
+  "Rachel",
 ] as const;
 export type VoicePreset = (typeof VOICE_PRESETS)[number];
 
@@ -64,6 +108,11 @@ export type Production = {
   faceTag: string;
   /** Başrolün görünüş tarifi; yüz kullanılan her kare komutunun başına eklenir. */
   characterLook: string;
+  /**
+   * Başrolün kısa tarifi (isteğe bağlı). Kaggle'da SDXL komutu 77 kelime parçasıyla sınırlı olduğu
+   * için sahne önce, bu kısa tarif sonra yazılır; yüzü zaten referans portre taşır.
+   */
+  characterShort?: string;
   /** Her kare komutunun sonuna eklenen görsel stil. */
   style: string;
   speakers: Record<SpeakerId, { name: string; defaultVoice: VoicePreset }>;
@@ -99,7 +148,9 @@ export function keyframeCost(clip: Clip, quality: ImageQuality): number {
 /** Runway text_to_image isteğinin model ve oranı. */
 export function keyframeModel(clip: Clip, quality: ImageQuality): { model: string; ratio: string } {
   if (quality === "high") return { model: "gen4_image", ratio: "1920:1080" };
-  return clip.face ? { model: "gen4_image_turbo", ratio: "1920:1080" } : { model: "gen4_image", ratio: "1280:720" };
+  return clip.face
+    ? { model: "gen4_image_turbo", ratio: "1920:1080" }
+    : { model: "gen4_image", ratio: "1280:720" };
 }
 
 export function keyframeCredits(p: Production, quality: ImageQuality = "high"): number {
@@ -120,9 +171,14 @@ export function speechText(line: Line, lang: ProductionLang, model: TtsModel): s
   return model === "eleven_v3" && line.tag ? `[${line.tag}] ${text}` : text;
 }
 
-export function voiceCredits(p: Production, langs: readonly ProductionLang[], model: TtsModel): number {
+export function voiceCredits(
+  p: Production,
+  langs: readonly ProductionLang[],
+  model: TtsModel,
+): number {
   let sum = 0;
-  for (const lang of langs) for (const line of p.lines) sum += lineCredits(speechText(line, lang, model));
+  for (const lang of langs)
+    for (const line of p.lines) sum += lineCredits(speechText(line, lang, model));
   return sum;
 }
 
