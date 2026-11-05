@@ -97,6 +97,17 @@ async function putFile(path: string, file: string, contentType: string) {
   if (error) throw new Error(`${path} yüklenemedi: ${error.message}`);
 }
 
+const ISO3: Record<ProductionLang, string> = {
+  tr: "tur",
+  en: "eng",
+  de: "ger",
+  fr: "fre",
+  es: "spa",
+  pt: "por",
+  ar: "ara",
+  hi: "hin",
+};
+
 /**
  * Durağan kareyi sinematik kamera hareketiyle canlandırır. Sırayla yavaş yakınlaşma,
  * uzaklaşma, sağa ve sola kaydırma; her karenin başı ve sonu kısa geçişle yumuşatılır.
@@ -183,6 +194,7 @@ async function main() {
   // 2) Diller: replikleri yerleştir, karıştır, ses seviyesini dengele; altyazı üret.
   const ready: ProductionLang[] = [];
   const skipped: string[] = [];
+  const langFiles: Partial<Record<ProductionLang, { audio: string; vtt: string }>> = {};
   for (const lang of PRODUCTION_LANGS) {
     const files: Record<string, string> = {};
     const durations: Record<string, number> = {};
@@ -224,6 +236,7 @@ async function main() {
     await putFile(paths.finalAudio(lang), audio, "audio/mp4");
     await putFile(paths.finalSubs(lang), vtt, "text/vtt");
     ready.push(lang);
+    langFiles[lang] = { audio, vtt };
     console.log(`✔ ${lang}: ${placed.length} replik yerleştirildi`);
   }
   if (!ready.length)
@@ -231,6 +244,44 @@ async function main() {
 
   await putFile(paths.finalVideo, video, "video/mp4");
   console.log(`✔ Video yüklendi: ${paths.finalVideo}`);
+
+  // Yerel çalışmada: her dil için sesli ve altyazılı, doğrudan izlenebilir bir MP4.
+  if (localDir) {
+    const dir = join(localDir, "izle");
+    mkdirSync(dir, { recursive: true });
+    for (const lang of ready) {
+      const f = langFiles[lang]!;
+      const out = join(dir, `Bolum-${prod!.episode}-${prod!.title.tr}-${lang}.mp4`);
+      ff([
+        "-i",
+        video,
+        "-i",
+        f.audio,
+        "-i",
+        f.vtt,
+        "-map",
+        "0:v",
+        "-map",
+        "1:a",
+        "-map",
+        "2:s",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "copy",
+        "-c:s",
+        "mov_text",
+        "-metadata:s:a:0",
+        `language=${ISO3[lang]}`,
+        "-metadata:s:s:0",
+        `language=${ISO3[lang]}`,
+        "-movflags",
+        "+faststart",
+        out,
+      ]);
+      console.log(`🎬 İzlemeye hazır: ${out}`);
+    }
+  }
 
   // 3) Uygulamaya bağla: bölüm "ready", hazır diller için ses + altyazı satırları.
   if (db) {
