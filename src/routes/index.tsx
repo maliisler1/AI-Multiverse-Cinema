@@ -13,9 +13,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "AI Multiverse Cinema — Fütüristik Mini Diziler" },
-      { name: "description", content: "Bilim kurgu, komedi ve duygusal fütüristik mini dizileri izle, başrolde sen ol." },
+      { name: "description", content: "Bilim kurgu, komedi ve duygusal fütüristik mini dizileri izle." },
       { property: "og:title", content: "AI Multiverse Cinema" },
-      { property: "og:description", content: "Fütüristik mini dizilerde başrolde sen ol." },
+      { property: "og:description", content: "Bilim kurgu, komedi ve duygusal fütüristik mini diziler." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

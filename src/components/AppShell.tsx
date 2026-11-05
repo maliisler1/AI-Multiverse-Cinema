@@ -64,7 +64,6 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [lang]);
   const nav = [
     { to: "/", label: t("nav_home"), icon: Home },
-    { to: "/profil", label: t("nav_star"), icon: User },
     { to: "/jeton", label: t("nav_tokens"), icon: Coins },
     { to: "/ayarlar", label: t("nav_settings"), icon: Languages },
   ] as const;
@@ -72,7 +71,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="mx-auto min-h-screen max-w-md bg-background app-safe-top app-ad-space">
       {children}
       <nav className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md glass border-t app-safe-bottom app-ad-nav">
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-3">
           {nav.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
