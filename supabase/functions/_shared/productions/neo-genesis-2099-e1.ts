@@ -1,7 +1,7 @@
 import type { Production } from "./types.ts";
 
 /**
- * Neo-Genesis: 2099 — Bölüm 1 "Uyanış" (180 sn).
+ * Neo-Genesis: 2300 — Bölüm 1 "Uyanış" (180 sn).
  * Yıl 2300. AyShe, Kapsül 23'te hiçbir haritada olmayan Elyra kıtasında uyanır.
  * Senaryo: Claude Docs "Neo-Genesis — Bölüm 1: Uyanış (Senaryo)".
  */
