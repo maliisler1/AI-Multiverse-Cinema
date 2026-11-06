@@ -15,3 +15,9 @@ vitest.config.cts.timestamp-*.mjs
 
 # Bilgisayarda bölüm üretimi: fotoğraf ve çıktılar (GitHub'a yüklemeyin)
 uretim/
+
+# Android imza anahtarı ve şifreleri (asla GitHub'a yüklenmez)
+android/keystore.properties
+*.jks
+*.keystore
+dist-mobile/

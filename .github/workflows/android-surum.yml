@@ -1,0 +1,101 @@
+# Telefon sürümü: Google Play'e yüklenecek imzalı .aab dosyasını üretir.
+#
+# Çalıştırma: GitHub → Actions → "Telefon sürümü üret" → Run workflow
+# Bittiğinde dosya, çalıştırmanın sayfasında "Artifacts" altında indirilir.
+#
+# Gerekli gizli anahtarlar (Settings → Secrets and variables → Actions):
+#   ANDROID_KEYSTORE_BASE64   cinema-upload.jks dosyasının base64 hali
+#   ANDROID_KEYSTORE_PASSWORD anahtar deposu şifresi
+#   ANDROID_KEY_ALIAS         anahtar adı (cinema-upload)
+#   ANDROID_KEY_PASSWORD      anahtar şifresi
+# Sürüm numarası android/app/build.gradle içindeki versionCode / versionName'dir;
+# Play her yüklemede daha büyük bir versionCode ister.
+name: Telefon sürümü üret
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  aab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      # Herkese açık istemci değerleri (uygulamanın içine zaten gömülür).
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || 'https://ryiqhupjfisxygrapwhv.supabase.co' }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Gizli anahtarları kontrol et
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KSP: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KA: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KP: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          missing=""
+          [ -n "$KS" ]  || missing="$missing ANDROID_KEYSTORE_BASE64"
+          [ -n "$KSP" ] || missing="$missing ANDROID_KEYSTORE_PASSWORD"
+          [ -n "$KA" ]  || missing="$missing ANDROID_KEY_ALIAS"
+          [ -n "$KP" ]  || missing="$missing ANDROID_KEY_PASSWORD"
+          [ -n "$VITE_SUPABASE_PUBLISHABLE_KEY" ] || missing="$missing VITE_SUPABASE_PUBLISHABLE_KEY"
+          if [ -n "$missing" ]; then echo "::error::Eksik gizli anahtar:$missing"; exit 1; fi
+
+      - name: Web dosyalarını üret ve Android'e kopyala
+        run: |
+          npm run build:mobile
+          npx cap sync android
+
+      - name: İmza dosyasını hazırla
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KSP: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KA: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KP: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KS" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/upload.jks"
+            echo "storePassword=$KSP"
+            echo "keyAlias=$KA"
+            echo "keyPassword=$KP"
+          } > android/keystore.properties
+
+      - name: İmzalı .aab üret
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon bundleRelease
+
+      - name: Dosya adını hazırla
+        id: ad
+        run: |
+          v=$(grep -oP 'versionName "\K[^"]+' android/app/build.gradle)
+          cp android/app/build/outputs/bundle/release/app-release.aab "AI-Multiverse-Cinema-$v.aab"
+          echo "v=$v" >> "$GITHUB_OUTPUT"
+
+      - name: İmza dosyalarını sil
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.jks" android/keystore.properties
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AI-Multiverse-Cinema-${{ steps.ad.outputs.v }}
+          path: AI-Multiverse-Cinema-${{ steps.ad.outputs.v }}.aab
+          retention-days: 30
