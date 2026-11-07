@@ -21,9 +21,9 @@ export const neoGenesisE1: Production = {
   durationSec: 180,
   faceTag: "AyShe",
   characterLook:
-    'a very beautiful young woman of about twenty with long sleek jet-black hair, fair porcelain-white skin, large dark eyes, delicate elegant features and a serious, curious expression, wearing a fitted white-silver spacesuit with a glowing blue "23" badge on the chest',
+    'a very beautiful youthful girl of about eighteen with a soft round youthful face, long sleek jet-black hair, fair porcelain-white skin, large dark eyes, natural fresh look with no makeup, delicate features and a serious, curious expression, wearing a fitted white-silver spacesuit with a glowing blue "23" badge on the chest',
   characterShort:
-    "beautiful young woman, long jet-black hair, fair white skin, dark eyes, white-silver spacesuit with glowing blue 23 badge",
+    "beautiful youthful girl of eighteen, natural no-makeup look, long jet-black hair, fair white skin, dark eyes, white-silver spacesuit with glowing blue 23 badge",
   style:
     "Cinematic science-fiction film still, violet, turquoise and gold color palette, volumetric light, anamorphic 35mm look, highly detailed, 16:9",
   speakers: {
