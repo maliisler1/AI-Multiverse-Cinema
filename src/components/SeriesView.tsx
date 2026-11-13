@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
-import { ArrowLeft, Lock, Play, Coins, Info, Film } from "lucide-react";
+import { ArrowLeft, Lock, Play, Coins, Info, Film, ListVideo } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, TokenBadge } from "@/components/AppShell";
 import { episodeListQuery, seriesListQuery, seriesTextOf, trackStatus, episodeTitle, type SeriesRow } from "@/lib/catalog";
@@ -81,6 +81,18 @@ export function SeriesView({ id, slug, home = false, children }: { id: string; s
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-neon py-3 text-sm font-bold text-primary-foreground shadow-neon"
           >
             <Play className="h-4 w-4 fill-current" /> {t("watch_ep1")}
+          </button>
+        )}
+        {first && eps.length > 1 && (
+          <button
+            onClick={() => {
+              // Tüm sezon: otomatik geçişi açar, bölümler art arda oynar (kilitli bölümde durur).
+              try { localStorage.setItem("amc-autoplay", "true"); } catch { /* depolama kapalı olabilir */ }
+              void open(first.n, first.id, first.status === "ready" && !!first.video_url);
+            }}
+            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-secondary py-3 text-sm font-semibold"
+          >
+            <ListVideo className="h-4 w-4" /> {t("watch_season")}
           </button>
         )}
 
