@@ -43,3 +43,13 @@ describe.each(season.map((p) => [p.episode, p] as const))("Neo-Genesis bölüm %
     }
   });
 });
+
+describe("Neo-Genesis sezon bütünlüğü", () => {
+  it("2-15. bölümler eksiksiz ve her bölüm bir sonrakini duyuruyor", () => {
+    expect(season.map((p) => p.episode)).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    for (const p of season.slice(0, -1)) {
+      const next = PRODUCTIONS.find((q) => q.seriesSlug === p.seriesSlug && q.episode === p.episode + 1)!;
+      expect(p.captions[0]!.text.tr, `bölüm ${p.episode}`).toBe(`Bölüm ${next.episode} — ${next.title.tr}`);
+    }
+  });
+});
