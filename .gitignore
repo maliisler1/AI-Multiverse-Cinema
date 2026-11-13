@@ -15,3 +15,8 @@ vitest.config.cts.timestamp-*.mjs
 
 # Bilgisayarda bölüm üretimi: fotoğraf ve çıktılar (GitHub'a yüklemeyin)
 uretim/
+
+# Android imza anahtarı asla depoya girmesin
+android/keystore.properties
+*.jks
+*.keystore

@@ -1,0 +1,124 @@
+# Google Play için imzalı Android paketi (.aab) üretir.
+#
+# Çalıştırma: GitHub → Actions → "Android sürümü üret" → Run workflow
+# Bitince sayfanın altındaki "Artifacts" bölümünden .aab dosyasını indir ve
+# Play Console'da Kapalı test → Alpha → Yeni sürüm oluştur ile yükle.
+#
+# Bir kerelik kurulum — gizli anahtarlar (Settings → Secrets and variables → Actions):
+#   ANDROID_KEYSTORE_BASE64   1.2.0'ı imzalayan yükleme anahtarı (.jks) dosyasının base64 hali
+#   ANDROID_STORE_PASSWORD    anahtar deposu şifresi (keystore.properties → storePassword)
+#   ANDROID_KEY_ALIAS         anahtar adı (keystore.properties → keyAlias)
+#   ANDROID_KEY_PASSWORD      anahtar şifresi (keystore.properties → keyPassword)
+# Anahtar ve şifreler yalnızca bu işin içinde kullanılır; depoya yazılmaz, günlüğe basılmaz.
+name: Android sürümü üret
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-release
+  cancel-in-progress: false
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Gizli anahtarları kontrol et
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          SP: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KA: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KP: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          missing=""
+          [ -n "$KS" ] || missing="$missing ANDROID_KEYSTORE_BASE64"
+          [ -n "$SP" ] || missing="$missing ANDROID_STORE_PASSWORD"
+          [ -n "$KA" ] || missing="$missing ANDROID_KEY_ALIAS"
+          [ -n "$KP" ] || missing="$missing ANDROID_KEY_PASSWORD"
+          if [ -n "$missing" ]; then
+            echo "::error::Eksik gizli anahtar:$missing (Settings → Secrets and variables → Actions)"
+            exit 1
+          fi
+
+      - name: Paketleri kur
+        run: pnpm install --frozen-lockfile
+
+      - name: Testler
+        run: pnpm test
+
+      - name: Mobil web paketini üret ve Android'e aktar
+        env:
+          VITE_ADMOB_TEST: "false"
+        run: pnpm run android:sync
+
+      - name: İmza anahtarını hazırla
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          SP: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KA: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KP: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KS" | base64 --decode > "$RUNNER_TEMP/upload.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/upload.jks"
+            echo "storePassword=$SP"
+            echo "keyAlias=$KA"
+            echo "keyPassword=$KP"
+          } > android/keystore.properties
+
+      - name: İmzalı .aab üret
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon bundleRelease
+
+      - name: Sürüm bilgisi ve imza parmak izi
+        id: info
+        run: |
+          name=$(grep -oP 'versionName "\K[^"]+' android/app/build.gradle)
+          code=$(grep -oP 'versionCode \K[0-9]+' android/app/build.gradle)
+          out="AI-Multiverse-Cinema-$name.aab"
+          cp android/app/build/outputs/bundle/release/app-release.aab "$out"
+          echo "file=$out" >> "$GITHUB_OUTPUT"
+          {
+            echo "### $out (versionCode $code)"
+            echo
+            echo "Yükleme sertifikası SHA-256 (1.2.0 ile aynı olmalı):"
+            echo '```'
+            keytool -printcert -jarfile "$out" | grep -E "SHA256|Owner" || true
+            echo '```'
+            echo "SHA-256 dosya özeti: \`$(sha256sum "$out" | cut -d' ' -f1)\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Anahtarı sil
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.jks" android/keystore.properties
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.info.outputs.file }}
+          path: ${{ steps.info.outputs.file }}
+          retention-days: 14

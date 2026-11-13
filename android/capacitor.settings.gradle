@@ -7,3 +7,9 @@ project(':capacitor-community-admob').projectDir = new File('../node_modules/.pn
 
 include ':capacitor-app'
 project(':capacitor-app').projectDir = new File('../node_modules/.pnpm/@capacitor+app@8.1.2_@capacitor+core@8.5.2/node_modules/@capacitor/app/android')
+
+include ':capacitor-filesystem'
+project(':capacitor-filesystem').projectDir = new File('../node_modules/.pnpm/@capacitor+filesystem@8.1.5_@capacitor+core@8.5.2/node_modules/@capacitor/filesystem/android')
+
+include ':capgo-native-purchases'
+project(':capgo-native-purchases').projectDir = new File('../node_modules/.pnpm/@capgo+native-purchases@8.9.15_@capacitor+core@8.5.2/node_modules/@capgo/native-purchases/android')
