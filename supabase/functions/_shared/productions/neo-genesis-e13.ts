@@ -8,7 +8,7 @@
 import { MEMORY_GRADE, MERA, NIL, PUSULA, SILGI, VAEL, episode, t } from "./neo-genesis-cast.ts";
 
 const RUN_SILGI =
-  "a young man of about twenty with short messy dark-blond hair and a small scar on his left eyebrow, wearing a long hooded white coat";
+  "a handsome young man of about twenty with short messy dark-blond hair, bright green eyes and a small scar on his left eyebrow, wearing a long hooded white coat";
 
 export const neoGenesisE13 = episode({
   episode: 13,

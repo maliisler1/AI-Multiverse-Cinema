@@ -32,7 +32,7 @@ export const PUSULA = "a small floating turquoise orb of soft light, the size of
 
 /** Rün (Kapsül 7): genç mühendis. */
 export const RUN =
-  "a young man of about twenty with short messy dark-blond hair, light stubble and a small scar on his left eyebrow, wearing a scuffed grey and orange engineer jumpsuit";
+  "a handsome young man of about twenty with short messy dark-blond hair, bright green eyes, light stubble and a small scar on his left eyebrow, wearing a scuffed grey and orange engineer jumpsuit";
 
 /** Vael (Kapsül 1): projenin baş bilimcisi, sakin ve ikna edici. */
 export const VAEL =
