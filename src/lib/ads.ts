@@ -7,9 +7,8 @@ import {
 export const AD_UNITS = {
   banner: 'ca-app-pub-9404448916585248/5845378885',
   interstitial: 'ca-app-pub-9404448916585248/6866808514',
-  // AdMob'da "Ödüllü" reklam birimi açılınca kimliği buraya yazılır. Boşken
-  // gerçek uygulamada "reklam izle ve aç" seçeneği gösterilmez.
-  rewarded: '',
+  // AdMob "Bolum Ac Odullu" (ödüllü): kilitli bölümü reklam izleyerek açma.
+  rewarded: 'ca-app-pub-9404448916585248/2363965458',
 } as const;
 const TEST_UNITS = (import.meta.env.VITE_ADMOB_TEST === 'true' || import.meta.env.DEV) ? {
   banner: 'ca-app-pub-3940256099942544/6300978111',
