@@ -13,10 +13,10 @@ import type { Production } from "./types.ts";
 export const SERIES_SLUG = "neo-genesis-2099";
 
 export const AYSE_LOOK =
-  "a beautiful young woman of about eighteen with long straight black hair, fair porcelain skin, a natural no-makeup look and dark eyes, wearing a fitted white-silver spacesuit with a softly glowing blue emblem on the chest";
+  "a very beautiful youthful girl of about eighteen with a soft round youthful face, long sleek jet-black hair, fair porcelain-white skin, large dark eyes, natural fresh look with no makeup, delicate features, wearing a fitted white-silver spacesuit with a softly glowing blue emblem on the chest";
 
 export const AYSE_SHORT =
-  "beautiful 18 year old woman, long straight black hair, fair skin, no makeup, fitted white-silver spacesuit";
+  "beautiful youthful girl of eighteen, natural no-makeup look, long jet-black hair, fair white skin, dark eyes, white-silver spacesuit";
 
 export const STYLE =
   "Photorealistic cinematic film still, natural skin texture, real-world lighting, anamorphic 35mm lens, violet turquoise and gold color grade, volumetric light, shallow depth of field, 16:9";
@@ -119,6 +119,8 @@ export function episode(e: {
   clips: ClipIn[];
   lines: LineIn[];
   next?: { n: number; title: L };
+  /** Bölüm sonu kartı yerine özel kart (ör. sezon finali). */
+  end?: L;
 }): Production {
   const pad = (i: number) => String(i + 1).padStart(2, "0");
   const used = new Set(e.lines.map((l) => l.speaker));
@@ -137,6 +139,10 @@ export function episode(e: {
       motion,
     })),
     lines: e.lines.map((l, i) => ({ key: `l${pad(i)}`, ...l })),
-    captions: e.next ? [nextCard(e.next.n, e.next.title)] : [],
+    captions: e.end
+      ? [{ from: 177.5, to: 180, text: e.end }]
+      : e.next
+        ? [nextCard(e.next.n, e.next.title)]
+        : [],
   };
 }
