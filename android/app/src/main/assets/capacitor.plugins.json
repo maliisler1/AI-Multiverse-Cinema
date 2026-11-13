@@ -1,0 +1,18 @@
+[
+	{
+		"pkg": "@capacitor-community/admob",
+		"classpath": "com.getcapacitor.community.admob.AdMob"
+	},
+	{
+		"pkg": "@capacitor/app",
+		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
+	},
+	{
+		"pkg": "@capacitor/filesystem",
+		"classpath": "com.capacitorjs.plugins.filesystem.FilesystemPlugin"
+	},
+	{
+		"pkg": "@capgo/native-purchases",
+		"classpath": "ee.forgr.nativepurchases.NativePurchasesPlugin"
+	}
+]

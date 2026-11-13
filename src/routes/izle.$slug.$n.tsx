@@ -170,7 +170,7 @@ export function Player() {
             onLoadedMetadata={e=>{setFailed(false);setBuffering(false);if(seek.current>5 && seek.current<e.currentTarget.duration)e.currentTarget.currentTime=seek.current;}}
             onError={()=>setFailed(true)} onWaiting={()=>setBuffering(true)} onPlaying={()=>setBuffering(false)} onCanPlay={e=>{setBuffering(false);const v=e.currentTarget;if(v&&!mutedFallback.current){void v.play().catch(()=>{mutedFallback.current=true;v.muted=true;void v.play().catch(()=>{});});}}}
             onPlay={syncAudio} onPause={()=>{audio.current?.pause();save();}} onSeeking={syncAudio} onTimeUpdate={syncAudio} onRateChange={syncAudio} onVolumeChange={syncAudio}
-            onEnded={()=>{audio.current?.pause();save(true); if(next && autoplay)setCountdown(3);}}
+            onEnded={()=>{audio.current?.pause();save(true); void ads.atEpisodeEnd(); if(next && autoplay)setCountdown(3);}}
           >{subSrc && <track kind="subtitles" src={subSrc} srcLang={state.subLang} label={LANG_NAMES[state.subLang as keyof typeof LANG_NAMES]} default/>}</video>
           {buffering && <div className="pointer-events-none absolute inset-0 grid place-items-center bg-black/50"><Loader2 className="h-10 w-10 animate-spin text-white"/></div>}
         </> : <div className="grid aspect-video place-items-center"><Loader2 className="h-8 w-8 animate-spin text-white"/></div>}

@@ -61,3 +61,33 @@ describe("Neo-Genesis bölüm 1 üretim planı", () => {
     expect(speechText(line, "tr", "eleven_multilingual_v2")).toBe(line.text.tr);
   });
 });
+
+import { neoGenesisE2 as p2 } from "../../supabase/functions/_shared/productions/neo-genesis-2099-e2.ts";
+import { PRODUCTIONS } from "../../supabase/functions/_shared/productions/index.ts";
+
+describe("The Human Code bölüm 2 üretim planı (Kayıp Sinyal)", () => {
+  it("180 saniye, sahneler ve replik zamanları sıralı, 8 dil dolu", () => {
+    expect(p2.clips.reduce((t, c) => t + c.duration, 0)).toBe(p2.durationSec);
+    const scenes = p2.clips.map((c) => c.scene);
+    expect([...scenes].sort((a, b) => a - b)).toEqual(scenes);
+    let last = -1;
+    for (const l of p2.lines) {
+      expect(l.at, l.key).toBeGreaterThan(last);
+      last = l.at;
+      for (const lang of PRODUCTION_LANGS) expect(l.text[lang].length, `${l.key} ${lang}`).toBeGreaterThan(0);
+      expect(p2.speakers[l.speaker], l.key).toBeDefined();
+    }
+    expect(last).toBeLessThan(p2.durationSec);
+  });
+  it("görünüş ve stil 1. bölümle aynı, komutlar sınır içinde", () => {
+    expect(p2.characterLook).toBe(p.characterLook);
+    expect(p2.style).toBe(p.style);
+    for (const c of p2.clips) {
+      expect(keyframePrompt(p2, c).length, c.key).toBeLessThanOrEqual(1000);
+      expect(keyframePrompt(p2, c).includes(`@${p2.faceTag}`)).toBe(c.face);
+    }
+  });
+  it("üretim listesinde sırayla duruyor", () => {
+    expect(PRODUCTIONS.map((x) => x.episode)).toEqual([1, 2]);
+  });
+});

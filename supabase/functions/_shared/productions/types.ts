@@ -9,7 +9,7 @@
 export const PRODUCTION_LANGS = ["tr", "en", "de", "fr", "es", "pt", "ar", "hi"] as const;
 export type ProductionLang = (typeof PRODUCTION_LANGS)[number];
 
-export type SpeakerId = "narrator" | "ayshe" | "pusula" | "taran";
+export type SpeakerId = "narrator" | "ayshe" | "pusula" | "taran" | "leon";
 
 /** Runway'in hazır ses listesi (SDK 4.22 text_to_speech presetId). */
 export const VOICE_PRESETS = [

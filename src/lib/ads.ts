@@ -135,6 +135,28 @@ export function createAdsController(
     }
   }
 
+  /**
+   * Bölüm bittiğinde (doğal ara) önbellekteki geçiş reklamını gösterir.
+   * Gelir için ana kaldıraç; kullanıcıyı kaçırmamak için iki reklam arasında
+   * en az 150 sn (yaklaşık bir bölüm) bırakılır ve ödüllü reklamdan hemen
+   * sonra gösterilmez. Sezonu satın alanlara hiç gösterilmez.
+   */
+  async function atEpisodeEnd() {
+    if (!native() || adFree || !canRequestAds || showing || privacyOpen) return;
+    if (now() - lastInterstitial < 150_000) return;
+    if (!interstitialReady) { void prepare(); return; }
+    interstitialReady = false;
+    showing = true;
+    completedViews = 0;
+    lastInterstitial = now();
+    try {
+      await sdk.showInterstitial({ adId: units.interstitial });
+    } catch {
+      showing = false;
+      void prepare();
+    }
+  }
+
   async function openPrivacyOptions() {
     if (!native() || !state.privacyRequired || privacyOpen || showing) return;
     privacyOpen = true;
@@ -187,6 +209,7 @@ export function createAdsController(
       handles.push(await sdk.addListener(RewardAdPluginEvents.FailedToShow, () => resolveClosed()));
       void sdk.showRewardVideoAd().then(() => { earned = true; }).catch(() => resolveClosed());
       await closed;
+      lastInterstitial = now();
       return earned ? 'rewarded' : 'dismissed';
     } catch {
       return 'unavailable';
@@ -197,7 +220,7 @@ export function createAdsController(
   }
 
   return {
-    start, atSeriesEnd, openPrivacyOptions, setAdFree, canReward, showRewarded,
+    start, atSeriesEnd, atEpisodeEnd, openPrivacyOptions, setAdFree, canReward, showRewarded,
     getSnapshot: () => state,
     subscribe: (callback: () => void) => {
       subscriptions.add(callback);

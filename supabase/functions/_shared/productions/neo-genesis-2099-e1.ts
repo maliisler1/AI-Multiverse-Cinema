@@ -31,6 +31,7 @@ export const neoGenesisE1: Production = {
     ayshe: { name: "AyShe", defaultVoice: "Maya" },
     pusula: { name: "Pusula", defaultVoice: "Serene" },
     taran: { name: "Bekçi Taran", defaultVoice: "Bernard" },
+    leon: { name: "Leon", defaultVoice: "Noah" },
   },
 
   clips: [
