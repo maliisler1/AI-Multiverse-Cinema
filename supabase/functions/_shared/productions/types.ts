@@ -9,7 +9,8 @@
 export const PRODUCTION_LANGS = ["tr", "en", "de", "fr", "es", "pt", "ar", "hi"] as const;
 export type ProductionLang = (typeof PRODUCTION_LANGS)[number];
 
-export type SpeakerId = "narrator" | "ayshe" | "pusula" | "taran";
+/** Konuşan karakterler. "ayshe" anahtarı eski kayıtlar bozulmasın diye korunur; ekrandaki ad "Ayşe". */
+export type SpeakerId = "narrator" | "ayshe" | "pusula" | "taran" | "run" | "vael" | "nil" | "mera";
 
 /** Runway'in hazır ses listesi (SDK 4.22 text_to_speech presetId). */
 export const VOICE_PRESETS = [
@@ -115,7 +116,8 @@ export type Production = {
   characterShort?: string;
   /** Her kare komutunun sonuna eklenen görsel stil. */
   style: string;
-  speakers: Record<SpeakerId, { name: string; defaultVoice: VoicePreset }>;
+  /** Bölümde konuşan karakterler; her replikteki konuşan burada olmalı. */
+  speakers: Partial<Record<SpeakerId, { name: string; defaultVoice: VoicePreset }>>;
   clips: Clip[];
   lines: Line[];
   /** Ses yerine yalnızca altyazıda görünen yazılar (ör. bölüm sonu kartı). */
