@@ -1,0 +1,1 @@
+import{w as e}from"./AppShell-prMBUbLk.js";import{t}from"./dizi._slug-k6ZgHHuF.js";import{t as n}from"./SeriesView-BMp3k-Y4.js";var r=e();function i(){let{id:e,slug:i}=t.useLoaderData();return(0,r.jsx)(n,{id:e,slug:i})}export{i as component};

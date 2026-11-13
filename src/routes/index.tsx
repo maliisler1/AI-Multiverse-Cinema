@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Clapperboard, Sparkles, UserRound } from "lucide-react";
+import { Clapperboard, Sparkles, UserRound, Orbit } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { SeriesView } from "@/components/SeriesView";
 import { episodeListQuery, seriesListQuery, type SeriesRow } from "@/lib/catalog";
@@ -47,6 +47,14 @@ function Index() {
 
   return (
     <SeriesView id={featured.id} slug={featured.slug} home>
+      <Link to="/kapsul" className="mt-8 flex items-center gap-4 rounded-2xl border border-primary/40 bg-card p-4">
+        <Orbit className="h-9 w-9 shrink-0 text-primary" />
+        <div>
+          <p className="text-sm font-bold">{t("capsule_cta")}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{t("capsule_cta_sub")}</p>
+        </div>
+      </Link>
+
       <section className="mt-8">
         <h2 className="text-sm font-bold">{t("extras")}</h2>
         <div className="mt-3 grid grid-cols-2 gap-3">

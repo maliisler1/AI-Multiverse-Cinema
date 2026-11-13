@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AyarlarRouteImport } from './routes/ayarlar'
 import { Route as GirisRouteImport } from './routes/giris'
 import { Route as JetonRouteImport } from './routes/jeton'
+import { Route as KapsulRouteImport } from './routes/kapsul'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as YonetimRouteImport } from './routes/yonetim'
 import { Route as DiziSlugRouteImport } from './routes/dizi.$slug'
@@ -36,6 +37,11 @@ const GirisRoute = GirisRouteImport.update({
 const JetonRoute = JetonRouteImport.update({
   id: '/jeton',
   path: '/jeton',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KapsulRoute = KapsulRouteImport.update({
+  id: '/kapsul',
+  path: '/kapsul',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfilRoute = ProfilRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/ayarlar': typeof AyarlarRoute
   '/giris': typeof GirisRoute
   '/jeton': typeof JetonRoute
+  '/kapsul': typeof KapsulRoute
   '/profil': typeof ProfilRoute
   '/yonetim': typeof YonetimRoute
   '/dizi/$slug': typeof DiziSlugRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/ayarlar': typeof AyarlarRoute
   '/giris': typeof GirisRoute
   '/jeton': typeof JetonRoute
+  '/kapsul': typeof KapsulRoute
   '/profil': typeof ProfilRoute
   '/yonetim': typeof YonetimRoute
   '/dizi/$slug': typeof DiziSlugRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/ayarlar': typeof AyarlarRoute
   '/giris': typeof GirisRoute
   '/jeton': typeof JetonRoute
+  '/kapsul': typeof KapsulRoute
   '/profil': typeof ProfilRoute
   '/yonetim': typeof YonetimRoute
   '/dizi/$slug': typeof DiziSlugRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/ayarlar'
     | '/giris'
     | '/jeton'
+    | '/kapsul'
     | '/profil'
     | '/yonetim'
     | '/dizi/$slug'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/ayarlar'
     | '/giris'
     | '/jeton'
+    | '/kapsul'
     | '/profil'
     | '/yonetim'
     | '/dizi/$slug'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/ayarlar'
     | '/giris'
     | '/jeton'
+    | '/kapsul'
     | '/profil'
     | '/yonetim'
     | '/dizi/$slug'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AyarlarRoute: typeof AyarlarRoute
   GirisRoute: typeof GirisRoute
   JetonRoute: typeof JetonRoute
+  KapsulRoute: typeof KapsulRoute
   ProfilRoute: typeof ProfilRoute
   YonetimRoute: typeof YonetimRoute
   DiziSlugRoute: typeof DiziSlugRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/jeton'
       fullPath: '/jeton'
       preLoaderRoute: typeof JetonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kapsul': {
+      id: '/kapsul'
+      path: '/kapsul'
+      fullPath: '/kapsul'
+      preLoaderRoute: typeof KapsulRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profil': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AyarlarRoute: AyarlarRoute,
   GirisRoute: GirisRoute,
   JetonRoute: JetonRoute,
+  KapsulRoute: KapsulRoute,
   ProfilRoute: ProfilRoute,
   YonetimRoute: YonetimRoute,
   DiziSlugRoute: DiziSlugRoute,

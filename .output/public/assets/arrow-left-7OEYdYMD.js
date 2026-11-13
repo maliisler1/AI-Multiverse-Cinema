@@ -1,0 +1,1 @@
+import{Y as e,Z as t,b as n,s as r}from"./AppShell-prMBUbLk.js";var i=t(e(),1);function a(e){let t=n();return i.useCallback(n=>t.navigate({...n,from:n.from??e?.from}),[e?.from,t])}var o=r(`arrow-left`,[[`path`,{d:`m12 19-7-7 7-7`,key:`1l729n`}],[`path`,{d:`M19 12H5`,key:`x3x0zl`}]]);export{a as n,o as t};
