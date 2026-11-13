@@ -93,5 +93,8 @@ export const series: Series[] = [
 
 export const seriesText = (s: Series, lang: Lang) => s.text[lang] ?? s.text.en!;
 
+/** Uygulamanın ana dizisi (The Chosen modeli: tek dizi, sonradan yeni diziler eklenebilir). */
+export const FEATURED_SLUG = "neo-genesis-2099";
+
 export const FREE_EPISODES = 2;
 export const EPISODE_COST = 10;

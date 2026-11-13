@@ -1,94 +1,97 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { Play } from "lucide-react";
-import { AppShell, TokenBadge } from "@/components/AppShell";
-import { seriesListQuery, seriesTextOf, type SeriesRow } from "@/lib/catalog";
-import { categories, type Category } from "@/lib/data";
+import { Clapperboard, Sparkles, UserRound } from "lucide-react";
+import { AppShell } from "@/components/AppShell";
+import { SeriesView } from "@/components/SeriesView";
+import { episodeListQuery, seriesListQuery, type SeriesRow } from "@/lib/catalog";
+import { FEATURED_SLUG } from "@/lib/data";
 import { BUNDLED_POSTERS } from "@/lib/posters";
 import { useT } from "@/lib/i18n";
 
+/** Ana dizi: önce sabit slug, yoksa ilk yayımlanmış dizi, yoksa listedeki ilk dizi. */
+export function pickFeatured(all: SeriesRow[]): SeriesRow | undefined {
+  return all.find((s) => s.slug === FEATURED_SLUG) ?? all.find((s) => s.status === "published") ?? all[0];
+}
+
+/** Ana dizi dışında yalnızca yayımlanmış diziler gösterilir; yeni dizi yayımlanınca kendiliğinden belirir. */
+export function otherPublished(all: SeriesRow[], featured: SeriesRow | undefined): SeriesRow[] {
+  return all.filter((s) => s.id !== featured?.id && s.status === "published");
+}
+
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(seriesListQuery),
+  loader: async ({ context }) => {
+    const all = await context.queryClient.ensureQueryData(seriesListQuery);
+    const f = pickFeatured(all);
+    if (f) await context.queryClient.ensureQueryData(episodeListQuery(f.id, f.slug));
+    return null;
+  },
   head: () => ({
     meta: [
-      { title: "AI Multiverse Cinema — Fütüristik Mini Diziler" },
-      { name: "description", content: "Bilim kurgu, komedi ve duygusal fütüristik mini dizileri izle." },
-      { property: "og:title", content: "AI Multiverse Cinema" },
-      { property: "og:description", content: "Bilim kurgu, komedi ve duygusal fütüristik mini diziler." },
-      { property: "og:type", content: "website" },
+      { title: "Neo-Genesis: 2300 — AI Multiverse Cinema" },
+      { name: "description", content: "Neo-Genesis: 2300 dizisinin tüm bölümlerini izle." },
+      { property: "og:title", content: "Neo-Genesis: 2300" },
+      { property: "og:description", content: "İnsanlığın son şansı, senin yüzünde saklı." },
+      { property: "og:type", content: "video.tv_show" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
 });
 
-function Poster({ s, className }: { s: SeriesRow; className?: string }) {
-  const src = BUNDLED_POSTERS[s.slug];
-  if (src) return <img src={src} alt={s.title} width={768} height={1152} loading="lazy" className={className} />;
-  return (
-    <div className={`${className} grid place-items-center bg-gradient-to-br from-primary/30 via-card to-accent/20`}>
-      <span className="px-3 text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">{s.title}</span>
-    </div>
-  );
-}
-
 function Index() {
   const { data: all } = useSuspenseQuery(seriesListQuery);
-  const { t, lang } = useT();
-  const [cat, setCat] = useState<Category>("scifi");
-  const featured = all.find((s) => s.category === cat) ?? all[0];
+  const { t } = useT();
+  const featured = pickFeatured(all);
   if (!featured) return <AppShell><p className="px-5 pt-10 text-sm text-muted-foreground">{t("loading")}</p></AppShell>;
-  const tx = seriesTextOf(featured, lang);
+  const others = otherPublished(all, featured);
 
   return (
-    <AppShell>
-      <header className="flex items-center justify-between px-5 pt-6">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">AI Multiverse</p>
-          <h1 className="text-xl font-bold text-neon">Cinema</h1>
-        </div>
-        <TokenBadge />
-      </header>
-
-      <div className="mt-5 flex gap-2 overflow-x-auto px-5">
-        {categories.map((c) => (
-          <button
-            key={c}
-            onClick={() => setCat(c)}
-            className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
-              c === cat ? "bg-neon text-primary-foreground shadow-neon" : "bg-secondary text-muted-foreground"
-            }`}
-          >
-            {t(`cat_${c}`)}
-          </button>
-        ))}
-      </div>
-
-      <Link to="/dizi/$slug" params={{ slug: featured.slug }} className="relative mx-5 mt-5 block overflow-hidden rounded-3xl shadow-neon animate-in fade-in" key={featured.id}>
-        <Poster s={featured} className="aspect-[3/4] w-full object-cover" />
-        <div className="absolute inset-0 bg-fade" />
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase text-accent-foreground">{t(`cat_${featured.category}`)}</span>
-          <h2 className="mt-3 text-2xl font-bold">{featured.title}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{tx.tagline}</p>
-          <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground">
-            <Play className="h-4 w-4 fill-current" /> {t("watch_now")}
-          </span>
-        </div>
-      </Link>
-
-      <section className="mt-8 px-5">
-        <h3 className="text-sm font-bold">{t("all_universes")}</h3>
-        <div className="mt-3 flex gap-3 overflow-x-auto pb-2">
-          {all.map((s) => (
-            <Link key={s.id} to="/dizi/$slug" params={{ slug: s.slug }} className="w-32 shrink-0">
-              <Poster s={s} className="aspect-[2/3] w-full rounded-2xl object-cover" />
-              <p className="mt-2 line-clamp-2 text-xs font-semibold">{s.title}</p>
-            </Link>
-          ))}
+    <SeriesView id={featured.id} slug={featured.slug} home>
+      <section className="mt-8">
+        <h2 className="text-sm font-bold">{t("extras")}</h2>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <Link to="/profil" className="rounded-2xl bg-card p-4">
+            <UserRound className="h-5 w-5 text-primary" />
+            <p className="mt-2 text-sm font-semibold">{t("nav_star")}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("extra_star")}</p>
+          </Link>
+          <div className="rounded-2xl bg-card p-4">
+            <Clapperboard className="h-5 w-5 text-primary" />
+            <p className="mt-2 text-sm font-semibold">{t("extra_bts")}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("coming_soon")}</p>
+          </div>
         </div>
       </section>
-    </AppShell>
+
+      <section className="mt-6 rounded-2xl border border-dashed p-4">
+        <p className="flex items-center gap-2 text-sm font-bold">
+          <Sparkles className="h-4 w-4 text-gold" /> {t("next_season")}
+        </p>
+        <p className="mt-1 text-xs text-muted-foreground">{t("next_season_note")}</p>
+      </section>
+
+      {others.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-sm font-bold">{t("more_series")}</h2>
+          <div className="mt-3 flex gap-3 overflow-x-auto pb-2">
+            {others.map((s) => {
+              const src = BUNDLED_POSTERS[s.slug];
+              return (
+                <Link key={s.id} to="/dizi/$slug" params={{ slug: s.slug }} className="w-32 shrink-0">
+                  {src ? (
+                    <img src={src} alt={s.title} width={768} height={1152} loading="lazy" className="aspect-[2/3] w-full rounded-2xl object-cover" />
+                  ) : (
+                    <div className="grid aspect-[2/3] w-full place-items-center rounded-2xl bg-gradient-to-br from-primary/30 via-card to-accent/20">
+                      <span className="px-3 text-center text-xs font-bold uppercase tracking-widest text-muted-foreground">{s.title}</span>
+                    </div>
+                  )}
+                  <p className="mt-2 line-clamp-2 text-xs font-semibold">{s.title}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+    </SeriesView>
   );
 }
