@@ -42,4 +42,6 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Google Play ile "Sezonu Satın Al" (tek seferlik ürün: sezon_1) -->
+    <uses-permission android:name="com.android.vending.BILLING" />
 </manifest>
