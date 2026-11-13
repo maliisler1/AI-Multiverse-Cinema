@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useAppState } from "@/lib/store";
-import { useT } from "@/lib/i18n";
+import { useT, type Lang } from "@/lib/i18n";
 import { AdPrivacyOptions } from "./AdPrivacyOptions";
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "./ui/alert-dialog";
 
-const labels = {
+const labels: Record<Lang, string[]> = {
   tr: ["Gizlilik ve uygulama hakkında", "Yerel verileri sil", "Bu cihazdaki demo ilerlemesi temizlenecek, bu cihazdaki oturum kapatılacak. Sunucudaki hesabınız ve verileriniz silinmez.", "İptal", "Verileri sil", "Yerel veriler temizlendi", "AdMob reklamları cihaz bilgileri, IP adresi ve reklam etkileşimlerini işleyebilir.", "Hesap ve sunucu verilerinin silinmesini iste"],
   en: ["Privacy and about", "Clear local data", "Clears demo progress on this device and signs out here. Your server account and data are not deleted.", "Cancel", "Clear data", "Local data cleared", "AdMob may process device information, IP addresses and ad interactions.", "Request account and server data deletion"],
   de: ["Datenschutz und Info", "Lokale Daten löschen", "Löscht Vorschauen und Demo-Fortschritt auf diesem Gerät und meldet Sie hier ab. Serverkonto und Serverdaten bleiben erhalten.", "Abbrechen", "Daten löschen", "Lokale Daten gelöscht"],
@@ -14,6 +14,11 @@ const labels = {
   pt: ["Privacidade e informações", "Apagar dados locais", "Apaga as prévias e o progresso neste dispositivo e encerra a sessão. A conta e os dados do servidor não são apagados.", "Cancelar", "Apagar dados", "Dados locais apagados"],
   ar: ["الخصوصية والمعلومات", "حذف البيانات المحلية", "يحذف المعاينات والتقدم على هذا الجهاز ويسجل الخروج. لا يحذف الحساب أو البيانات على الخادم.", "إلغاء", "حذف البيانات", "تم حذف البيانات المحلية"],
   hi: ["गोपनीयता और जानकारी", "स्थानीय डेटा मिटाएं", "इस डिवाइस के पूर्वावलोकन और प्रगति हटाता है और साइन आउट करता है। सर्वर खाता और डेटा नहीं हटते।", "रद्द करें", "डेटा मिटाएं", "स्थानीय डेटा मिटाया गया"],
+  it: ["Privacy e informazioni", "Cancella dati locali", "Cancella le anteprime e i progressi su questo dispositivo ed esce dall'account qui. L'account e i dati sul server non vengono eliminati.", "Annulla", "Cancella dati", "Dati locali cancellati"],
+  zh: ["隐私与关于", "清除本地数据", "将清除此设备上的预览和进度，并在此设备上退出登录。服务器上的账户和数据不会被删除。", "取消", "清除数据", "本地数据已清除"],
+  ja: ["プライバシーと情報", "ローカルデータを削除", "この端末のプレビューと進行状況を削除し、ここからログアウトします。サーバー上のアカウントとデータは削除されません。", "キャンセル", "データを削除", "ローカルデータを削除しました"],
+  ru: ["Конфиденциальность и информация", "Удалить локальные данные", "Удаляет превью и прогресс на этом устройстве и выполняет выход. Аккаунт и данные на сервере не удаляются.", "Отмена", "Удалить данные", "Локальные данные удалены"],
+  ko: ["개인정보 및 정보", "로컬 데이터 삭제", "이 기기의 미리보기와 진행 상황을 지우고 이 기기에서 로그아웃합니다. 서버의 계정과 데이터는 삭제되지 않습니다.", "취소", "데이터 삭제", "로컬 데이터가 삭제되었습니다"],
 };
 
 export function LocalPrivacy() {
