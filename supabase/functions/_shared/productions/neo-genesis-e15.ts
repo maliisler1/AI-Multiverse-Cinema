@@ -69,7 +69,7 @@ export const neoGenesisE15 = episode({
 
     // Sahne 7 — Ekip (2:15–2:40)
     [7, 10, true,
-      `peaceful, happy expression, standing on a grassy hilltop at sunset with ${RUN}, ${MERA} and ${NIL}, two suns setting`,
+      `peaceful, happy expression, standing on a grassy hilltop at sunset with a handsome young man with dark-blond hair, a woman with a short dark pixie cut and a little girl with auburn braids, two suns setting`,
       "Wind moves the grass and their hair, camera slowly orbits the group"],
     [7, 10, false,
       "Wide epic view of Elyra fully alive at sunset, floating islands, upward-flowing waterfalls, glowing crystal forests, two suns",
