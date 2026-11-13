@@ -50,11 +50,11 @@ function Index() {
       <section className="mt-8">
         <h2 className="text-sm font-bold">{t("extras")}</h2>
         <div className="mt-3 grid grid-cols-2 gap-3">
-          <Link to="/profil" className="rounded-2xl bg-card p-4">
+          <div className="rounded-2xl bg-card p-4">
             <UserRound className="h-5 w-5 text-primary" />
-            <p className="mt-2 text-sm font-semibold">{t("nav_star")}</p>
-            <p className="mt-1 text-xs text-muted-foreground">{t("extra_star")}</p>
-          </Link>
+            <p className="mt-2 text-sm font-semibold">{t("extra_cast")}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("coming_soon")}</p>
+          </div>
           <div className="rounded-2xl bg-card p-4">
             <Clapperboard className="h-5 w-5 text-primary" />
             <p className="mt-2 text-sm font-semibold">{t("extra_bts")}</p>

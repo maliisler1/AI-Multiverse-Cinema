@@ -54,13 +54,13 @@ const tr: Dict = {
   perk1: "Tüm dizilerde geçerli", perk2: "Jetonların süresi dolmaz", perk3: "Başrol Ol özelliğiyle uyumlu", perk4: "Güvenli ödeme",
   buy: "Satın Al", demo: "Demo modu: gerçek ödeme alınmaz.", added: "{n} jeton eklendi! (Demo)",
   pack_s: "Başlangıç", pack_m: "En Popüler", pack_l: "Evren Gezgini", pack_xl: "Multiverse VIP",
-  watch_ep1: "1. Bölümü İzle", extras: "Ekstralar", extra_star: "Fotoğrafını yükle, kahramanın yerine kendini gör.",
+  watch_ep1: "1. Bölümü İzle", extras: "Ekstralar", extra_cast: "Karakterleri Tanı",
   extra_bts: "Kamera Arkası", coming_soon: "Yakında", next_season: "Yeni sezon yolda",
   next_season_note: "Yeni bölümler ve yeni diziler yayımlandıkça burada görünecek.", more_series: "Diğer Diziler",
 };
 
 const en: Dict = {
-  watch_ep1: "Watch Episode 1", extras: "Extras", extra_star: "Upload your photo and see yourself as the hero.",
+  watch_ep1: "Watch Episode 1", extras: "Extras", extra_cast: "Meet the Characters",
   extra_bts: "Behind the Scenes", coming_soon: "Coming soon", next_season: "New season on the way",
   next_season_note: "New episodes and new series will appear here as they are released.", more_series: "More Series",
   nav_home: "Home", nav_star: "Star in It", nav_tokens: "Tokens", nav_settings: "Language",
