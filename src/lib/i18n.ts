@@ -1,6 +1,6 @@
 import { useAppState } from "@/lib/store";
 
-export const LANGS = ["tr", "en", "de", "fr", "es", "pt", "ar", "hi"] as const;
+export const LANGS = ["tr", "en", "de", "fr", "es", "pt", "ar", "hi", "it", "zh", "ja", "ru", "ko"] as const;
 export type Lang = (typeof LANGS)[number];
 
 export const LANG_NAMES: Record<Lang, string> = {
@@ -12,6 +12,11 @@ export const LANG_NAMES: Record<Lang, string> = {
   pt: "Português",
   ar: "العربية",
   hi: "हिन्दी",
+  it: "Italiano",
+  zh: "中文",
+  ja: "日本語",
+  ru: "Русский",
+  ko: "한국어",
 };
 
 export const RTL: Lang[] = ["ar"];
@@ -245,7 +250,142 @@ const hi: Dict = {
   pack_s: "स्टार्टर", pack_m: "सबसे लोकप्रिय", pack_l: "ब्रह्मांड यात्री", pack_xl: "Multiverse VIP",
 };
 
-const dicts: Record<Lang, Dict> = { tr, en, de, fr, es, pt, ar, hi };
+const it: Dict = {
+  nav_home: "Home", nav_star: "Protagonista", nav_tokens: "Gettoni", nav_settings: "Lingua",
+  cat_scifi: "Fantascienza", cat_comedy: "Commedia", cat_romance: "Drammatico",
+  watch_now: "Guarda ora", all_universes: "Tutti gli universi", episodes: "Episodi", episode: "Episodio", min: "min",
+  playing: "Riproduzione episodio {n}…", unlocked: "Episodio {n} sbloccato!", not_enough: "Gettoni insufficienti. Acquistane altri.",
+  buy_q: "Gettoni finiti?", buy_cta: "Aggiungi gettoni demo", back: "Indietro",
+  lang_box: "Opzioni lingua", audio: "Audio", subtitles: "Sottotitoli",
+  st_ready: "Pronto", st_planned: "In produzione", st_none: "Non ancora",
+  dub_missing: "Il doppiaggio in {lang} non è ancora pronto. Apparirà qui appena disponibile; nel frattempo puoi guardare con l'audio disponibile e i sottotitoli in {lang}.",
+  sub_missing: "I sottotitoli in {lang} non sono ancora pronti.",
+  no_video: "I video di questa serie non sono ancora online. L'elenco degli episodi è un'anteprima.",
+  settings_title: "Impostazioni lingua", ui_lang: "Lingua dell'app", audio_lang: "Lingua audio", sub_lang: "Lingua sottotitoli",
+  sub_off: "Disattivati",
+  settings_note: "Puoi scegliere le tre lingue separatamente. Se il doppiaggio non è disponibile nella tua lingua, te lo diremo chiaramente e ti proporremo i sottotitoli.",
+  suggest_title: "Scegli una lingua", suggest_body: "La lingua del tuo dispositivo è {lang}. Vuoi usare l'app in questa lingua?",
+  suggest_yes: "Sì, {lang}", suggest_other: "Scegli un'altra",
+  star_1: "Diventa", star_2: "protagonista", star_sub: "Carica una foto del viso e l'IA ti trasformerà nell'eroe della serie.",
+  upload: "Carica foto", change: "Cambia foto", delete_photo: "Elimina foto", char_name: "Nome del tuo personaggio",
+  char_ph: "Es. Capitano Nova", preview: "Anteprima protagonista", you: "Tu", img_err: "Scegli un file immagine.",
+  photo_ok: "Foto caricata! Ora sei tu il protagonista.",
+  shop_1: "Negozio", shop_2: "gettoni", shop_sub: "Ogni episodio bloccato costa 10 gettoni. Scegli un pacchetto e continua a guardare.",
+  popular: "POPOLARE", bonus: "bonus", perks: "Vantaggi del pacchetto",
+  perk1: "Valido su tutte le serie", perk2: "I gettoni non scadono", perk3: "Compatibile con Protagonista", perk4: "Pagamento sicuro",
+  buy: "Acquista", demo: "Modalità demo: nessun pagamento reale.", added: "{n} gettoni aggiunti! (Demo)",
+  pack_s: "Base", pack_m: "Il più popolare", pack_l: "Esploratore", pack_xl: "Multiverse VIP",
+};
+
+const zh: Dict = {
+  nav_home: "首页", nav_star: "当主角", nav_tokens: "代币", nav_settings: "语言",
+  cat_scifi: "科幻", cat_comedy: "喜剧", cat_romance: "剧情",
+  watch_now: "立即观看", all_universes: "全部宇宙", episodes: "剧集", episode: "集", min: "分钟",
+  playing: "正在播放第 {n} 集…", unlocked: "第 {n} 集已解锁！", not_enough: "代币不足，请购买更多。",
+  buy_q: "代币用完了？", buy_cta: "添加演示代币", back: "返回",
+  lang_box: "语言选项", audio: "配音", subtitles: "字幕",
+  st_ready: "已就绪", st_planned: "制作中", st_none: "暂无",
+  dub_missing: "{lang}配音尚未完成。完成后会显示在这里；在此期间，你可以使用现有配音并选择{lang}字幕观看。",
+  sub_missing: "{lang}字幕尚未完成。",
+  no_video: "本剧视频尚未上线，剧集列表仅供预览。",
+  settings_title: "语言设置", ui_lang: "应用语言", audio_lang: "配音语言", sub_lang: "字幕语言",
+  sub_off: "关闭",
+  settings_note: "三种语言可以分别选择。如果你的语言暂无配音，我们会明确提示并提供字幕。",
+  suggest_title: "选择语言", suggest_body: "你的设备语言是{lang}。要以此语言使用应用吗？",
+  suggest_yes: "是，{lang}", suggest_other: "选择其他语言",
+  star_1: "当", star_2: "主角", star_sub: "上传一张面部照片，让 AI 把你变成剧中的主角。",
+  upload: "上传照片", change: "更换照片", delete_photo: "删除照片", char_name: "你的角色名",
+  char_ph: "例如：诺瓦舰长", preview: "主角预览", you: "你", img_err: "请选择图片文件。",
+  photo_ok: "照片已上传！现在你就是主角。",
+  shop_1: "代币", shop_2: "商店", shop_sub: "每个锁定剧集需要 10 个代币。选择套餐，继续观看。",
+  popular: "热门", bonus: "赠送", perks: "套餐优势",
+  perk1: "适用于所有剧集", perk2: "代币永不过期", perk3: "支持“当主角”功能", perk4: "安全支付",
+  buy: "购买", demo: "演示模式：不会实际扣款。", added: "已添加 {n} 个代币！（演示）",
+  pack_s: "入门", pack_m: "最受欢迎", pack_l: "宇宙探索者", pack_xl: "多元宇宙 VIP",
+};
+
+const ja: Dict = {
+  nav_home: "ホーム", nav_star: "主役になる", nav_tokens: "トークン", nav_settings: "言語",
+  cat_scifi: "SF", cat_comedy: "コメディ", cat_romance: "ドラマ",
+  watch_now: "今すぐ見る", all_universes: "すべての宇宙", episodes: "エピソード", episode: "エピソード", min: "分",
+  playing: "第{n}話を再生中…", unlocked: "第{n}話のロックを解除しました！", not_enough: "トークンが足りません。購入してください。",
+  buy_q: "トークンが足りない？", buy_cta: "デモトークンを追加", back: "戻る",
+  lang_box: "言語オプション", audio: "音声", subtitles: "字幕",
+  st_ready: "準備完了", st_planned: "制作中", st_none: "未対応",
+  dub_missing: "{lang}の吹き替えはまだ準備中です。完成するとここに表示されます。それまでは既存の音声と{lang}字幕でご覧いただけます。",
+  sub_missing: "{lang}字幕はまだ準備中です。",
+  no_video: "このシリーズの動画はまだ公開されていません。エピソード一覧はプレビューです。",
+  settings_title: "言語設定", ui_lang: "アプリの言語", audio_lang: "音声の言語", sub_lang: "字幕の言語",
+  sub_off: "オフ",
+  settings_note: "3つの言語はそれぞれ選べます。お使いの言語の吹き替えがない場合は、はっきりお知らせし字幕をご用意します。",
+  suggest_title: "言語を選択", suggest_body: "端末の言語は{lang}です。この言語でアプリを使いますか？",
+  suggest_yes: "はい、{lang}", suggest_other: "別の言語を選ぶ",
+  star_1: "主役に", star_2: "なる", star_sub: "顔写真をアップロードすると、AIがあなたをシリーズの主人公にします。",
+  upload: "写真をアップロード", change: "写真を変更", delete_photo: "写真を削除", char_name: "キャラクター名",
+  char_ph: "例：キャプテン・ノヴァ", preview: "主役プレビュー", you: "あなた", img_err: "画像ファイルを選んでください。",
+  photo_ok: "写真をアップロードしました！あなたが主役です。",
+  shop_1: "トークン", shop_2: "ストア", shop_sub: "ロックされたエピソードは1話10トークンです。パックを選んで続きを楽しもう。",
+  popular: "人気", bonus: "ボーナス", perks: "パックの特典",
+  perk1: "すべてのシリーズで使える", perk2: "トークンに有効期限なし", perk3: "「主役になる」に対応", perk4: "安全な支払い",
+  buy: "購入", demo: "デモモード：実際の支払いは発生しません。", added: "{n}トークンを追加しました！（デモ）",
+  pack_s: "スターター", pack_m: "一番人気", pack_l: "宇宙探検家", pack_xl: "マルチバースVIP",
+};
+
+const ru: Dict = {
+  nav_home: "Главная", nav_star: "Стань героем", nav_tokens: "Токены", nav_settings: "Язык",
+  cat_scifi: "Фантастика", cat_comedy: "Комедия", cat_romance: "Драма",
+  watch_now: "Смотреть", all_universes: "Все вселенные", episodes: "Серии", episode: "Серия", min: "мин",
+  playing: "Воспроизводится серия {n}…", unlocked: "Серия {n} открыта!", not_enough: "Недостаточно токенов. Пожалуйста, купите ещё.",
+  buy_q: "Закончились токены?", buy_cta: "Добавить демо-токены", back: "Назад",
+  lang_box: "Языковые настройки", audio: "Озвучка", subtitles: "Субтитры",
+  st_ready: "Готово", st_planned: "В работе", st_none: "Пока нет",
+  dub_missing: "Озвучка на языке «{lang}» ещё не готова. Она появится здесь, как только будет готова; пока можно смотреть с доступной озвучкой и субтитрами на языке «{lang}».",
+  sub_missing: "Субтитры на языке «{lang}» ещё не готовы.",
+  no_video: "Видео этого сериала ещё не опубликованы. Список серий — предварительный просмотр.",
+  settings_title: "Настройки языка", ui_lang: "Язык приложения", audio_lang: "Язык озвучки", sub_lang: "Язык субтитров",
+  sub_off: "Выкл.",
+  settings_note: "Все три языка можно выбрать отдельно. Если озвучки на вашем языке нет, мы честно сообщим об этом и предложим субтитры.",
+  suggest_title: "Выберите язык", suggest_body: "Язык вашего устройства — {lang}. Использовать приложение на этом языке?",
+  suggest_yes: "Да, {lang}", suggest_other: "Выбрать другой",
+  star_1: "Стань", star_2: "героем", star_sub: "Загрузите фото лица, и ИИ сделает вас героем сериала.",
+  upload: "Загрузить фото", change: "Сменить фото", delete_photo: "Удалить фото", char_name: "Имя вашего персонажа",
+  char_ph: "Напр.: Капитан Нова", preview: "Предпросмотр героя", you: "Вы", img_err: "Выберите файл изображения.",
+  photo_ok: "Фото загружено! Теперь главный герой — вы.",
+  shop_1: "Магазин", shop_2: "токенов", shop_sub: "Каждая закрытая серия стоит 10 токенов. Выберите пакет и смотрите дальше.",
+  popular: "ПОПУЛЯРНО", bonus: "бонус", perks: "Преимущества пакета",
+  perk1: "Действует во всех сериалах", perk2: "Токены не сгорают", perk3: "Работает с «Стань героем»", perk4: "Безопасная оплата",
+  buy: "Купить", demo: "Демо-режим: реальная оплата не взимается.", added: "Добавлено токенов: {n}! (Демо)",
+  pack_s: "Стартовый", pack_m: "Самый популярный", pack_l: "Исследователь вселенной", pack_xl: "Multiverse VIP",
+};
+
+const ko: Dict = {
+  nav_home: "홈", nav_star: "주인공 되기", nav_tokens: "토큰", nav_settings: "언어",
+  cat_scifi: "SF", cat_comedy: "코미디", cat_romance: "드라마",
+  watch_now: "지금 보기", all_universes: "모든 유니버스", episodes: "에피소드", episode: "에피소드", min: "분",
+  playing: "{n}화 재생 중…", unlocked: "{n}화가 잠금 해제되었습니다!", not_enough: "토큰이 부족합니다. 토큰을 구매해 주세요.",
+  buy_q: "토큰이 부족한가요?", buy_cta: "데모 토큰 추가", back: "뒤로",
+  lang_box: "언어 옵션", audio: "음성", subtitles: "자막",
+  st_ready: "준비됨", st_planned: "제작 중", st_none: "아직 없음",
+  dub_missing: "{lang} 더빙은 아직 준비되지 않았습니다. 준비되면 여기에 표시됩니다. 그동안 기존 음성과 {lang} 자막으로 시청할 수 있습니다.",
+  sub_missing: "{lang} 자막은 아직 준비되지 않았습니다.",
+  no_video: "이 시리즈의 영상은 아직 공개되지 않았습니다. 에피소드 목록은 미리보기입니다.",
+  settings_title: "언어 설정", ui_lang: "앱 언어", audio_lang: "음성 언어", sub_lang: "자막 언어",
+  sub_off: "끄기",
+  settings_note: "세 가지 언어를 각각 선택할 수 있습니다. 사용 중인 언어의 더빙이 없으면 분명히 알려 드리고 자막을 제공합니다.",
+  suggest_title: "언어 선택", suggest_body: "기기 언어가 {lang}입니다. 이 언어로 앱을 사용하시겠어요?",
+  suggest_yes: "네, {lang}", suggest_other: "다른 언어 선택",
+  star_1: "주인공", star_2: "되기", star_sub: "얼굴 사진을 올리면 AI가 당신을 시리즈의 주인공으로 만들어 드립니다.",
+  upload: "사진 올리기", change: "사진 변경", delete_photo: "사진 삭제", char_name: "캐릭터 이름",
+  char_ph: "예: 캡틴 노바", preview: "주인공 미리보기", you: "나", img_err: "이미지 파일을 선택해 주세요.",
+  photo_ok: "사진이 업로드되었습니다! 이제 당신이 주인공입니다.",
+  shop_1: "토큰", shop_2: "상점", shop_sub: "잠긴 에피소드는 회당 10토큰입니다. 패키지를 골라 계속 시청하세요.",
+  popular: "인기", bonus: "보너스", perks: "패키지 혜택",
+  perk1: "모든 시리즈에서 사용 가능", perk2: "토큰 유효기간 없음", perk3: "주인공 되기 기능 지원", perk4: "안전한 결제",
+  buy: "구매", demo: "데모 모드: 실제 결제가 이루어지지 않습니다.", added: "{n} 토큰이 추가되었습니다! (데모)",
+  pack_s: "스타터", pack_m: "가장 인기", pack_l: "유니버스 탐험가", pack_xl: "멀티버스 VIP",
+};
+
+const dicts: Record<Lang, Dict> = { tr, en, de, fr, es, pt, ar, hi, it, zh, ja, ru, ko };
 
 export function translate(lang: Lang, key: string, vars?: Record<string, string | number>) {
   let s = dicts[lang]?.[key] ?? dicts.en[key] ?? key;
