@@ -1,8 +1,8 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 8 "Kaçış" (180 sn).
- * Ayşe, Nil'i kapıp kuleden kaçar; cam koridorlarda Silgilerle kovalamaca. Rün'ü uyandırır ama
+ * AyShe, Nil'i kapıp kuleden kaçar; cam koridorlarda Silgilerle kovalamaca. Rün'ü uyandırır ama
  * Rün gelmek istemez ve kalır. Nil'in gizli ışık yelkenlisiyle çatıdan atlarlar; bir Silgi'nin
- * beyaz ışığı Pusula'yı vurur. Son: karda Pusula'nın ışığı Ayşe'nin ellerinde söner.
+ * beyaz ışığı Pusula'yı vurur. Son: karda Pusula'nın ışığı AyShe'nin ellerinde söner.
  */
 import { ASTER_GRADE, NIL, PUSULA, RUN, SILGI, episode, t } from "./neo-genesis-cast.ts";
 
@@ -145,14 +145,14 @@ export const neoGenesisE8 = episode({
       "رون! تعال! أرجوك!",
       "रून! आओ! प्लीज़!") },
     { scene: 5, speaker: "run", at: 96, tag: "pained", text: t(
-      "Ben kalıyorum, Ayşe. Hatırlamak istemiyorum. Artık değil.",
-      "I'm staying, Ayşe. I don't want to remember. Not anymore.",
-      "Ich bleibe, Ayşe. Ich will mich nicht erinnern. Nicht mehr.",
-      "Je reste, Ayşe. Je ne veux pas me souvenir. Plus maintenant.",
-      "Me quedo, Ayşe. No quiero recordar. Ya no.",
-      "Eu vou ficar, Ayşe. Não quero lembrar. Não mais.",
-      "سأبقى يا آيشه. لا أريد أن أتذكر. ليس بعد الآن.",
-      "मैं यहीं रहूँगा, आयशे। मुझे याद नहीं करना। अब और नहीं।") },
+      "Ben kalıyorum, AyShe. Hatırlamak istemiyorum. Artık değil.",
+      "I'm staying, AyShe. I don't want to remember. Not anymore.",
+      "Ich bleibe, AyShe. Ich will mich nicht erinnern. Nicht mehr.",
+      "Je reste, AyShe. Je ne veux pas me souvenir. Plus maintenant.",
+      "Me quedo, AyShe. No quiero recordar. Ya no.",
+      "Eu vou ficar, AyShe. Não quero lembrar. Não mais.",
+      "سأبقى يا AyShe. لا أريد أن أتذكر. ليس بعد الآن.",
+      "मैं यहीं रहूँगा, AyShe। मुझे याद नहीं करना। अब और नहीं।") },
     { scene: 6, speaker: "ayshe", at: 112, tag: "shouts", text: t(
       "Sıkı tutun!",
       "Hold on tight!",
@@ -172,14 +172,14 @@ export const neoGenesisE8 = episode({
       "البوصلة!",
       "कंपास!") },
     { scene: 7, speaker: "narrator", at: 137, text: t(
-      "Aster arkada kalıyordu. Ama Ayşe'nin bir parçası orada kalmıştı.",
-      "Aster was falling behind. But a part of Ayşe had stayed there.",
-      "Aster blieb zurück. Doch ein Teil von Ayşe war dort geblieben.",
-      "Aster s'éloignait. Mais une part d'Ayşe était restée là-bas.",
-      "Aster quedaba atrás. Pero una parte de Ayşe se había quedado allí.",
-      "Aster ficava para trás. Mas uma parte de Ayşe tinha ficado lá.",
-      "كانت أستر تبتعد. لكن جزءًا من آيشه بقي هناك.",
-      "एस्टर पीछे छूट रहा था। पर आयशे का एक हिस्सा वहीं रह गया था।") },
+      "Aster arkada kalıyordu. Ama AyShe'nin bir parçası orada kalmıştı.",
+      "Aster was falling behind. But a part of AyShe had stayed there.",
+      "Aster blieb zurück. Doch ein Teil von AyShe war dort geblieben.",
+      "Aster s'éloignait. Mais une part d'AyShe était restée là-bas.",
+      "Aster quedaba atrás. Pero una parte de AyShe se había quedado allí.",
+      "Aster ficava para trás. Mas uma parte de AyShe tinha ficado lá.",
+      "كانت أستر تبتعد. لكن جزءًا من AyShe بقي هناك.",
+      "एस्टर पीछे छूट रहा था। पर AyShe का एक हिस्सा वहीं रह गया था।") },
     { scene: 7, speaker: "nil", at: 156, tag: "quietly", text: t(
       "Onu geri alacağız, değil mi?",
       "We'll get him back, won't we?",
@@ -199,14 +199,14 @@ export const neoGenesisE8 = episode({
       "يا بوصلة، انظري إليّ. لا تذهبي. أرجوكِ لا تذهبي.",
       "कंपास, मेरी तरफ़ देखो। मत जाओ। प्लीज़ मत जाओ।") },
     { scene: 8, speaker: "pusula", at: 171, tag: "fading", text: t(
-      "Senin anıların... bende saklı... Ayşe...",
-      "Your memories... are hidden in me... Ayşe...",
-      "Deine Erinnerungen... sind in mir versteckt... Ayşe...",
-      "Tes souvenirs... sont cachés en moi... Ayşe...",
-      "Tus recuerdos... están guardados en mí... Ayşe...",
-      "Suas lembranças... estão guardadas em mim... Ayşe...",
-      "ذكرياتكِ... مخبأة في داخلي... آيشه...",
-      "तुम्हारी यादें... मेरे अंदर छिपी हैं... आयशे...") },
+      "Senin anıların... bende saklı... AyShe...",
+      "Your memories... are hidden in me... AyShe...",
+      "Deine Erinnerungen... sind in mir versteckt... AyShe...",
+      "Tes souvenirs... sont cachés en moi... AyShe...",
+      "Tus recuerdos... están guardados en mí... AyShe...",
+      "Suas lembranças... estão guardadas em mim... AyShe...",
+      "ذكرياتكِ... مخبأة في داخلي... AyShe...",
+      "तुम्हारी यादें... मेरे अंदर छिपी हैं... AyShe...") },
   ],
   next: { n: 9, title: t("Kod Adı: Genesis", "Codename: Genesis", "Codename: Genesis", "Nom de code : Genesis", "Nombre clave: Genesis", "Codinome: Genesis", "الاسم الرمزي: جينيسيس", "कोडनेम: जेनेसिस") },
 });

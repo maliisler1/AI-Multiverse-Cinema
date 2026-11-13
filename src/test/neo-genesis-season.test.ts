@@ -33,9 +33,9 @@ describe.each(season.map((p) => [p.episode, p] as const))("Neo-Genesis bölüm %
     }
   });
 
-  it("Ayşe adı tutarlı, ekranda yazı yok, komutlar sınırda", () => {
+  it("AyShe adı tutarlı, ekranda yazı yok, komutlar sınırda", () => {
     const all = JSON.stringify(p);
-    expect(all).not.toMatch(/AyShe|Elira/);
+    expect(all).not.toMatch(/Ayşe|Ayse\b|Elira/);
     for (const s of Object.values(p.speakers)) expect(VOICE_PRESETS).toContain(s!.defaultVoice);
     for (const c of p.clips) {
       expect(keyframePrompt(p, c).length, c.key).toBeLessThanOrEqual(1000);

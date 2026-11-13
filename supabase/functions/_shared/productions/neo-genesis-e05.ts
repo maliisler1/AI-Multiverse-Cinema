@@ -1,7 +1,7 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 5 "Buzul Geçidi" (180 sn).
- * Mera'nın izini süren Ayşe ve Rün kar fırtınasında buzul geçidine girer. Buz köprü çöker,
- * Rün bir yarığa düşer. Ayşe aşağı iner, avucunun ışığıyla buzda basamaklar eritip onu çıkarır.
+ * Mera'nın izini süren AyShe ve Rün kar fırtınasında buzul geçidine girer. Buz köprü çöker,
+ * Rün bir yarığa düşer. AyShe aşağı iner, avucunun ışığıyla buzda basamaklar eritip onu çıkarır.
  * Rün kayıp bir kız kardeşi hatırlar. Son: fırtına dağılır ve buz camdan şehir Aster görünür.
  */
 import { PUSULA, RUN, episode, t } from "./neo-genesis-cast.ts";
@@ -188,14 +188,14 @@ export const neoGenesisE5 = episode({
       "درج في الجليد... حسنًا، أعترف: هذا أفضل من سفينة.",
       "बर्फ़ में सीढ़ियाँ... ठीक है, मान लिया: ये जहाज़ से बेहतर है।") },
     { scene: 7, speaker: "run", at: 147, tag: "breathless", text: t(
-      "Teşekkür ederim, Ayşe. Gerçekten.",
-      "Thank you, Ayşe. Really.",
-      "Danke, Ayşe. Wirklich.",
-      "Merci, Ayşe. Vraiment.",
-      "Gracias, Ayşe. De verdad.",
-      "Obrigado, Ayşe. De verdade.",
-      "شكرًا يا آيشه. حقًا.",
-      "शुक्रिया, आयशे। सच में।") },
+      "Teşekkür ederim, AyShe. Gerçekten.",
+      "Thank you, AyShe. Really.",
+      "Danke, AyShe. Wirklich.",
+      "Merci, AyShe. Vraiment.",
+      "Gracias, AyShe. De verdad.",
+      "Obrigado, AyShe. De verdade.",
+      "شكرًا يا AyShe. حقًا.",
+      "शुक्रिया, AyShe। सच में।") },
     { scene: 8, speaker: "pusula", at: 163, tag: "whispers", text: t(
       "Aster. Mera'nın izleri tam oraya gidiyor.",
       "Aster. Mera's footprints lead right there.",

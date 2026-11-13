@@ -57,7 +57,7 @@ export const TARAN =
 /** Bölümler arasında aynı kalan alanlar. */
 export const base = {
   seriesSlug: SERIES_SLUG,
-  faceTag: "Ayse",
+  faceTag: "AyShe",
   characterLook: AYSE_LOOK,
   characterShort: AYSE_SHORT,
   style: STYLE,
@@ -66,7 +66,7 @@ export const base = {
 /** Varsayılan sesler (Türkçe seslendirmede yerli sesler ayrıca seçilir). */
 export const VOICES = {
   narrator: { name: "Anlatıcı", defaultVoice: "Vincent" },
-  ayshe: { name: "Ayşe", defaultVoice: "Maya" },
+  ayshe: { name: "AyShe", defaultVoice: "Maya" },
   pusula: { name: "Pusula", defaultVoice: "Serene" },
   taran: { name: "Bekçi Taran", defaultVoice: "Bernard" },
   run: { name: "Rün", defaultVoice: "Noah" },

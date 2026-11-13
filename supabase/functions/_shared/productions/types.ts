@@ -9,7 +9,7 @@
 export const PRODUCTION_LANGS = ["tr", "en", "de", "fr", "es", "pt", "ar", "hi"] as const;
 export type ProductionLang = (typeof PRODUCTION_LANGS)[number];
 
-/** Konuşan karakterler. "ayshe" anahtarı eski kayıtlar bozulmasın diye korunur; ekrandaki ad "Ayşe". */
+/** Konuşan karakterler. Başrolün adı "AyShe". */
 export type SpeakerId = "narrator" | "ayshe" | "pusula" | "taran" | "run" | "vael" | "nil" | "mera";
 
 /** Runway'in hazır ses listesi (SDK 4.22 text_to_speech presetId). */

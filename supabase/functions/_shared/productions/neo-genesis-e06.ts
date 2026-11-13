@@ -1,7 +1,7 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 6 "Megakentin Kalbi" (180 sn).
- * Ayşe ve Rün buz camdan şehir Aster'e girer. Vael onları sıcak karşılar; şehir kusursuz,
- * herkes sakin. Küçük Nil Pusula'ya bayılır. Mera da buradadır ama Ayşe'yi tanımaz.
+ * AyShe ve Rün buz camdan şehir Aster'e girer. Vael onları sıcak karşılar; şehir kusursuz,
+ * herkes sakin. Küçük Nil Pusula'ya bayılır. Mera da buradadır ama AyShe'yi tanımaz.
  * Rün huzura kapılır. Son: Vael yaklaşınca Pusula titreyip söner.
  */
 import { ASTER_GRADE, MERA, NIL, PUSULA, RUN, SILGI, VAEL, episode, t } from "./neo-genesis-cast.ts";
@@ -116,14 +116,14 @@ export const neoGenesisE6 = episode({
       "الجميع يبتسمون. لكن لا أحد يبدو سعيدًا حقًا.",
       "सब मुस्कुरा रहे हैं। पर कोई सच में ख़ुश नहीं दिखता।") },
     { scene: 3, speaker: "vael", at: 56, tag: "warmly", text: t(
-      "Ayşe. Sonunda. Seni çok uzun zamandır bekliyordum.",
-      "Ayşe. At last. I've been waiting for you for a very long time.",
-      "Ayşe. Endlich. Ich habe sehr lange auf dich gewartet.",
-      "Ayşe. Enfin. Je t'attends depuis très longtemps.",
-      "Ayşe. Por fin. Te he esperado muchísimo tiempo.",
-      "Ayşe. Finalmente. Eu esperei por você por muito tempo.",
-      "آيشه. أخيرًا. كنت أنتظركِ منذ وقت طويل جدًا.",
-      "आयशे। आख़िरकार। मैं बहुत लंबे समय से तुम्हारा इंतज़ार कर रहा था।") },
+      "AyShe. Sonunda. Seni çok uzun zamandır bekliyordum.",
+      "AyShe. At last. I've been waiting for you for a very long time.",
+      "AyShe. Endlich. Ich habe sehr lange auf dich gewartet.",
+      "AyShe. Enfin. Je t'attends depuis très longtemps.",
+      "AyShe. Por fin. Te he esperado muchísimo tiempo.",
+      "AyShe. Finalmente. Eu esperei por você por muito tempo.",
+      "AyShe. أخيرًا. كنت أنتظركِ منذ وقت طويل جدًا.",
+      "AyShe। आख़िरकार। मैं बहुत लंबे समय से तुम्हारा इंतज़ार कर रहा था।") },
     { scene: 4, speaker: "ayshe", at: 67, tag: "guarded", text: t(
       "Beni tanıyor musun? Sen Vael'sin, değil mi?",
       "You know me? You're Vael, aren't you?",
@@ -170,14 +170,14 @@ export const neoGenesisE6 = episode({
       "أنا البوصلة. ونعم، إن استطعتِ الإمساك بي!",
       "मैं कंपास हूँ। और हाँ, अगर तुम मुझे पकड़ सको!") },
     { scene: 6, speaker: "ayshe", at: 120, tag: "hopeful", text: t(
-      "Mera! İyisin! Benim, Ayşe!",
-      "Mera! You're okay! It's me, Ayşe!",
-      "Mera! Dir geht's gut! Ich bin's, Ayşe!",
-      "Mera ! Tu vas bien ! C'est moi, Ayşe !",
-      "¡Mera! ¡Estás bien! ¡Soy yo, Ayşe!",
-      "Mera! Você está bem! Sou eu, a Ayşe!",
-      "ميرا! أنتِ بخير! إنها أنا، آيشه!",
-      "मेरा! तुम ठीक हो! मैं हूँ, आयशे!") },
+      "Mera! İyisin! Benim, AyShe!",
+      "Mera! You're okay! It's me, AyShe!",
+      "Mera! Dir geht's gut! Ich bin's, AyShe!",
+      "Mera ! Tu vas bien ! C'est moi, AyShe !",
+      "¡Mera! ¡Estás bien! ¡Soy yo, AyShe!",
+      "Mera! Você está bem! Sou eu, a AyShe!",
+      "ميرا! أنتِ بخير! إنها أنا، AyShe!",
+      "मेरा! तुम ठीक हो! मैं हूँ, AyShe!") },
     { scene: 6, speaker: "mera", at: 131, tag: "politely", text: t(
       "Özür dilerim. Tanışıyor muyuz?",
       "I'm sorry. Have we met?",
@@ -188,14 +188,14 @@ export const neoGenesisE6 = episode({
       "آسفة. هل التقينا من قبل؟",
       "माफ़ कीजिए। क्या हम मिले हैं?") },
     { scene: 7, speaker: "run", at: 138, tag: "sleepy", text: t(
-      "Belki de haklıdır, Ayşe. Belki unutmak... o kadar da kötü değildir.",
-      "Maybe he's right, Ayşe. Maybe forgetting... isn't so bad.",
-      "Vielleicht hat er recht, Ayşe. Vielleicht ist Vergessen... gar nicht so schlimm.",
-      "Il a peut-être raison, Ayşe. Peut-être qu'oublier... ce n'est pas si mal.",
-      "Quizá tenga razón, Ayşe. Quizá olvidar... no sea tan malo.",
-      "Talvez ele tenha razão, Ayşe. Talvez esquecer... não seja tão ruim.",
-      "ربما هو محق يا آيشه. ربما النسيان... ليس سيئًا إلى هذا الحد.",
-      "शायद वह सही है, आयशे। शायद भूल जाना... इतना बुरा नहीं।") },
+      "Belki de haklıdır, AyShe. Belki unutmak... o kadar da kötü değildir.",
+      "Maybe he's right, AyShe. Maybe forgetting... isn't so bad.",
+      "Vielleicht hat er recht, AyShe. Vielleicht ist Vergessen... gar nicht so schlimm.",
+      "Il a peut-être raison, AyShe. Peut-être qu'oublier... ce n'est pas si mal.",
+      "Quizá tenga razón, AyShe. Quizá olvidar... no sea tan malo.",
+      "Talvez ele tenha razão, AyShe. Talvez esquecer... não seja tão ruim.",
+      "ربما هو محق يا AyShe. ربما النسيان... ليس سيئًا إلى هذا الحد.",
+      "शायद वह सही है, AyShe। शायद भूल जाना... इतना बुरा नहीं।") },
     { scene: 7, speaker: "ayshe", at: 150, tag: "quietly", text: t(
       "Bu ışıklar nereye gidiyor?",
       "Where are those lights going?",
@@ -206,14 +206,14 @@ export const neoGenesisE6 = episode({
       "إلى أين تذهب هذه الأضواء؟",
       "ये रोशनियाँ कहाँ जा रही हैं?") },
     { scene: 8, speaker: "pusula", at: 162, tag: "glitching", text: t(
-      "Ayşe... ondan... uzak dur...",
-      "Ayşe... stay away... from him...",
-      "Ayşe... halt dich... von ihm fern...",
-      "Ayşe... éloigne-toi... de lui...",
-      "Ayşe... aléjate... de él...",
-      "Ayşe... fica longe... dele...",
-      "آيشه... ابتعدي... عنه...",
-      "आयशे... उससे... दूर रहो...") },
+      "AyShe... ondan... uzak dur...",
+      "AyShe... stay away... from him...",
+      "AyShe... halt dich... von ihm fern...",
+      "AyShe... éloigne-toi... de lui...",
+      "AyShe... aléjate... de él...",
+      "AyShe... fica longe... dele...",
+      "AyShe... ابتعدي... عنه...",
+      "AyShe... उससे... दूर रहो...") },
     { scene: 8, speaker: "vael", at: 171, tag: "calm", text: t(
       "Korkma. Burada her şey bir süre sonra susar.",
       "Don't be afraid. Here, everything grows quiet in time.",

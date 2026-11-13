@@ -1,8 +1,8 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 4 "Kristal Göç" (180 sn).
- * Kristal orman bir dalga gibi yer değiştirir; Ayşe, Rün ve baygın Mera kristal seline kapılmamak
+ * Kristal orman bir dalga gibi yer değiştirir; AyShe, Rün ve baygın Mera kristal seline kapılmamak
  * için kaçar. Havada süzülen ışık canlıları Süzüler onları güvenli bir sırta taşır.
- * Rün eve dönmek ister, Ayşe kalmak. Mera, Vael'in adını söyler.
+ * Rün eve dönmek ister, AyShe kalmak. Mera, Vael'in adını söyler.
  * Son: Mera'nın gözleri yeniden boşalır ve kendi kendine kuzeye yürür.
  */
 import { MERA, PUSULA, RUN, episode, t } from "./neo-genesis-cast.ts";
@@ -101,14 +101,14 @@ export const neoGenesisE4 = episode({
       "لا شيء على إليرا يبقى في مكانه. ولا حتى الغابات.",
       "एलीरा पर कुछ भी अपनी जगह नहीं रहता। जंगल भी नहीं।") },
     { scene: 1, speaker: "run", at: 12, tag: "frustrated", text: t(
-      "Bir gemi yapabilirim, Ayşe. Bana zaman ver, eve döneriz.",
-      "I can build a ship, Ayşe. Give me time and we can go home.",
-      "Ich kann ein Schiff bauen, Ayşe. Gib mir Zeit, und wir fliegen nach Hause.",
-      "Je peux construire un vaisseau, Ayşe. Donne-moi du temps et on rentre.",
-      "Puedo construir una nave, Ayşe. Dame tiempo y volvemos a casa.",
-      "Eu consigo construir uma nave, Ayşe. Me dá tempo e a gente volta pra casa.",
-      "أستطيع بناء سفينة يا آيشه. أعطيني وقتًا ونعود إلى البيت.",
-      "मैं एक जहाज़ बना सकता हूँ, आयशे। मुझे वक़्त दो, हम घर लौट जाएँगे।") },
+      "Bir gemi yapabilirim, AyShe. Bana zaman ver, eve döneriz.",
+      "I can build a ship, AyShe. Give me time and we can go home.",
+      "Ich kann ein Schiff bauen, AyShe. Gib mir Zeit, und wir fliegen nach Hause.",
+      "Je peux construire un vaisseau, AyShe. Donne-moi du temps et on rentre.",
+      "Puedo construir una nave, AyShe. Dame tiempo y volvemos a casa.",
+      "Eu consigo construir uma nave, AyShe. Me dá tempo e a gente volta pra casa.",
+      "أستطيع بناء سفينة يا AyShe. أعطيني وقتًا ونعود إلى البيت.",
+      "मैं एक जहाज़ बना सकता हूँ, AyShe। मुझे वक़्त दो, हम घर लौट जाएँगे।") },
     { scene: 2, speaker: "pusula", at: 23, tag: "alarmed", text: t(
       "Bu bir deprem değil. Orman... yürüyor.",
       "This isn't an earthquake. The forest is... moving.",

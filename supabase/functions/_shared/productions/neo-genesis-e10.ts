@@ -1,7 +1,7 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 10 "Kırık Bağ" (180 sn).
- * Rün, kız kardeşini kaybettiği anıyı silmesi için Vael'e izin verir. Ayşe tek başına Aster'e sızar,
- * ama Rün onu tanımaz. Silgiler bir ışık ağıyla Pusula'yı yakalar; Ayşe pencereden kara atlayıp kaçar.
+ * Rün, kız kardeşini kaybettiği anıyı silmesi için Vael'e izin verir. AyShe tek başına Aster'e sızar,
+ * ama Rün onu tanımaz. Silgiler bir ışık ağıyla Pusula'yı yakalar; AyShe pencereden kara atlayıp kaçar.
  * Son: Vael, Pusula'yı cam bir kafeste tutar ve Çift Gün Batımı'na geri sayımı başlatır.
  */
 import { ASTER_GRADE, MEMORY_GRADE, PUSULA, RUN, SILGI, VAEL, episode, t } from "./neo-genesis-cast.ts";
@@ -152,14 +152,14 @@ export const neoGenesisE10 = episode({
       "في الشق الجليدي حدّثتني عن أختك. عن ضحكتها. تذكّر يا رون!",
       "बर्फ़ की दरार में तुमने मुझे अपनी बहन के बारे में बताया था। उसकी हँसी। याद करो, रून!") },
     { scene: 6, speaker: "pusula", at: 113, tag: "alarmed", text: t(
-      "Ayşe, tuzak bu! Kaç!",
-      "Ayşe, it's a trap! Run!",
-      "Ayşe, das ist eine Falle! Lauf!",
-      "Ayşe, c'est un piège ! Fuis !",
-      "¡Ayşe, es una trampa! ¡Huye!",
-      "Ayşe, é uma armadilha! Foge!",
-      "آيشه، إنه فخ! اهربي!",
-      "आयशे, ये जाल है! भागो!") },
+      "AyShe, tuzak bu! Kaç!",
+      "AyShe, it's a trap! Run!",
+      "AyShe, das ist eine Falle! Lauf!",
+      "AyShe, c'est un piège ! Fuis !",
+      "¡AyShe, es una trampa! ¡Huye!",
+      "AyShe, é uma armadilha! Foge!",
+      "AyShe، إنه فخ! اهربي!",
+      "AyShe, ये जाल है! भागो!") },
     { scene: 6, speaker: "ayshe", at: 131, tag: "screams", text: t(
       "Pusula! Bırakın onu!",
       "Compass! Let her go!",
@@ -170,14 +170,14 @@ export const neoGenesisE10 = episode({
       "البوصلة! اتركوها!",
       "कंपास! उसे छोड़ दो!") },
     { scene: 7, speaker: "pusula", at: 138, tag: "shouts", text: t(
-      "Git, Ayşe! Ben dayanırım! Git!",
-      "Go, Ayşe! I can hold on! Go!",
-      "Geh, Ayşe! Ich halte durch! Geh!",
-      "Va-t'en, Ayşe ! Je vais tenir ! Va !",
-      "¡Vete, Ayşe! ¡Yo aguanto! ¡Vete!",
-      "Vai, Ayşe! Eu aguento! Vai!",
-      "اذهبي يا آيشه! سأصمد! اذهبي!",
-      "जाओ, आयशे! मैं संभाल लूँगी! जाओ!") },
+      "Git, AyShe! Ben dayanırım! Git!",
+      "Go, AyShe! I can hold on! Go!",
+      "Geh, AyShe! Ich halte durch! Geh!",
+      "Va-t'en, AyShe ! Je vais tenir ! Va !",
+      "¡Vete, AyShe! ¡Yo aguanto! ¡Vete!",
+      "Vai, AyShe! Eu aguento! Vai!",
+      "اذهبي يا AyShe! سأصمد! اذهبي!",
+      "जाओ, AyShe! मैं संभाल लूँगी! जाओ!") },
     { scene: 7, speaker: "ayshe", at: 156, tag: "sobbing", text: t(
       "Geri döneceğim. İkinizi de geri alacağım.",
       "I'll come back. I'll get you both back.",
@@ -188,14 +188,14 @@ export const neoGenesisE10 = episode({
       "سأعود. سأستعيدكما معًا.",
       "मैं वापस आऊँगी। तुम दोनों को वापस लाऊँगी।") },
     { scene: 8, speaker: "vael", at: 162, tag: "calm", text: t(
-      "Senin anıların bu küçük kafeste, Ayşe. Ve iki güneş buluştuğunda...",
-      "Your memories are in this little cage, Ayşe. And when the two suns meet...",
-      "Deine Erinnerungen sind in diesem kleinen Käfig, Ayşe. Und wenn sich die zwei Sonnen treffen...",
-      "Tes souvenirs sont dans cette petite cage, Ayşe. Et quand les deux soleils se rejoindront...",
-      "Tus recuerdos están en esta pequeña jaula, Ayşe. Y cuando los dos soles se encuentren...",
-      "Suas lembranças estão nesta gaiolinha, Ayşe. E quando os dois sóis se encontrarem...",
-      "ذكرياتكِ في هذا القفص الصغير يا آيشه. وحين تلتقي الشمسان...",
-      "तुम्हारी यादें इस छोटे पिंजरे में हैं, आयशे। और जब दोनों सूरज मिलेंगे...") },
+      "Senin anıların bu küçük kafeste, AyShe. Ve iki güneş buluştuğunda...",
+      "Your memories are in this little cage, AyShe. And when the two suns meet...",
+      "Deine Erinnerungen sind in diesem kleinen Käfig, AyShe. Und wenn sich die zwei Sonnen treffen...",
+      "Tes souvenirs sont dans cette petite cage, AyShe. Et quand les deux soleils se rejoindront...",
+      "Tus recuerdos están en esta pequeña jaula, AyShe. Y cuando los dos soles se encuentren...",
+      "Suas lembranças estão nesta gaiolinha, AyShe. E quando os dois sóis se encontrarem...",
+      "ذكرياتكِ في هذا القفص الصغير يا AyShe. وحين تلتقي الشمسان...",
+      "तुम्हारी यादें इस छोटे पिंजरे में हैं, AyShe। और जब दोनों सूरज मिलेंगे...") },
     { scene: 8, speaker: "vael", at: 171, tag: "whispers", text: t(
       "...Elyra'daki her şey susacak. Geri sayım başladı.",
       "...everything on Elyra will fall silent. The countdown has begun.",

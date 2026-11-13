@@ -1,7 +1,7 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 9 "Kod Adı: Genesis" (180 sn).
- * Ayşe sönmüş Pusula'yı 23 sütunlu taş çembere götürür. Bekçi Taran onu yeniden uyandırmayı öğretir.
- * Pusula'nın çekirdeği açılır: 2099'da Ayşe, Genesis Projesi'nin genç tasarımcısıdır; Pusula'yı o yazmış
+ * AyShe sönmüş Pusula'yı 23 sütunlu taş çembere götürür. Bekçi Taran onu yeniden uyandırmayı öğretir.
+ * Pusula'nın çekirdeği açılır: 2099'da AyShe, Genesis Projesi'nin genç tasarımcısıdır; Pusula'yı o yazmış
  * ve anılarını içine saklamıştır. Vael o zaman onun ekip arkadaşıdır. Pusula geri döner.
  * Son: Taran gri ölümün kuzeyden ormana yayıldığını gösterir.
  */
@@ -146,14 +146,14 @@ export const neoGenesisE9 = episode({
       "مرحبًا يا صغيرة. سيكون اسمكِ البوصلة. إن ضعتُ، ستجدينني.",
       "नमस्ते, नन्ही। तुम्हारा नाम कंपास होगा। अगर मैं खो जाऊँ, तो तुम मुझे ढूँढ लेना।") },
     { scene: 4, speaker: "vael", at: 87, tag: "tired", text: t(
-      "Hâlâ çalışıyorsun, Ayşe? Kod adı Genesis'in uyuması gerek.",
-      "Still working, Ayşe? Codename Genesis needs her sleep.",
-      "Arbeitest du immer noch, Ayşe? Codename Genesis braucht Schlaf.",
-      "Tu travailles encore, Ayşe ? Le nom de code Genesis a besoin de dormir.",
-      "¿Sigues trabajando, Ayşe? Nombre clave Genesis necesita dormir.",
-      "Ainda trabalhando, Ayşe? A codinome Genesis precisa dormir.",
-      "ما زلتِ تعملين يا آيشه؟ صاحبة الاسم الرمزي جينيسيس تحتاج إلى النوم.",
-      "अब भी काम कर रही हो, आयशे? कोडनेम जेनेसिस को नींद चाहिए।") },
+      "Hâlâ çalışıyorsun, AyShe? Kod adı Genesis'in uyuması gerek.",
+      "Still working, AyShe? Codename Genesis needs her sleep.",
+      "Arbeitest du immer noch, AyShe? Codename Genesis braucht Schlaf.",
+      "Tu travailles encore, AyShe ? Le nom de code Genesis a besoin de dormir.",
+      "¿Sigues trabajando, AyShe? Nombre clave Genesis necesita dormir.",
+      "Ainda trabalhando, AyShe? A codinome Genesis precisa dormir.",
+      "ما زلتِ تعملين يا AyShe؟ صاحبة الاسم الرمزي جينيسيس تحتاج إلى النوم.",
+      "अब भी काम कर रही हो, AyShe? कोडनेम जेनेसिस को नींद चाहिए।") },
     { scene: 5, speaker: "vael", at: 96, tag: "bitter", text: t(
       "İnsanlık bu acıyı unutmadıkça asla iyileşmeyecek.",
       "Humanity will never heal unless it forgets this pain.",
@@ -182,14 +182,14 @@ export const neoGenesisE9 = episode({
       "إن فقدتُ ذاكرتي يومًا يا بوصلة، أعيدي إليّ كل شيء.",
       "अगर कभी मेरी याददाश्त चली जाए, कंपास, तो सब कुछ मुझे तुम लौटाना।") },
     { scene: 7, speaker: "pusula", at: 137, tag: "joyful", text: t(
-      "Ayşe! Seni hatırlıyorum. Hepsini. Ve şimdi sen de hatırlayacaksın.",
-      "Ayşe! I remember you. All of it. And now you will remember too.",
-      "Ayşe! Ich erinnere mich an dich. An alles. Und jetzt wirst auch du dich erinnern.",
-      "Ayşe ! Je me souviens de toi. De tout. Et maintenant, toi aussi tu vas te souvenir.",
-      "¡Ayşe! Te recuerdo. Todo. Y ahora tú también recordarás.",
-      "Ayşe! Eu lembro de você. De tudo. E agora você também vai lembrar.",
-      "آيشه! أتذكّركِ. كل شيء. والآن ستتذكرين أنتِ أيضًا.",
-      "आयशे! मुझे तुम याद हो। सब कुछ। और अब तुम्हें भी याद आएगा।") },
+      "AyShe! Seni hatırlıyorum. Hepsini. Ve şimdi sen de hatırlayacaksın.",
+      "AyShe! I remember you. All of it. And now you will remember too.",
+      "AyShe! Ich erinnere mich an dich. An alles. Und jetzt wirst auch du dich erinnern.",
+      "AyShe ! Je me souviens de toi. De tout. Et maintenant, toi aussi tu vas te souvenir.",
+      "¡AyShe! Te recuerdo. Todo. Y ahora tú también recordarás.",
+      "AyShe! Eu lembro de você. De tudo. E agora você também vai lembrar.",
+      "AyShe! أتذكّركِ. كل شيء. والآن ستتذكرين أنتِ أيضًا.",
+      "AyShe! मुझे तुम याद हो। सब कुछ। और अब तुम्हें भी याद आएगा।") },
     { scene: 7, speaker: "ayshe", at: 150, tag: "crying, laughing", text: t(
       "Seni ben yapmışım... Hoş geldin, küçük şey.",
       "I made you... Welcome back, little one.",

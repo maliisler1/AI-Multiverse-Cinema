@@ -1,7 +1,7 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 3 "Gölge Avcıları" (180 sn).
  * Kristal kanyonda gece kampı. Maskeli Silgiler saldırır, kanyonda kovalamaca başlar.
- * Rün bir kristal sütunu devirip tuzak kurar, Ayşe ışığıyla saldırganları kör eder.
+ * Rün bir kristal sütunu devirip tuzak kurar, AyShe ışığıyla saldırganları kör eder.
  * Son: düşen Silgi'nin maskesi çatlar; altından boş bakışlı bir kadın yüzü çıkar (Mera).
  */
 import { MERA, PUSULA, RUN, SILGI, episode, t } from "./neo-genesis-cast.ts";

@@ -1,6 +1,6 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 12 "Kulenin Gölgesi" (180 sn).
- * Ayşe ve Mera gece, Mera'nın sarmaşıklarıyla Sessizlik Kulesi'nin dış duvarına tırmanır.
+ * AyShe ve Mera gece, Mera'nın sarmaşıklarıyla Sessizlik Kulesi'nin dış duvarına tırmanır.
  * İçeride yukarı akan anı nehirleri vardır. Nil'i kristal bir kozadan, Pusula'yı cam kafesten kurtarırlar.
  * Son: Kule sarsılır, iki güneş birleşmek üzeredir; bir Silgi başlığını indirir: Rün.
  */
@@ -110,14 +110,14 @@ export const neoGenesisE12 = episode({
       "النباتات ستصمد حتى القمة. أما إن كنا سنصمد نحن، فتلك قصة أخرى.",
       "बेलें ऊपर तक टिकी रहेंगी। हम टिक पाएँगे या नहीं, ये अलग बात है।") },
     { scene: 2, speaker: "mera", at: 36, tag: "gasps", text: t(
-      "Ayşe!",
-      "Ayşe!",
-      "Ayşe!",
-      "Ayşe !",
-      "¡Ayşe!",
-      "Ayşe!",
-      "آيشه!",
-      "आयशे!") },
+      "AyShe!",
+      "AyShe!",
+      "AyShe!",
+      "AyShe !",
+      "¡AyShe!",
+      "AyShe!",
+      "AyShe!",
+      "AyShe!") },
     { scene: 2, speaker: "ayshe", at: 39, tag: "strained", text: t(
       "Tuttum seni! Aşağı bakma!",
       "I've got you! Don't look down!",
@@ -155,14 +155,14 @@ export const neoGenesisE12 = episode({
       "إنهم يمحون نيل! اصمدي يا نيل!",
       "वे नील को मिटा रहे हैं! टिकी रहो, नील!") },
     { scene: 6, speaker: "nil", at: 122, tag: "joyful", text: t(
-      "Ayşe! Seni unutmadım! Şarkıyı tuttum, hiç bırakmadım!",
-      "Ayşe! I didn't forget you! I held on to the song, I never let go!",
-      "Ayşe! Ich habe dich nicht vergessen! Ich habe das Lied festgehalten!",
-      "Ayşe ! Je ne t'ai pas oubliée ! J'ai gardé la chanson, je ne l'ai jamais lâchée !",
-      "¡Ayşe! ¡No te olvidé! ¡Me aferré a la canción, nunca la solté!",
-      "Ayşe! Eu não te esqueci! Segurei a música, nunca soltei!",
-      "آيشه! لم أنسكِ! تمسّكتُ بالأغنية ولم أتركها أبدًا!",
-      "आयशे! मैं तुम्हें नहीं भूली! मैंने गीत को पकड़े रखा, कभी नहीं छोड़ा!") },
+      "AyShe! Seni unutmadım! Şarkıyı tuttum, hiç bırakmadım!",
+      "AyShe! I didn't forget you! I held on to the song, I never let go!",
+      "AyShe! Ich habe dich nicht vergessen! Ich habe das Lied festgehalten!",
+      "AyShe ! Je ne t'ai pas oubliée ! J'ai gardé la chanson, je ne l'ai jamais lâchée !",
+      "¡AyShe! ¡No te olvidé! ¡Me aferré a la canción, nunca la solté!",
+      "AyShe! Eu não te esqueci! Segurei a música, nunca soltei!",
+      "AyShe! لم أنسكِ! تمسّكتُ بالأغنية ولم أتركها أبدًا!",
+      "AyShe! मैं तुम्हें नहीं भूली! मैंने गीत को पकड़े रखा, कभी नहीं छोड़ा!") },
     { scene: 7, speaker: "pusula", at: 146, tag: "playful", text: t(
       "Geç kaldınız! Bu kafeste ne kadar sıkıldım, biliyor musunuz?",
       "You're late! Do you know how bored I was in that cage?",
@@ -182,14 +182,14 @@ export const neoGenesisE12 = episode({
       "وأنا أيضًا اشتقتُ إليكِ.",
       "मुझे भी तुम्हारी याद आई।") },
     { scene: 8, speaker: "vael", at: 162, tag: "calm", text: t(
-      "İki güneş birleşmek üzere, Ayşe. Bir saat sonra Elyra'da hiçbir anı kalmayacak.",
-      "The two suns are about to meet, Ayşe. In one hour, there will be no memories left on Elyra.",
-      "Die zwei Sonnen treffen sich gleich, Ayşe. In einer Stunde wird es auf Elyra keine Erinnerungen mehr geben.",
-      "Les deux soleils vont se rejoindre, Ayşe. Dans une heure, il ne restera plus aucun souvenir sur Elyra.",
-      "Los dos soles están a punto de unirse, Ayşe. En una hora no quedará ningún recuerdo en Elyra.",
-      "Os dois sóis estão prestes a se encontrar, Ayşe. Em uma hora, não vai restar nenhuma lembrança em Elyra.",
-      "الشمسان على وشك أن تلتقيا يا آيشه. بعد ساعة لن تبقى أي ذكرى على إليرا.",
-      "दोनों सूरज मिलने वाले हैं, आयशे। एक घंटे बाद एलीरा पर कोई याद नहीं बचेगी।") },
+      "İki güneş birleşmek üzere, AyShe. Bir saat sonra Elyra'da hiçbir anı kalmayacak.",
+      "The two suns are about to meet, AyShe. In one hour, there will be no memories left on Elyra.",
+      "Die zwei Sonnen treffen sich gleich, AyShe. In einer Stunde wird es auf Elyra keine Erinnerungen mehr geben.",
+      "Les deux soleils vont se rejoindre, AyShe. Dans une heure, il ne restera plus aucun souvenir sur Elyra.",
+      "Los dos soles están a punto de unirse, AyShe. En una hora no quedará ningún recuerdo en Elyra.",
+      "Os dois sóis estão prestes a se encontrar, AyShe. Em uma hora, não vai restar nenhuma lembrança em Elyra.",
+      "الشمسان على وشك أن تلتقيا يا AyShe. بعد ساعة لن تبقى أي ذكرى على إليرا.",
+      "दोनों सूरज मिलने वाले हैं, AyShe। एक घंटे बाद एलीरा पर कोई याद नहीं बचेगी।") },
     { scene: 8, speaker: "ayshe", at: 173, tag: "shocked whisper", text: t(
       "Rün...?",
       "Rün...?",

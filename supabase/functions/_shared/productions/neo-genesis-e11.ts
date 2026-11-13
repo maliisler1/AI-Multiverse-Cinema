@@ -1,6 +1,6 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 11 "Uyananlar" (180 sn).
- * Anıları geri dönen Ayşe gücünü daha iyi kullanmayı öğrenir. Nil ile Aster'in dışındaki cam serada
+ * Anıları geri dönen AyShe gücünü daha iyi kullanmayı öğrenir. Nil ile Aster'in dışındaki cam serada
  * çalışan Mera'yı bulur ve ninni ile avucunun ışığıyla onun anılarını geri verir. Mera bitkileri
  * büyüten gücünü hatırlar. Silgiler baskın yapar; ikili onları sarmaşıklar ve mavi ışıkla püskürtür.
  * Son: bir Silgi Nil'i kapıp beyaz bir ışık kapısından kaybolur.
@@ -135,14 +135,14 @@ export const neoGenesisE11 = episode({
       "عودي يا ميرا. تذكّري من أنتِ.",
       "लौट आओ, मेरा। याद करो तुम कौन हो।") },
     { scene: 4, speaker: "mera", at: 79, tag: "gasping, crying", text: t(
-      "Ayşe... Kanyonda... sen beni kurtardın. Ben de seni unuttum.",
-      "Ayşe... In the canyon... you saved me. And I forgot you.",
-      "Ayşe... Im Canyon... du hast mich gerettet. Und ich habe dich vergessen.",
-      "Ayşe... Dans le canyon... tu m'as sauvée. Et je t'ai oubliée.",
-      "Ayşe... En el cañón... me salvaste. Y yo te olvidé.",
-      "Ayşe... No cânion... você me salvou. E eu te esqueci.",
-      "آيشه... في الوادي... أنقذتِني. وأنا نسيتكِ.",
-      "आयशे... घाटी में... तुमने मुझे बचाया था। और मैं तुम्हें भूल गई।") },
+      "AyShe... Kanyonda... sen beni kurtardın. Ben de seni unuttum.",
+      "AyShe... In the canyon... you saved me. And I forgot you.",
+      "AyShe... Im Canyon... du hast mich gerettet. Und ich habe dich vergessen.",
+      "AyShe... Dans le canyon... tu m'as sauvée. Et je t'ai oubliée.",
+      "AyShe... En el cañón... me salvaste. Y yo te olvidé.",
+      "AyShe... No cânion... você me salvou. E eu te esqueci.",
+      "AyShe... في الوادي... أنقذتِني. وأنا نسيتكِ.",
+      "AyShe... घाटी में... तुमने मुझे बचाया था। और मैं तुम्हें भूल गई।") },
     { scene: 4, speaker: "ayshe", at: 88, tag: "softly", text: t(
       "Önemli değil. Artık buradasın.",
       "It doesn't matter. You're here now.",
@@ -189,14 +189,14 @@ export const neoGenesisE11 = episode({
       "نجحنا... هل نجحنا؟",
       "हमने कर दिखाया... क्या सच में?") },
     { scene: 7, speaker: "nil", at: 149, tag: "screams", text: t(
-      "Ayşe! Ayşe!",
-      "Ayşe! Ayşe!",
-      "Ayşe! Ayşe!",
-      "Ayşe ! Ayşe !",
-      "¡Ayşe! ¡Ayşe!",
-      "Ayşe! Ayşe!",
-      "آيشه! آيشه!",
-      "आयशे! आयशे!") },
+      "AyShe! AyShe!",
+      "AyShe! AyShe!",
+      "AyShe! AyShe!",
+      "AyShe ! AyShe !",
+      "¡AyShe! ¡AyShe!",
+      "AyShe! AyShe!",
+      "AyShe! AyShe!",
+      "AyShe! AyShe!") },
     { scene: 8, speaker: "ayshe", at: 161, tag: "screams", text: t(
       "Nil! Hayır!",
       "Nil! No!",

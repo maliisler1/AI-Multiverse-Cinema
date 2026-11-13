@@ -1,8 +1,8 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 7 "Unutulan Şarkı" (180 sn).
- * Gece Ayşe bilmediği bir ninniyi mırıldanır; Nil sözlerini hatırlar ve ağlar. Müzik Pusula'yı
- * zayıfça uyandırır. Nil, Ayşe'yi gizlice Sessizlik Kulesi'ne götürür: insanların anıları ışık
- * olarak yukarı çekilmektedir. Alarm çalar. Son: Vael, Ayşe'nin hafızasını da kendisinin aldığını söyler.
+ * Gece AyShe bilmediği bir ninniyi mırıldanır; Nil sözlerini hatırlar ve ağlar. Müzik Pusula'yı
+ * zayıfça uyandırır. Nil, AyShe'yi gizlice Sessizlik Kulesi'ne götürür: insanların anıları ışık
+ * olarak yukarı çekilmektedir. Alarm çalar. Son: Vael, AyShe'nin hafızasını da kendisinin aldığını söyler.
  */
 import { ASTER_GRADE, MEMORY_GRADE, NIL, PUSULA, SILGI, VAEL, episode, t } from "./neo-genesis-cast.ts";
 
@@ -125,14 +125,14 @@ export const neoGenesisE7 = episode({
       "لا أعرف. علّمني إياها أحدهم. منذ زمن بعيد. لماذا أبكي؟",
       "पता नहीं। किसी ने सिखाया था। बहुत पहले। मैं रो क्यों रही हूँ?") },
     { scene: 3, speaker: "pusula", at: 56, tag: "weak", text: t(
-      "Ayşe... müzik... anılar beni besliyor...",
-      "Ayşe... the music... memories feed me...",
-      "Ayşe... die Musik... Erinnerungen geben mir Kraft...",
-      "Ayşe... la musique... les souvenirs me nourrissent...",
-      "Ayşe... la música... los recuerdos me alimentan...",
-      "Ayşe... a música... as lembranças me alimentam...",
-      "آيشه... الموسيقى... الذكريات تغذّيني...",
-      "आयशे... संगीत... यादें मुझे ताक़त देती हैं...") },
+      "AyShe... müzik... anılar beni besliyor...",
+      "AyShe... the music... memories feed me...",
+      "AyShe... die Musik... Erinnerungen geben mir Kraft...",
+      "AyShe... la musique... les souvenirs me nourrissent...",
+      "AyShe... la música... los recuerdos me alimentan...",
+      "AyShe... a música... as lembranças me alimentam...",
+      "AyShe... الموسيقى... الذكريات تغذّيني...",
+      "AyShe... संगीत... यादें मुझे ताक़त देती हैं...") },
     { scene: 4, speaker: "nil", at: 67, tag: "whispers", text: t(
       "Kuleye gizli bir yol biliyorum. Ama sessiz olmalıyız.",
       "I know a secret way to the tower. But we have to be quiet.",
@@ -188,14 +188,14 @@ export const neoGenesisE7 = episode({
       "إنهم قادمون!",
       "वे आ रहे हैं!") },
     { scene: 8, speaker: "vael", at: 162, tag: "sadly", text: t(
-      "Onlara acıyı geri vermek mi istiyorsun, Ayşe? Seninkini de ben aldım.",
-      "You want to give them their pain back, Ayşe? I took yours too.",
-      "Du willst ihnen den Schmerz zurückgeben, Ayşe? Deinen habe ich auch genommen.",
-      "Tu veux leur rendre leur douleur, Ayşe ? J'ai pris la tienne aussi.",
-      "¿Quieres devolverles su dolor, Ayşe? También me llevé el tuyo.",
-      "Você quer devolver a dor a eles, Ayşe? Eu também tirei a sua.",
-      "تريدين أن تعيدي لهم ألمهم يا آيشه؟ لقد أخذتُ ألمكِ أيضًا.",
-      "तुम उन्हें उनका दर्द लौटाना चाहती हो, आयशे? तुम्हारा भी मैंने ही लिया था।") },
+      "Onlara acıyı geri vermek mi istiyorsun, AyShe? Seninkini de ben aldım.",
+      "You want to give them their pain back, AyShe? I took yours too.",
+      "Du willst ihnen den Schmerz zurückgeben, AyShe? Deinen habe ich auch genommen.",
+      "Tu veux leur rendre leur douleur, AyShe ? J'ai pris la tienne aussi.",
+      "¿Quieres devolverles su dolor, AyShe? También me llevé el tuyo.",
+      "Você quer devolver a dor a eles, AyShe? Eu também tirei a sua.",
+      "تريدين أن تعيدي لهم ألمهم يا AyShe؟ لقد أخذتُ ألمكِ أيضًا.",
+      "तुम उन्हें उनका दर्द लौटाना चाहती हो, AyShe? तुम्हारा भी मैंने ही लिया था।") },
     { scene: 8, speaker: "vael", at: 172, tag: "softly", text: t(
       "Seni korumak için.",
       "To protect you.",

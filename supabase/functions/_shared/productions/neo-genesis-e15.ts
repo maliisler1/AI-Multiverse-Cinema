@@ -1,7 +1,7 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 15 "Yeniden Doğuş" (180 sn, sezon finali).
- * Kule'den yayılan altın ışık herkesin anılarını geri verir, gri ormanlar yeniden açar. Rün Ayşe'yi
- * kucaklar; Taran'ın çağırdığı Elyra ışığıyla Ayşe uyanır. Vael kızını acısıyla birlikte hatırlamayı seçer.
+ * Kule'den yayılan altın ışık herkesin anılarını geri verir, gri ormanlar yeniden açar. Rün AyShe'yi
+ * kucaklar; Taran'ın çağırdığı Elyra ışığıyla AyShe uyanır. Vael kızını acısıyla birlikte hatırlamayı seçer.
  * Ekip gün batımında birlikte. Son: gökyüzünde hareket eden yeni bir yıldızdan sinyal: "Burada Dünya."
  */
 import { MERA, NIL, PUSULA, RUN, TARAN, VAEL, episode, t } from "./neo-genesis-cast.ts";
@@ -48,7 +48,7 @@ export const neoGenesisE15 = episode({
       "eyes closed, lying in someone's arms, a blue mark glowing brighter and brighter on her palm, golden light on her face",
       "The glow on her palm grows stronger, light pulses across her face, slow push-in"],
 
-    // Sahne 5 — Ayşe uyanıyor (1:35–1:50)
+    // Sahne 5 — AyShe uyanıyor (1:35–1:50)
     [5, 10, true,
       "slowly opening her eyes in someone's arms, a soft closed-lip smile, no teeth, golden light",
       "Her eyelids flutter and open, she sees him and smiles softly"],
@@ -107,14 +107,14 @@ export const neoGenesisE15 = episode({
       "أوراق حقيقية! كلها حقيقية!",
       "असली पत्ते! सब असली हैं!") },
     { scene: 2, speaker: "run", at: 37, tag: "breathless", text: t(
-      "Ayşe! Dayan, geliyorum!",
-      "Ayşe! Hold on, I'm coming!",
-      "Ayşe! Halte durch, ich komme!",
-      "Ayşe ! Tiens bon, j'arrive !",
-      "¡Ayşe! ¡Aguanta, ya voy!",
-      "Ayşe! Aguenta, eu tô indo!",
-      "آيشه! اصمدي، أنا قادم!",
-      "आयशे! रुको, मैं आ रहा हूँ!") },
+      "AyShe! Dayan, geliyorum!",
+      "AyShe! Hold on, I'm coming!",
+      "AyShe! Halte durch, ich komme!",
+      "AyShe ! Tiens bon, j'arrive !",
+      "¡AyShe! ¡Aguanta, ya voy!",
+      "AyShe! Aguenta, eu tô indo!",
+      "AyShe! اصمدي، أنا قادم!",
+      "AyShe! रुको, मैं आ रहा हूँ!") },
     { scene: 3, speaker: "run", at: 48, tag: "desperate", text: t(
       "Beni buzdan çıkardın. Şimdi sıra bende. Uyan, lütfen.",
       "You pulled me out of the ice. Now it's my turn. Wake up, please.",
@@ -197,14 +197,14 @@ export const neoGenesisE15 = episode({
       "أتعرفين؟ لم أعد أريد بناء سفينة.",
       "पता है? अब मुझे जहाज़ नहीं बनाना।") },
     { scene: 8, speaker: "pusula", at: 162, tag: "alarmed whisper", text: t(
-      "Ayşe... o yıldız hareket ediyor. Ve bir sinyal gönderiyor.",
-      "Ayşe... that star is moving. And it's sending a signal.",
-      "Ayşe... dieser Stern bewegt sich. Und er sendet ein Signal.",
-      "Ayşe... cette étoile bouge. Et elle envoie un signal.",
-      "Ayşe... esa estrella se mueve. Y está enviando una señal.",
-      "Ayşe... aquela estrela está se movendo. E está mandando um sinal.",
-      "آيشه... تلك النجمة تتحرك. وهي ترسل إشارة.",
-      "आयशे... वह तारा चल रहा है। और एक सिग्नल भेज रहा है।") },
+      "AyShe... o yıldız hareket ediyor. Ve bir sinyal gönderiyor.",
+      "AyShe... that star is moving. And it's sending a signal.",
+      "AyShe... dieser Stern bewegt sich. Und er sendet ein Signal.",
+      "AyShe... cette étoile bouge. Et elle envoie un signal.",
+      "AyShe... esa estrella se mueve. Y está enviando una señal.",
+      "AyShe... aquela estrela está se movendo. E está mandando um sinal.",
+      "AyShe... تلك النجمة تتحرك. وهي ترسل إشارة.",
+      "AyShe... वह तारा चल रहा है। और एक सिग्नल भेज रहा है।") },
     { scene: 8, speaker: "narrator", at: 170, tag: "distant, radio", radio: true, text: t(
       "Burada Dünya. Biz hâlâ hayattayız.",
       "This is Earth. We are still alive.",

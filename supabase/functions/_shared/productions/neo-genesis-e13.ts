@@ -1,8 +1,8 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 13 "Son Geri Sayım" (180 sn).
- * Silgi'ye dönüştürülmüş Rün, Ayşe'ye saldırır; Ayşe ona karşı savaşmaz. Nil ninniyi söyler, Ayşe
- * Rün'ün çalınan anısını geri verir. Rün kız kardeşini ve Ayşe'yi hatırlar. İki güneş birleşmek üzere.
- * Rün ve Mera Silgileri durdururken Ayşe Pusula ile Kule'nin tepesine yükselir.
+ * Silgi'ye dönüştürülmüş Rün, AyShe'ye saldırır; AyShe ona karşı savaşmaz. Nil ninniyi söyler, AyShe
+ * Rün'ün çalınan anısını geri verir. Rün kız kardeşini ve AyShe'yi hatırlar. İki güneş birleşmek üzere.
+ * Rün ve Mera Silgileri durdururken AyShe Pusula ile Kule'nin tepesine yükselir.
  * Son: kapılar açılır, Vael çekirdekte bekliyor.
  */
 import { MEMORY_GRADE, MERA, NIL, PUSULA, SILGI, VAEL, episode, t } from "./neo-genesis-cast.ts";
@@ -93,14 +93,14 @@ export const neoGenesisE13 = episode({
 
   lines: [
     { scene: 1, speaker: "ayshe", at: 4, tag: "shouts", text: t(
-      "Rün, benim! Ayşe!",
-      "Rün, it's me! Ayşe!",
-      "Rün, ich bin's! Ayşe!",
-      "Rün, c'est moi ! Ayşe !",
-      "¡Rün, soy yo! ¡Ayşe!",
-      "Rün, sou eu! Ayşe!",
-      "رون، إنها أنا! آيشه!",
-      "रून, मैं हूँ! आयशे!") },
+      "Rün, benim! AyShe!",
+      "Rün, it's me! AyShe!",
+      "Rün, ich bin's! AyShe!",
+      "Rün, c'est moi ! AyShe !",
+      "¡Rün, soy yo! ¡AyShe!",
+      "Rün, sou eu! AyShe!",
+      "رون، إنها أنا! AyShe!",
+      "रून, मैं हूँ! AyShe!") },
     { scene: 1, speaker: "run", at: 13, tag: "flat, cold", text: t(
       "Seni tanımıyorum. Vael sessizliği korumamı istedi.",
       "I don't know you. Vael asked me to protect the silence.",
@@ -111,14 +111,14 @@ export const neoGenesisE13 = episode({
       "لا أعرفكِ. طلب مني فايل أن أحمي الصمت.",
       "मैं तुम्हें नहीं जानता। वेल ने मुझसे ख़ामोशी की रक्षा करने को कहा है।") },
     { scene: 2, speaker: "mera", at: 22, tag: "shouts", text: t(
-      "Ayşe, ona saldır! Başka yolu yok!",
-      "Ayşe, fight him! There's no other way!",
-      "Ayşe, kämpf gegen ihn! Es gibt keinen anderen Weg!",
-      "Ayşe, bats-toi ! Il n'y a pas d'autre moyen !",
-      "¡Ayşe, lucha contra él! ¡No hay otra forma!",
-      "Ayşe, luta com ele! Não tem outro jeito!",
-      "آيشه، قاتليه! لا توجد طريقة أخرى!",
-      "आयशे, उससे लड़ो! और कोई रास्ता नहीं!") },
+      "AyShe, ona saldır! Başka yolu yok!",
+      "AyShe, fight him! There's no other way!",
+      "AyShe, kämpf gegen ihn! Es gibt keinen anderen Weg!",
+      "AyShe, bats-toi ! Il n'y a pas d'autre moyen !",
+      "¡AyShe, lucha contra él! ¡No hay otra forma!",
+      "AyShe, luta com ele! Não tem outro jeito!",
+      "AyShe، قاتليه! لا توجد طريقة أخرى!",
+      "AyShe, उससे लड़ो! और कोई रास्ता नहीं!") },
     { scene: 2, speaker: "ayshe", at: 37, tag: "firm", text: t(
       "Hayır. Onu buz yarığından çıkardım. Şimdi bırakmayacağım.",
       "No. I pulled him out of the ice crevasse. I'm not letting go now.",
@@ -165,14 +165,14 @@ export const neoGenesisE13 = episode({
       "ضحكتها... إيلا. كان اسمها إيلا. أتذكّر.",
       "उसकी हँसी... एला। उसका नाम एला था। मुझे याद है।") },
     { scene: 5, speaker: "run", at: 97, tag: "emotional", text: t(
-      "Acıtıyor, Ayşe. Ama benim. Kimsenin onu benden almasına izin vermeyeceğim.",
-      "It hurts, Ayşe. But it's mine. I won't let anyone take it from me.",
-      "Es tut weh, Ayşe. Aber es gehört mir. Ich lasse es mir von niemandem nehmen.",
-      "Ça fait mal, Ayşe. Mais c'est à moi. Je ne laisserai personne me le prendre.",
-      "Duele, Ayşe. Pero es mío. No dejaré que nadie me lo quite.",
-      "Dói, Ayşe. Mas é meu. Não vou deixar ninguém tirar isso de mim.",
-      "إنه يؤلم يا آيشه. لكنه لي. لن أسمح لأحد أن يأخذه مني.",
-      "दर्द होता है, आयशे। पर ये मेरा है। मैं किसी को इसे मुझसे छीनने नहीं दूँगा।") },
+      "Acıtıyor, AyShe. Ama benim. Kimsenin onu benden almasına izin vermeyeceğim.",
+      "It hurts, AyShe. But it's mine. I won't let anyone take it from me.",
+      "Es tut weh, AyShe. Aber es gehört mir. Ich lasse es mir von niemandem nehmen.",
+      "Ça fait mal, AyShe. Mais c'est à moi. Je ne laisserai personne me le prendre.",
+      "Duele, AyShe. Pero es mío. No dejaré que nadie me lo quite.",
+      "Dói, AyShe. Mas é meu. Não vou deixar ninguém tirar isso de mim.",
+      "إنه يؤلم يا AyShe. لكنه لي. لن أسمح لأحد أن يأخذه مني.",
+      "दर्द होता है, AyShe। पर ये मेरा है। मैं किसी को इसे मुझसे छीनने नहीं दूँगा।") },
     { scene: 6, speaker: "pusula", at: 112, tag: "urgent", text: t(
       "Güneşler birleşiyor! Kule tüm anıları aynı anda yutacak. On dakikamız var!",
       "The suns are meeting! The Tower will swallow every memory at once. We have ten minutes!",
@@ -192,14 +192,14 @@ export const neoGenesisE13 = episode({
       "النواة في القمة. يجب أن أصعد إلى هناك.",
       "कोर सबसे ऊपर है। मुझे वहाँ पहुँचना होगा।") },
     { scene: 7, speaker: "run", at: 146, tag: "shouts", text: t(
-      "Git, Ayşe! Biz onları tutarız!",
-      "Go, Ayşe! We'll hold them off!",
-      "Geh, Ayşe! Wir halten sie auf!",
-      "Va, Ayşe ! On les retient !",
-      "¡Ve, Ayşe! ¡Nosotros los contenemos!",
-      "Vai, Ayşe! A gente segura eles!",
-      "اذهبي يا آيشه! سنصدّهم!",
-      "जाओ, आयशे! हम इन्हें रोक लेंगे!") },
+      "Git, AyShe! Biz onları tutarız!",
+      "Go, AyShe! We'll hold them off!",
+      "Geh, AyShe! Wir halten sie auf!",
+      "Va, AyShe ! On les retient !",
+      "¡Ve, AyShe! ¡Nosotros los contenemos!",
+      "Vai, AyShe! A gente segura eles!",
+      "اذهبي يا AyShe! سنصدّهم!",
+      "जाओ, AyShe! हम इन्हें रोक लेंगे!") },
     { scene: 7, speaker: "mera", at: 152, tag: "fierce", text: t(
       "Bu sefer kimse kimseyi unutmuyor.",
       "This time, nobody forgets anybody.",

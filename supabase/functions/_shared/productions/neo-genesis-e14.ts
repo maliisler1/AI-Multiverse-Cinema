@@ -1,9 +1,9 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 14 "Yüz Yüze" (180 sn).
- * Kule'nin çekirdeğinde Ayşe ve Vael karşı karşıya. Vael 2099'da kızını kaybettiğini, kırk yıl tek başına
- * acıyla yaşadığını anlatır; herkesi korumuş ama kendi acısını hiç silmemiştir. Vael Ayşe'yi silmeye çalışır,
- * Pusula onu korurken çatlar. Ayşe anılarını çekirdeğe akıtır, anı nehirleri ters döner.
- * Son: Ayşe yere yığılır, avucundaki işaret söner.
+ * Kule'nin çekirdeğinde AyShe ve Vael karşı karşıya. Vael 2099'da kızını kaybettiğini, kırk yıl tek başına
+ * acıyla yaşadığını anlatır; herkesi korumuş ama kendi acısını hiç silmemiştir. Vael AyShe'yi silmeye çalışır,
+ * Pusula onu korurken çatlar. AyShe anılarını çekirdeğe akıtır, anı nehirleri ters döner.
+ * Son: AyShe yere yığılır, avucundaki işaret söner.
  */
 import { MEMORY_GRADE, PUSULA, VAEL, episode, t } from "./neo-genesis-cast.ts";
 
@@ -201,23 +201,23 @@ export const neoGenesisE14 = episode({
       "لينا... الأرجوحة... كانت تضحك. لقد نسيتُ ضحكتها...",
       "लीना... झूला... वह हँस रही थी। मैं उसकी हँसी भूल गया था...") },
     { scene: 8, speaker: "pusula", at: 164, tag: "frightened", text: t(
-      "Ayşe? Ayşe, gözlerini aç. Lütfen...",
-      "Ayşe? Ayşe, open your eyes. Please...",
-      "Ayşe? Ayşe, mach die Augen auf. Bitte...",
-      "Ayşe ? Ayşe, ouvre les yeux. S'il te plaît...",
-      "¿Ayşe? Ayşe, abre los ojos. Por favor...",
-      "Ayşe? Ayşe, abre os olhos. Por favor...",
-      "آيشه؟ آيشه، افتحي عينيكِ. أرجوكِ...",
-      "आयशे? आयशे, आँखें खोलो। प्लीज़...") },
+      "AyShe? AyShe, gözlerini aç. Lütfen...",
+      "AyShe? AyShe, open your eyes. Please...",
+      "AyShe? AyShe, mach die Augen auf. Bitte...",
+      "AyShe ? AyShe, ouvre les yeux. S'il te plaît...",
+      "¿AyShe? AyShe, abre los ojos. Por favor...",
+      "AyShe? AyShe, abre os olhos. Por favor...",
+      "AyShe؟ AyShe، افتحي عينيكِ. أرجوكِ...",
+      "AyShe? AyShe, आँखें खोलो। प्लीज़...") },
     { scene: 8, speaker: "pusula", at: 173, tag: "whispers", text: t(
-      "Ayşe...",
-      "Ayşe...",
-      "Ayşe...",
-      "Ayşe...",
-      "Ayşe...",
-      "Ayşe...",
-      "آيشه...",
-      "आयशे...") },
+      "AyShe...",
+      "AyShe...",
+      "AyShe...",
+      "AyShe...",
+      "AyShe...",
+      "AyShe...",
+      "AyShe...",
+      "AyShe...") },
   ],
   next: { n: 15, title: t("Yeniden Doğuş", "Rebirth", "Wiedergeburt", "Renaissance", "Renacer", "Renascimento", "الولادة من جديد", "पुनर्जन्म") },
 });

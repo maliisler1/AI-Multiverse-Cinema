@@ -1,6 +1,6 @@
 /**
  * Neo-Genesis: 2300 — Bölüm 2 "Kayıp Sinyal" (180 sn).
- * Ayşe sinyalin peşinden yüzen adalara gider, çöken köprüden kurtulur, düşmüş Kapsül 7'de
+ * AyShe sinyalin peşinden yüzen adalara gider, çöken köprüden kurtulur, düşmüş Kapsül 7'de
  * Rün'ü kurtarır ve sinyalin 201 yıl önce kaydedilmiş kendi sesi olduğunu öğrenir.
  * Son: uzak bir kayalıkta maskeli bir figür onları izliyor.
  */
@@ -143,14 +143,14 @@ export const neoGenesisE2 = episode({
       "الجسر ينهار!",
       "पुल टूट रहा है!") },
     { scene: 3, speaker: "pusula", at: 47, tag: "urgent", text: t(
-      "Ayşe! Elini taşa bastır! Elyra sana cevap verir!",
-      "Ayşe! Press your hand to the stone! Elyra will answer you!",
-      "Ayşe! Drück deine Hand auf den Stein! Elyra wird dir antworten!",
-      "Ayşe ! Pose ta main sur la pierre ! Elyra te répondra !",
-      "¡Ayşe! ¡Pon la mano en la piedra! ¡Elyra te responderá!",
-      "Ayşe! Encoste a mão na pedra! Elyra vai te responder!",
-      "آيشه! ضعي يدك على الحجر! إليرا ستستجيب لكِ!",
-      "आयशे! अपना हाथ पत्थर पर रखो! एलीरा तुम्हें जवाब देगी!") },
+      "AyShe! Elini taşa bastır! Elyra sana cevap verir!",
+      "AyShe! Press your hand to the stone! Elyra will answer you!",
+      "AyShe! Drück deine Hand auf den Stein! Elyra wird dir antworten!",
+      "AyShe ! Pose ta main sur la pierre ! Elyra te répondra !",
+      "¡AyShe! ¡Pon la mano en la piedra! ¡Elyra te responderá!",
+      "AyShe! Encoste a mão na pedra! Elyra vai te responder!",
+      "AyShe! ضعي يدك على الحجر! إليرا ستستجيب لكِ!",
+      "AyShe! अपना हाथ पत्थर पर रखो! एलीरा तुम्हें जवाब देगी!") },
     { scene: 3, speaker: "ayshe", at: 57, tag: "strained", text: t(
       "Hadi... lütfen... hadi!",
       "Come on... please... come on!",
@@ -188,14 +188,14 @@ export const neoGenesisE2 = episode({
       "الكبسولة ترتفع حرارتها. بقيت له دقائق قليلة.",
       "कैप्सूल ज़्यादा गरम हो रहा है। उसके पास कुछ ही मिनट बचे हैं।") },
     { scene: 5, speaker: "ayshe", at: 96, tag: "whispers", radio: true, text: t(
-      "Beni duyan var mı? Ben Genesis ekibinden... Ayşe.",
-      "Can anyone hear me? This is Ayşe... from the Genesis team.",
-      "Hört mich jemand? Hier ist Ayşe... vom Genesis-Team.",
-      "Quelqu'un m'entend ? Ici Ayşe... de l'équipe Genesis.",
-      "¿Alguien me oye? Soy Ayşe... del equipo Genesis.",
-      "Alguém me ouve? Aqui é a Ayşe... da equipe Genesis.",
-      "هل يسمعني أحد؟ أنا آيشه... من فريق جينيسيس.",
-      "क्या कोई मुझे सुन रहा है? मैं आयशे हूँ... जेनेसिस टीम से।") },
+      "Beni duyan var mı? Ben Genesis ekibinden... AyShe.",
+      "Can anyone hear me? This is AyShe... from the Genesis team.",
+      "Hört mich jemand? Hier ist AyShe... vom Genesis-Team.",
+      "Quelqu'un m'entend ? Ici AyShe... de l'équipe Genesis.",
+      "¿Alguien me oye? Soy AyShe... del equipo Genesis.",
+      "Alguém me ouve? Aqui é a AyShe... da equipe Genesis.",
+      "هل يسمعني أحد؟ أنا AyShe... من فريق جينيسيس.",
+      "क्या कोई मुझे सुन रहा है? मैं AyShe हूँ... जेनेसिस टीम से।") },
     { scene: 5, speaker: "ayshe", at: 102.5, tag: "shocked", text: t(
       "Bu... benim sesim.",
       "That's... my voice.",
@@ -233,14 +233,14 @@ export const neoGenesisE2 = episode({
       "أستطيع... أستطيع التنفس!",
       "मैं... मैं साँस ले पा रहा हूँ!") },
     { scene: 6, speaker: "ayshe", at: 131, text: t(
-      "Ben Ayşe. Sen kimsin?",
-      "I'm Ayşe. Who are you?",
-      "Ich bin Ayşe. Wer bist du?",
-      "Je suis Ayşe. Qui es-tu ?",
-      "Soy Ayşe. ¿Quién eres?",
-      "Eu sou a Ayşe. Quem é você?",
-      "أنا آيشه. من أنت؟",
-      "मैं आयशे हूँ। तुम कौन हो?") },
+      "Ben AyShe. Sen kimsin?",
+      "I'm AyShe. Who are you?",
+      "Ich bin AyShe. Wer bist du?",
+      "Je suis AyShe. Qui es-tu ?",
+      "Soy AyShe. ¿Quién eres?",
+      "Eu sou a AyShe. Quem é você?",
+      "أنا AyShe. من أنت؟",
+      "मैं AyShe हूँ। तुम कौन हो?") },
     { scene: 7, speaker: "run", at: 137, tag: "confused", text: t(
       "Rün... sanırım. Uyanmadan önce biri kafamın içindeydi. Bir şeyleri siliyordu.",
       "Rün... I think. Before I woke up, someone was inside my head. Erasing things.",
@@ -269,14 +269,14 @@ export const neoGenesisE2 = episode({
       "لم يعودا وحيدين على إليرا. لكن ليس الجميع أصدقاء.",
       "एलीरा पर वे अब अकेले नहीं थे। लेकिन हर कोई दोस्त नहीं था।") },
     { scene: 8, speaker: "pusula", at: 172, tag: "whispers", text: t(
-      "Ayşe... biri bizi izliyor.",
-      "Ayşe... someone is watching us.",
-      "Ayşe... jemand beobachtet uns.",
-      "Ayşe... quelqu'un nous observe.",
-      "Ayşe... alguien nos está observando.",
-      "Ayşe... alguém está nos observando.",
-      "آيشه... أحدهم يراقبنا.",
-      "आयशे... कोई हमें देख रहा है।") },
+      "AyShe... biri bizi izliyor.",
+      "AyShe... someone is watching us.",
+      "AyShe... jemand beobachtet uns.",
+      "AyShe... quelqu'un nous observe.",
+      "AyShe... alguien nos está observando.",
+      "AyShe... alguém está nos observando.",
+      "AyShe... أحدهم يراقبنا.",
+      "AyShe... कोई हमें देख रहा है।") },
   ],
   next: { n: 3, title: t("Gölge Avcıları", "Shadow Hunters", "Schattenjäger", "Chasseurs d'ombres", "Cazadores de sombras", "Caçadores de sombras", "صائدو الظلال", "छाया शिकारी") },
 });
