@@ -1,7 +1,7 @@
 /**
  * "Senin kapsülün kaç?" testi. 5 soru × 4 cevap; cevaplardan 1–23 arası
  * kapsül ve bir karakter tipi çıkar. 23 AyShe'nin kapsülüdür ve en nadir
- * sonuçtur (~%2). 7 Leon'un kapsülüdür.
+ * sonuçtur (~%2). 7 Leon'un kapsülü ve AyShe'nin uğurlu sayısıdır.
  */
 export type Archetype = "explorer" | "guardian" | "sage" | "healer";
 const ARCHETYPES: Archetype[] = ["explorer", "guardian", "sage", "healer"];
@@ -104,7 +104,8 @@ export function pick(lang: string, l: L) {
 
 export function capsuleTitle(lang: string, capsule: number) {
   if (capsule === AYSHE_CAPSULE) return lang === "tr" ? "AyShe'nin kapsülü!" : "AyShe's capsule!";
-  if (capsule === LEON_CAPSULE) return lang === "tr" ? "Leon'un kapsülü!" : "Leon's capsule!";
+  // 7 AyShe'nin uğurlu sayısı; Leon'un 7'den çıkması kader bağı (Bölüm 3+).
+  if (capsule === LEON_CAPSULE) return lang === "tr" ? "Leon'un kapsülü · AyShe'nin uğurlu sayısı!" : "Leon's capsule · AyShe's lucky number!";
   return lang === "tr" ? `Kapsül ${capsule}` : `Capsule ${capsule}`;
 }
 
