@@ -7,7 +7,7 @@ import {
 export const AD_UNITS = {
   banner: 'ca-app-pub-9404448916585248/5845378885',
   interstitial: 'ca-app-pub-9404448916585248/6866808514',
-  // AdMob "Bolum Ac Odullu" (ödüllü): kilitli bölümü reklam izleyerek açma.
+  // AdMob "Bölüm Aç Ödüllü" (ödüllü): kilitli bölümü reklam izleyerek açma.
   rewarded: 'ca-app-pub-9404448916585248/2363965458',
 } as const;
 const TEST_UNITS = (import.meta.env.VITE_ADMOB_TEST === 'true' || import.meta.env.DEV) ? {
