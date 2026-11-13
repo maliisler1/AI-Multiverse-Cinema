@@ -125,7 +125,7 @@ export function kenBurns(index: number, duration: number): string {
   ];
   return (
     `scale=3840:2160:force_original_aspect_ratio=increase,crop=3840:2160,setsar=1,` +
-    `zoompan=${moves[index % moves.length]}:d=${n}:s=1280x720:fps=30,` +
+    `zoompan=${moves[index % moves.length]}:d=${n}:s=1920x1080:fps=30,` +
     `fade=t=in:st=0:d=0.4,fade=t=out:st=${duration - 0.4}:d=0.4`
   );
 }
@@ -145,7 +145,8 @@ async function main() {
     if (clip) {
       inputs.push(["-i", clip]);
       filters.push(
-        `[${i}:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,fps=30,` +
+        // 720p klipler 1080p'ye bilgisayarda bedava büyütülür (lanczos + hafif keskinleştirme).
+        `[${i}:v]scale=1920:1080:flags=lanczos:force_original_aspect_ratio=increase,crop=1920:1080,unsharp=5:5:0.6,setsar=1,fps=30,` +
           `tpad=stop_mode=clone:stop_duration=${c.duration},trim=duration=${c.duration},setpts=PTS-STARTPTS[v${i}]`,
       );
       continue;
@@ -181,7 +182,11 @@ async function main() {
     "-preset",
     "medium",
     "-crf",
-    "20",
+    "19",
+    "-maxrate",
+    "6M",
+    "-bufsize",
+    "12M",
     "-pix_fmt",
     "yuv420p",
     "-movflags",

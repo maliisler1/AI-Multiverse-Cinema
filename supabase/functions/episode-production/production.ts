@@ -174,7 +174,7 @@ export class Ctx {
     }
     const quality: ImageQuality = IMAGE_QUALITIES.includes(body.imageQuality as ImageQuality)
       ? (body.imageQuality as ImageQuality)
-      : "economy";
+      : "high"; // Varsayılan: 1080p kareler (kare başı 8 kredi ≈ 0,08 $).
     /** Yalnızca bu klipler (ör. tek bir kareyi videoya çevirmek için). */
     const only = Array.isArray(body.only) ? (body.only as unknown[]).map(String) : null;
     return { model, langs, voices, quality, only };

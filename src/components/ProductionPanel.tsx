@@ -103,7 +103,7 @@ export function ProductionPanel({
   const [refUrl, setRefUrl] = useState<string | null>(null);
   const [voices, setVoices] = useState<Record<string, string>>({});
   const [ttsModel, setTtsModel] = useState("eleven_v3");
-  const [quality, setQuality] = useState<"economy" | "high">("economy");
+  const [quality, setQuality] = useState<"economy" | "high">("high");
   const [langs, setLangs] = useState<string[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const base = { seriesSlug, episode };
