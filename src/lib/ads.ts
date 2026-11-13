@@ -1,16 +1,20 @@
 import { Capacitor } from '@capacitor/core';
 import {
   AdMob, AdmobConsentStatus, BannerAdPosition, BannerAdSize,
-  BannerAdPluginEvents, InterstitialAdPluginEvents,
+  BannerAdPluginEvents, InterstitialAdPluginEvents, RewardAdPluginEvents,
 } from '@capacitor-community/admob';
 
 export const AD_UNITS = {
   banner: 'ca-app-pub-9404448916585248/5845378885',
   interstitial: 'ca-app-pub-9404448916585248/6866808514',
+  // AdMob'da "Ödüllü" reklam birimi açılınca kimliği buraya yazılır. Boşken
+  // gerçek uygulamada "reklam izle ve aç" seçeneği gösterilmez.
+  rewarded: '',
 } as const;
 const TEST_UNITS = (import.meta.env.VITE_ADMOB_TEST === 'true' || import.meta.env.DEV) ? {
   banner: 'ca-app-pub-3940256099942544/6300978111',
   interstitial: 'ca-app-pub-3940256099942544/1033173712',
+  rewarded: 'ca-app-pub-3940256099942544/5224354917',
 } as const : null;
 type AdsState = { bannerHeight: number; privacyRequired: boolean };
 
@@ -34,6 +38,7 @@ export function createAdsController(
   let lastInterstitial = now();
   let listenersReady = false;
   let consentGeneration = 0;
+  let adFree = false;
 
   function publish(next: Partial<AdsState>) {
     state = { ...state, ...next };
@@ -90,6 +95,7 @@ export function createAdsController(
       sdkReady = true;
     }
     await addListeners();
+    if (adFree) return;
     await sdk.showBanner({
       adId: units.banner, isTesting: testing, adSize: BannerAdSize.ADAPTIVE_BANNER,
       position: BannerAdPosition.BOTTOM_CENTER, margin: 0,
@@ -98,7 +104,7 @@ export function createAdsController(
   }
 
   function start() {
-    if (!native()) return Promise.resolve();
+    if (!native() || adFree) return Promise.resolve();
     if (!starting) {
       starting = authorizeAndLoad().catch(() => {
         // No consent/network response: the application remains usable without ads.
@@ -112,7 +118,7 @@ export function createAdsController(
   }
 
   async function atSeriesEnd() {
-    if (!native() || !canRequestAds || showing || privacyOpen) return;
+    if (!native() || adFree || !canRequestAds || showing || privacyOpen) return;
     completedViews++;
     // Only an explicit completed-browsing action can show a cached ad. Never
     // delay navigation to wait for a network request, or show ads on app exit.
@@ -147,8 +153,52 @@ export function createAdsController(
     }
   }
 
+  /** Sezonu satın alan kullanıcıya reklam gösterilmez. */
+  async function setAdFree(value: boolean) {
+    if (adFree === value) return;
+    adFree = value;
+    if (!value) { void start(); return; }
+    interstitialReady = false;
+    publish({ bannerHeight: 0 });
+    if (sdkReady) await sdk.removeBanner().catch(() => {});
+  }
+
+  /** Ödüllü reklam bu cihazda gösterilebilir mi? */
+  function canReward() {
+    return native() && !!units.rewarded;
+  }
+
+  /**
+   * Ödüllü reklamı gösterir. "rewarded": kullanıcı reklamı sonuna kadar izledi.
+   * "dismissed": erken kapattı. "unavailable": reklam yüklenemedi/izin yok.
+   */
+  async function showRewarded(): Promise<'rewarded' | 'dismissed' | 'unavailable'> {
+    if (!canReward() || showing || privacyOpen) return 'unavailable';
+    await start();
+    if (!canRequestAds) return 'unavailable';
+    showing = true;
+    let earned = false;
+    const handles: { remove: () => Promise<void> }[] = [];
+    try {
+      await sdk.prepareRewardVideoAd({ adId: units.rewarded, isTesting: testing });
+      let resolveClosed = () => {};
+      const closed = new Promise<void>((resolve) => { resolveClosed = resolve; });
+      handles.push(await sdk.addListener(RewardAdPluginEvents.Rewarded, () => { earned = true; }));
+      handles.push(await sdk.addListener(RewardAdPluginEvents.Dismissed, () => resolveClosed()));
+      handles.push(await sdk.addListener(RewardAdPluginEvents.FailedToShow, () => resolveClosed()));
+      void sdk.showRewardVideoAd().then(() => { earned = true; }).catch(() => resolveClosed());
+      await closed;
+      return earned ? 'rewarded' : 'dismissed';
+    } catch {
+      return 'unavailable';
+    } finally {
+      showing = false;
+      await Promise.all(handles.map((h) => Promise.resolve().then(() => h.remove()).catch(() => {})));
+    }
+  }
+
   return {
-    start, atSeriesEnd, openPrivacyOptions,
+    start, atSeriesEnd, openPrivacyOptions, setAdFree, canReward, showRewarded,
     getSnapshot: () => state,
     subscribe: (callback: () => void) => {
       subscriptions.add(callback);

@@ -11,6 +11,7 @@ import { useT, LANG_NAMES } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { canPlay, hasEpisodeAccess, nextPlayable } from "@/lib/playback";
 import { ads } from "@/lib/ads";
+import { offline } from "@/lib/offline";
 
 export const Route = createFileRoute("/izle/$slug/$n")({
   loader: async ({ context, params }) => {
@@ -41,7 +42,7 @@ export function Player() {
   const [countdown, setCountdown] = useState<number | null>(null);
   const ep = eps.find((e) => e.n === n);
   const next = nextPlayable(eps, n);
-  const allowed = !!ep && hasEpisodeAccess(ep, state.unlocked, FREE_EPISODES);
+  const allowed = !!ep && hasEpisodeAccess(ep, state.unlocked, FREE_EPISODES, state.seasonOwned);
   const completed = useRef(false);
   const seek = useRef(0);
   const mutedFallback = useRef(false);
@@ -60,6 +61,13 @@ export function Player() {
     if (!canPlay(ep) || !allowed) return;
     const current = ep;
     const load = async () => {
+      // İndirilmiş bölüm: cihazdaki dosyalarla, internet olmadan oynar.
+      const local = offline.get(current.id);
+      if (local) {
+        setSrc(offline.src(local.video));
+        if (local.audio) setAudioSrc(offline.src(local.audio));
+        return;
+      }
       try {
         const url = await signedUrl("videos", current.video_url);
         if (!url) throw new Error("video unavailable");
@@ -121,7 +129,7 @@ export function Player() {
   const goNext = () => {
     setCountdown(null);
     if (!next) return;
-    if (!hasEpisodeAccess(next, state.unlocked, FREE_EPISODES)) {
+    if (!hasEpisodeAccess(next, state.unlocked, FREE_EPISODES, state.seasonOwned)) {
       toast.info(t("locked_ep"));
       void nav({to:"/dizi/$slug",params:{slug}});
       return;

@@ -3,7 +3,14 @@ import { otherPublished, pickFeatured } from "@/routes/index";
 import type { SeriesRow } from "@/lib/catalog";
 
 const row = (slug: string, status: "draft" | "published", sort = 0): SeriesRow => ({
-  id: slug, slug, title: slug, category: "scifi", poster_url: null, status, sort, text: {},
+  id: slug,
+  slug,
+  title: slug,
+  category: "scifi",
+  poster_url: null,
+  status,
+  sort,
+  text: {},
 });
 
 describe("tek dizi ana sayfa", () => {

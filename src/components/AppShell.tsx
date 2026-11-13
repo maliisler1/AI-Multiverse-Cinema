@@ -1,17 +1,21 @@
 import { Link } from "@tanstack/react-router";
-import { Hop as Home, User, Coins, Languages, ShieldCheck } from "lucide-react";
+import { Hop as Home, User, Crown, Languages, ShieldCheck } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { useAppState } from "@/lib/store";
 import { useT, detectDeviceLang, LANG_NAMES, RTL, translate, type Lang } from "@/lib/i18n";
 
 import { ads } from "@/lib/ads";
+import { season } from "@/lib/season";
+
+let seasonChecked = false;
 
 export function TokenBadge() {
   const { state, user, isAdmin } = useAppState();
+  const { t } = useT();
   return (
     <div className="flex items-center gap-2">
-      <Link to="/jeton" className="flex items-center gap-1.5 rounded-full glass border px-3 py-1.5 text-sm font-bold text-gold">
-        <Coins className="h-4 w-4" /> {state.tokens}
+      <Link to="/jeton" className="flex items-center gap-1.5 rounded-full glass border px-3 py-1.5 text-xs font-bold text-gold">
+        <Crown className="h-4 w-4" /> {state.seasonOwned ? "✓" : t("nav_season")}
       </Link>
       {isAdmin && (
         <Link to="/yonetim" className="rounded-full glass border p-2 text-primary" aria-label="Yönetim">
@@ -57,14 +61,23 @@ function LanguageSuggestion() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { t, lang } = useT();
-  useEffect(() => { void ads.start(); }, []);
+  const { state, update, ready } = useAppState();
+  useEffect(() => { void ads.setAdFree(state.seasonOwned).then(() => ads.start()); }, [state.seasonOwned]);
+  useEffect(() => {
+    // Uygulama açılışında Google Play'deki sezon satın almasını bir kez doğrula.
+    if (!ready || seasonChecked) return;
+    seasonChecked = true;
+    void season.check().then((owned) => {
+      if (owned !== null) update((s) => (s.seasonOwned === owned ? s : { ...s, seasonOwned: owned }));
+    });
+  }, [ready, update]);
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = RTL.includes(lang) ? "rtl" : "ltr";
   }, [lang]);
   const nav = [
     { to: "/", label: t("nav_home"), icon: Home },
-    { to: "/jeton", label: t("nav_tokens"), icon: Coins },
+    { to: "/jeton", label: t("nav_season"), icon: Crown },
     { to: "/ayarlar", label: t("nav_settings"), icon: Languages },
   ] as const;
   return (

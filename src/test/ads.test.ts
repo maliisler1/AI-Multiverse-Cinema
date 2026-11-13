@@ -111,3 +111,42 @@ describe('AdMob integration', () => {
     expect(mocks.initialize).not.toHaveBeenCalled();
   });
 });
+
+describe('Rewarded ads', () => {
+  const withReward = (testing: boolean) => {
+    const f = fixture(true, testing);
+    Object.assign(f.mocks, {
+      prepareRewardVideoAd: vi.fn().mockResolvedValue({}),
+      showRewardVideoAd: vi.fn(async () => {
+        f.events.get('onRewardedVideoAdReward')?.({ type: 'coin', amount: 1 });
+        f.events.get('onRewardedVideoAdDismissed')?.();
+        return { type: 'coin', amount: 1 };
+      }),
+    });
+    return f;
+  };
+
+  it('unlocks only after the reward and is hidden without a rewarded unit', async () => {
+    const live = withReward(false);
+    expect(live.ads.canReward()).toBe(AD_UNITS.rewarded !== '');
+    const test = withReward(true);
+    expect(test.ads.canReward()).toBe(true);
+    expect(await test.ads.showRewarded()).toBe('rewarded');
+  });
+
+  it('reports an early close as dismissed', async () => {
+    const f = withReward(true);
+    f.mocks.showRewardVideoAd = vi.fn(async () => {
+      f.events.get('onRewardedVideoAdDismissed')?.();
+      return new Promise<never>(() => {});
+    });
+    expect(await f.ads.showRewarded()).toBe('dismissed');
+  });
+
+  it('shows no banner after the season is bought', async () => {
+    const f = withReward(false);
+    await f.ads.setAdFree(true);
+    await f.ads.start();
+    expect(f.mocks.showBanner).not.toHaveBeenCalled();
+  });
+});

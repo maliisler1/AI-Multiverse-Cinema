@@ -25,6 +25,8 @@ export type State = {
   audioLang: Lang;
   subLang: Lang | "off";
   langChosen: boolean;
+  /** Google Play'den "Sezonu Satın Al" yapıldı: tüm bölümler açık, reklamsız, internetsiz izleme. */
+  seasonOwned: boolean;
 };
 
 const KEY = "amc-…e-v3";
@@ -41,6 +43,7 @@ const initial: State = {
   audioLang: DEFAULT_UI,
   subLang: DEFAULT_UI,
   langChosen: false,
+  seasonOwned: false,
 };
 
 const isLang = (v: unknown): v is Lang => typeof v === "string" && (LANGS as readonly string[]).includes(v);

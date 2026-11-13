@@ -1,93 +1,119 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Coins, Check, Crown } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Check, Crown, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, TokenBadge } from "@/components/AppShell";
 import { useAppState } from "@/lib/store";
+import { season } from "@/lib/season";
+import { useT } from "@/lib/i18n";
 
+// Adres /jeton olarak kaldı (eski bağlantılar bozulmasın); sayfa artık "Sezonu Satın Al".
 export const Route = createFileRoute("/jeton")({
   head: () => ({
     meta: [
-      { title: "Demo Jetonlar — The Human Code: 2300" },
-      { name: "description", content: "Kilitli bölümleri açmak için jeton paketlerinden birini seç." },
-      { property: "og:title", content: "Jeton Paketleri — The Human Code: 2300" },
-      { property: "og:description", content: "Kilitli bölümleri açmak için jeton satın al." },
+      { title: "Sezonu Satın Al — The Human Code: 2300" },
+      { name: "description", content: "Tüm bölümleri reklamsız ve internetsiz izle." },
+      { property: "og:title", content: "Sezonu Satın Al — The Human Code: 2300" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Shop,
+  component: SeasonShop,
 });
 
-const packs = [
-  { id: "s", tokens: 50, bonus: 0, price: "Ücretsiz demo", label: "Başlangıç" },
-  { id: "m", tokens: 150, bonus: 30, price: "Ücretsiz demo", label: "En Popüler", hot: true },
-  { id: "l", tokens: 400, bonus: 120, price: "Ücretsiz demo", label: "Evren Gezgini" },
-  { id: "xl", tokens: 1000, bonus: 400, price: "Ücretsiz demo", label: "Multiverse VIP" },
-];
-
-function Shop() {
-  const { buyPack, user } = useAppState();
-  const [sel, setSel] = useState("m");
+function SeasonShop() {
+  const { state, update } = useAppState();
+  const { t } = useT();
+  const [price, setPrice] = useState<string | null>(null);
+  const [canBuy, setCanBuy] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
-  const pack = packs.find((p) => p.id === sel)!;
+
+  useEffect(() => {
+    let live = true;
+    void season.available().then((ok) => {
+      if (live) setCanBuy(ok);
+    });
+    void season.price().then((p) => {
+      if (live) setPrice(p);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
 
   const buy = async () => {
     setBusy(true);
-    const err = await buyPack(pack.id, pack.tokens + pack.bonus, pack.price);
+    try {
+      const ok = await season.buy();
+      if (ok) {
+        update((s) => ({ ...s, seasonOwned: true }));
+        toast.success(t("season_thanks"));
+      }
+    } catch {
+      toast.error(t("season_error"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const restore = async () => {
+    setBusy(true);
+    const owned = await season.check();
     setBusy(false);
-    if (err) {
-      toast.error(err);
+    if (owned === null) {
+      toast.error(t("season_error"));
       return;
     }
-    toast.success(`${pack.tokens + pack.bonus} jeton eklendi! (Demo)`);
+    update((s) => ({ ...s, seasonOwned: owned }));
+    if (owned) toast.success(t("season_restored"));
+    else toast.info(t("season_none"));
   };
 
   return (
     <AppShell>
       <header className="flex items-center justify-between px-5 pt-6">
-        <h1 className="text-xl font-bold">Jeton <span className="text-neon">Mağazası</span></h1>
+        <h1 className="text-xl font-bold">{t("season_title")}</h1>
         <TokenBadge />
       </header>
-      <p className="mt-2 px-5 text-sm text-muted-foreground">Her kilitli bölüm 12 demo jeton. Paketini seç, hikâyeye kesintisiz devam et.</p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 px-5">
-        {packs.map((p) => (
-          <button
-            key={p.id}
-            onClick={() => setSel(p.id)}
-            className={`relative rounded-3xl border-2 bg-card p-4 text-left transition ${sel === p.id ? "border-primary shadow-neon" : "border-transparent"}`}
-          >
-            {p.hot && <span className="absolute -top-2 right-3 rounded-full bg-accent px-2 py-0.5 text-[10px] font-bold text-accent-foreground">POPÜLER</span>}
-            <p className="text-xs text-muted-foreground">{p.label}</p>
-            <p className="mt-2 flex items-center gap-1.5 font-display text-2xl font-bold text-gold"><Coins className="h-5 w-5" />{p.tokens}</p>
-            {p.bonus > 0 && <p className="text-xs font-semibold text-primary">+{p.bonus} bonus</p>}
-            <p className="mt-3 text-sm font-bold">{p.price}</p>
-          </button>
-        ))}
-      </div>
-
-      <div className="mx-5 mt-6 rounded-3xl bg-card p-5">
-        <p className="flex items-center gap-2 text-sm font-bold"><Crown className="h-4 w-4 text-gold" /> Paket Avantajları</p>
-        <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-          {["Tüm dizilerde geçerli", "Jetonların süresi dolmaz", "Gerçek ödeme alınmaz"].map((t) => (
-            <li key={t} className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{t}</li>
+      <div className="mx-5 mt-6 rounded-3xl border-2 border-primary bg-card p-5 shadow-neon">
+        <p className="flex items-center gap-2 text-sm font-bold">
+          <Crown className="h-4 w-4 text-gold" /> The Human Code: 2300 · {t("season_1")}
+        </p>
+        <p className="mt-3 font-display text-3xl font-bold text-gold">
+          {state.seasonOwned ? t("season_owned") : (price ?? "5 USD")}
+        </p>
+        <p className="mt-1 text-xs text-muted-foreground">{t("season_once")}</p>
+        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+          {["season_perk1", "season_perk2", "season_perk3", "season_perk4"].map((k) => (
+            <li key={k} className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-primary" />
+              {t(k)}
+            </li>
           ))}
         </ul>
       </div>
 
-      {!user && (
-        <p className="mx-5 mt-4 rounded-2xl border border-dashed p-4 text-center text-sm text-muted-foreground">
-          Jetonların hesabına kalıcı yazılması için{" "}
-          <Link to="/giris" className="font-bold text-primary">hesabını aç</Link>.
-        </p>
-      )}
-
       <div className="px-5 pt-6">
-        <button onClick={buy} disabled={busy} className="w-full rounded-full bg-neon py-4 text-sm font-bold text-primary-foreground shadow-neon disabled:opacity-60">
-          {busy ? "…" : "Ücretsiz demo jetonu ekle"}
+        {!state.seasonOwned && (
+          <button
+            onClick={() => void buy()}
+            disabled={busy || canBuy !== true}
+            className="w-full rounded-full bg-neon py-4 text-sm font-bold text-primary-foreground shadow-neon disabled:opacity-60"
+          >
+            {busy ? "…" : t("season_buy")}
+          </button>
+        )}
+        {canBuy === false && (
+          <p className="mt-3 text-center text-xs text-muted-foreground">{t("season_play_only")}</p>
+        )}
+        <button
+          onClick={() => void restore()}
+          disabled={busy || canBuy !== true}
+          className="mx-auto mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground disabled:opacity-60"
+        >
+          <RotateCcw className="h-3.5 w-3.5" /> {t("season_restore")}
         </button>
-        <p className="mt-3 text-center text-[11px] text-muted-foreground">Demo modu: gerçek ödeme alınmaz.</p>
       </div>
     </AppShell>
   );
