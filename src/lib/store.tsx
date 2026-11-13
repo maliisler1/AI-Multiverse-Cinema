@@ -41,7 +41,8 @@ const initial: State = {
   name: "",
   uiLang: DEFAULT_UI,
   audioLang: DEFAULT_UI,
-  subLang: DEFAULT_UI,
+  // Altyazı varsayılan kapalı; kullanıcı dilerse açar.
+  subLang: "off",
   langChosen: false,
   seasonOwned: false,
 };

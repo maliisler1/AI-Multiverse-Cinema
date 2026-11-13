@@ -37,7 +37,7 @@ function LanguageSuggestion() {
   const name = LANG_NAMES[device];
   const t = (k: string) => translate(device, k, { lang: name });
   const accept = () =>
-    update((s) => ({ ...s, uiLang: device, audioLang: device, subLang: device, langChosen: true }));
+    update((s) => ({ ...s, uiLang: device, audioLang: device, subLang: "off", langChosen: true }));
   return (
     <div className="fixed inset-0 z-[60] grid place-items-end bg-background/70 p-4 backdrop-blur-sm" dir={RTL.includes(device) ? "rtl" : "ltr"}>
       <div className="mx-auto w-full max-w-md rounded-3xl border bg-card p-6">

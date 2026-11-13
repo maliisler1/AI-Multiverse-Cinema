@@ -12,7 +12,7 @@ vi.mock("@tanstack/react-router",()=>({
 vi.mock("@tanstack/react-query",()=>({useSuspenseQuery:()=>({data:m.episodes})}));
 vi.mock("@/components/AppShell",()=>({AppShell:({children}:any)=><div>{children}</div>}));
 vi.mock("@/lib/store",()=>({useAppState:()=>({state:{unlocked:[],resume:{},audioLang:"tr",subLang:"off"},user:null,update:vi.fn()})}));
-vi.mock("@/lib/i18n",()=>({useT:()=>({lang:"tr",t:(k:string)=>k}),LANG_NAMES:{tr:"Türkçe"}}));
+vi.mock("@/lib/i18n",()=>({useT:()=>({lang:"tr",t:(k:string)=>k}),LANG_NAMES:{tr:"Türkçe"},LANGS:["tr"]}));
 vi.mock("@/lib/catalog",()=>({episodeListQuery:()=>({}),seriesListQuery:{},signedUrl:m.signed,trackStatus:()=>"none",episodeTitle:()=>"Pilot"}));
 vi.mock("@/lib/ads",()=>({ads:{atSeriesEnd:vi.fn()}}));
 import { Player } from "@/routes/izle.$slug.$n";

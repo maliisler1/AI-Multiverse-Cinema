@@ -7,7 +7,7 @@ import { AppShell } from "@/components/AppShell";
 import { episodeListQuery, seriesListQuery, signedUrl, trackStatus, episodeTitle } from "@/lib/catalog";
 import { FREE_EPISODES } from "@/lib/data";
 import { useAppState } from "@/lib/store";
-import { useT, LANG_NAMES } from "@/lib/i18n";
+import { useT, LANG_NAMES, LANGS, type Lang } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { canPlay, hasEpisodeAccess, nextPlayable } from "@/lib/playback";
 import { ads } from "@/lib/ads";
@@ -180,6 +180,17 @@ export function Player() {
           <button onClick={goNext} className="rounded-full bg-primary p-2 text-xs">{t("watch_now")}</button>
           <button onClick={()=>setCountdown(null)} aria-label={t("cancel_next")}><X/></button>
         </div>}
+      </div>
+      <div className="mx-5 mt-3 grid grid-cols-2 gap-3">
+        <label className="block"><span className="text-xs font-semibold text-muted-foreground">{t("audio_lang")}</span>
+          <select aria-label={t("audio_lang")} value={state.audioLang} onChange={e=>{const v=e.target.value as Lang;update(s=>({...s,audioLang:v}));}} className="mt-1 w-full rounded-2xl border bg-card px-3 py-2 text-sm">
+            {LANGS.map(l=><option key={l} value={l}>{LANG_NAMES[l]}</option>)}
+          </select></label>
+        <label className="block"><span className="text-xs font-semibold text-muted-foreground">{t("sub_lang")}</span>
+          <select aria-label={t("sub_lang")} value={state.subLang} onChange={e=>{const v=e.target.value as Lang|"off";update(s=>({...s,subLang:v}));}} className="mt-1 w-full rounded-2xl border bg-card px-3 py-2 text-sm">
+            <option value="off">{t("sub_off")}</option>
+            {LANGS.map(l=><option key={l} value={l}>{LANG_NAMES[l]}</option>)}
+          </select></label>
       </div>
       {trackStatus(ep,"audio",state.audioLang)!=="ready" && <p className="mx-5 mt-3 text-xs text-muted-foreground">{t("dub_missing",{lang:LANG_NAMES[state.audioLang]})}</p>}
       {state.subLang!=="off" && trackStatus(ep,"subs",state.subLang)!=="ready" && <p className="mx-5 mt-3 text-xs text-muted-foreground">{t("sub_missing",{lang:LANG_NAMES[state.subLang]})}</p>}
