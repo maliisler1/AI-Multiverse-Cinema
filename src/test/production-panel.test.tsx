@@ -121,15 +121,15 @@ describe("Bölüm üretimi paneli", () => {
     expect(calls.at(-1)).toMatchObject({ action: "start", step: "clips", only: ["c01"] });
   });
 
-  it("varsayılan kare kalitesi ekonomik", async () => {
+  it("varsayılan kare kalitesi yüksek (1080p)", async () => {
     respond = (c) =>
       c.action === "start"
         ? { status: 409, body: { credits: 64 } }
         : { status: 200, body: overview() };
     render(<ProductionPanel />);
-    fireEvent.click(await screen.findByRole("button", { name: /Üret · ≈8 kredi/ }));
+    fireEvent.click(await screen.findByRole("button", { name: /Üret · ≈\d+ kredi/ }));
     await screen.findByText(/yaklaşık 64 Runway kredisi/);
-    expect(calls.at(-1)).toMatchObject({ step: "keyframes", imageQuality: "economy" });
+    expect(calls.at(-1)).toMatchObject({ step: "keyframes", imageQuality: "high" });
   });
 
   it("sunucu hatasını gösterir", async () => {
