@@ -10,9 +10,9 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/giris")({
   head: () => ({
     meta: [
-      { title: "Giriş / Kayıt — AI Multiverse Cinema" },
+      { title: "Giriş / Kayıt — The Human Code: 2300" },
       { name: "description", content: "Hesabını aç; jetonların, fotoğrafın ve ilerlemen her cihazda seninle gelsin." },
-      { property: "og:title", content: "Hesabını aç — AI Multiverse Cinema" },
+      { property: "og:title", content: "Hesabını aç — The Human Code: 2300" },
       { property: "og:description", content: "Jetonların, yüz fotoğrafın ve izleme ilerlemen her cihazda seninle gelir." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

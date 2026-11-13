@@ -6,9 +6,9 @@ import { useT, LANGS, LANG_NAMES, type Lang } from "@/lib/i18n";
 export const Route = createFileRoute("/ayarlar")({
   head: () => ({
     meta: [
-      { title: "Dil Ayarları — AI Multiverse Cinema" },
+      { title: "Dil Ayarları — The Human Code: 2300" },
       { name: "description", content: "Uygulama, seslendirme ve altyazı dilini ayrı ayrı seç." },
-      { property: "og:title", content: "Dil Ayarları — AI Multiverse Cinema" },
+      { property: "og:title", content: "Dil Ayarları — The Human Code: 2300" },
       { property: "og:description", content: "Uygulama, seslendirme ve altyazı dilini ayrı ayrı seç." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

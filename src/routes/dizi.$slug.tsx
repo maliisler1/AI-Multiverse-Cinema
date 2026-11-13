@@ -13,7 +13,7 @@ export const Route = createFileRoute("/dizi/$slug")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.slug} — AI Multiverse Cinema` },
+          { title: `${loaderData.slug} — The Human Code: 2300` },
           { property: "og:title", content: loaderData.slug },
           { property: "og:type", content: "video.tv_show" },
           { name: "twitter:card", content: "summary_large_image" },

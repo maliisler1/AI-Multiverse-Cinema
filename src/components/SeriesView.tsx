@@ -61,7 +61,7 @@ export function SeriesView({ id, slug, home = false, children }: { id: string; s
         <div className="absolute inset-0 bg-fade" />
         <div className="absolute inset-x-0 top-0 flex justify-between p-5">
           {home ? (
-            <span className="rounded-full glass px-3 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-neon">AI Multiverse</span>
+            <span className="rounded-full glass px-3 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-neon">The Human Code</span>
           ) : (
             <Link to="/" className="rounded-full glass p-2" aria-label={t("back")}>
               <ArrowLeft className="h-5 w-5 rtl:rotate-180" />

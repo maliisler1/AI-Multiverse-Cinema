@@ -8,9 +8,9 @@ import { useAppState } from "@/lib/store";
 export const Route = createFileRoute("/profil")({
   head: () => ({
     meta: [
-      { title: "Hesabım — AI Multiverse Cinema" },
-      { name: "description", content: "AI Multiverse Cinema hesabın." },
-      { property: "og:title", content: "Hesabım — AI Multiverse Cinema" },
+      { title: "Hesabım — The Human Code: 2300" },
+      { name: "description", content: "The Human Code: 2300 hesabın." },
+      { property: "og:title", content: "Hesabım — The Human Code: 2300" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

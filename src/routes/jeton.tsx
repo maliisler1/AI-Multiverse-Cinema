@@ -8,9 +8,9 @@ import { useAppState } from "@/lib/store";
 export const Route = createFileRoute("/jeton")({
   head: () => ({
     meta: [
-      { title: "Demo Jetonlar — AI Multiverse Cinema" },
+      { title: "Demo Jetonlar — The Human Code: 2300" },
       { name: "description", content: "Kilitli bölümleri açmak için jeton paketlerinden birini seç." },
-      { property: "og:title", content: "Jeton Paketleri — AI Multiverse Cinema" },
+      { property: "og:title", content: "Jeton Paketleri — The Human Code: 2300" },
       { property: "og:description", content: "Kilitli bölümleri açmak için jeton satın al." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -35,7 +35,7 @@ const pilotPlan = {
 export const series: Series[] = [
   {
     id: "neo-genesis-2099",
-    title: "Neo-Genesis: 2300",
+    title: "The Human Code: 2300",
     category: "scifi",
     poster: neo,
     ...pilotPlan,

@@ -334,7 +334,7 @@ export function ProductionPanel({
     <div className="mt-4 space-y-4 pb-10">
       <div className="rounded-2xl border bg-card p-4">
         <h2 className="text-lg font-bold">
-          Neo-Genesis: 2300 · {tr("Bölüm", "Episode")} {episode}: {ov.title[lang] ?? ov.title["tr"]}
+          The Human Code: 2300 · {tr("Bölüm", "Episode")} {episode}: {ov.title[lang] ?? ov.title["tr"]}
         </h2>
         <p className="mt-1 text-xs text-muted-foreground">
           {ov.clips.length} {tr("klip", "clips")} · {ov.lines.length} {tr("replik", "lines")} ·{" "}

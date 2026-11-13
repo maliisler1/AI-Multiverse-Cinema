@@ -14,7 +14,7 @@ export const Route = createFileRoute("/yonetim")({
   loader: ({ context }) => context.queryClient.ensureQueryData(seriesListQuery),
   head: () => ({
     meta: [
-      { title: "İçerik Yönetimi — AI Multiverse Cinema" },
+      { title: "İçerik Yönetimi — The Human Code: 2300" },
       { name: "description", content: "Dizi, bölüm, video ve dil dosyalarını yönet." },
       { name: "robots", content: "noindex" },
     ],

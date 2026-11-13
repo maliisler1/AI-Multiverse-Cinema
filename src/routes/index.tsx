@@ -27,10 +27,10 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "Neo-Genesis: 2300 — AI Multiverse Cinema" },
-      { name: "description", content: "Neo-Genesis: 2300 dizisinin tüm bölümlerini izle." },
-      { property: "og:title", content: "Neo-Genesis: 2300" },
-      { property: "og:description", content: "İnsanlığın son şansı, senin yüzünde saklı." },
+      { title: "The Human Code: 2300" },
+      { name: "description", content: "The Human Code: 2300 dizisinin tüm bölümlerini izle." },
+      { property: "og:title", content: "The Human Code: 2300" },
+      { property: "og:description", content: "İnsanlığın kurtuluşu DNA'nda yazılı." },
       { property: "og:type", content: "video.tv_show" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
