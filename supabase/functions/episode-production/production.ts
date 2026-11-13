@@ -166,9 +166,9 @@ export class Ctx {
     const langs = Array.isArray(body.langs)
       ? PRODUCTION_LANGS.filter((l) => (body.langs as string[]).includes(l))
       : [...PRODUCTION_LANGS];
-    const voices = {} as Record<SpeakerId, VoicePreset>;
+    const voices = {} as Partial<Record<SpeakerId, VoicePreset>>;
     const asked = (body.voices ?? {}) as Record<string, string>;
-    for (const [id, sp] of Object.entries(this.p.speakers) as [SpeakerId, Production["speakers"][SpeakerId]][]) {
+    for (const [id, sp] of Object.entries(this.p.speakers) as [SpeakerId, NonNullable<Production["speakers"][SpeakerId]>][]) {
       const v = asked[id];
       voices[id] = VOICE_PRESETS.includes(v as VoicePreset) ? (v as VoicePreset) : sp.defaultVoice;
     }
@@ -390,7 +390,7 @@ export class Ctx {
     const line = this.p.lines.find((l) => l.key === key);
     if (!line) throw new Error("Replik planda yok");
     const model = (job.params.model as TtsModel) ?? "eleven_v3";
-    const voice = (job.params.voice as VoicePreset) ?? this.p.speakers[line.speaker].defaultVoice;
+    const voice = (job.params.voice as VoicePreset) ?? this.p.speakers[line.speaker]!.defaultVoice;
     const body: Record<string, unknown> = {
       model,
       promptText: speechText(line, lang, model),

@@ -260,7 +260,7 @@ async function main() {
         body: {
           model: MODEL,
           promptText: text,
-          voice: { type: "runway-preset", presetId: prod!.speakers[line.speaker].defaultVoice },
+          voice: { type: "runway-preset", presetId: prod!.speakers[line.speaker]!.defaultVoice },
           languageCode: lang,
         },
       });

@@ -1,0 +1,210 @@
+/**
+ * Neo-Genesis: 2300 — Bölüm 7 "Unutulan Şarkı" (180 sn).
+ * Gece AyShe bilmediği bir ninniyi mırıldanır; Nil sözlerini hatırlar ve ağlar. Müzik Pusula'yı
+ * zayıfça uyandırır. Nil, AyShe'yi gizlice Sessizlik Kulesi'ne götürür: insanların anıları ışık
+ * olarak yukarı çekilmektedir. Alarm çalar. Son: Vael, AyShe'nin hafızasını da kendisinin aldığını söyler.
+ */
+import { ASTER_GRADE, MEMORY_GRADE, NIL, PUSULA, SILGI, VAEL, episode, t } from "./neo-genesis-cast.ts";
+
+export const neoGenesisE7 = episode({
+  episode: 7,
+  title: t("Unutulan Şarkı", "The Forgotten Song", "Das vergessene Lied", "La Chanson oubliée", "La canción olvidada", "A canção esquecida", "الأغنية المنسية", "भूला हुआ गीत"),
+  clips: [
+    // Sahne 1 — Ninni (0:00–0:20)
+    [1, 10, true,
+      `sad, gentle expression, sitting on a wide glass window ledge at night holding a dark lifeless glass orb in her lap, humming softly, ${ASTER_GRADE}`,
+      "She rocks slightly as she hums, cold moonlight moves across her face, slow push-in"],
+    [1, 10, false,
+      `${NIL} in pale pajamas peeking through a half-open glass door at night, curious, ${ASTER_GRADE}`,
+      "She pushes the door open slowly and tiptoes in"],
+
+    // Sahne 2 — Nil hatırlıyor (0:20–0:45)
+    [2, 10, false,
+      `Close-up of ${NIL} singing softly, tears welling up in her eyes, moonlight`,
+      "A tear rolls down her cheek as she sings, she wipes it away surprised"],
+    [2, 5, true,
+      "stunned expression, lips parted, no smile, turning toward a little girl in a moonlit glass room",
+      "She stops humming and turns slowly toward the girl"],
+    [2, 10, true,
+      `tender expression, kneeling and holding the hands of ${NIL} in a moonlit glass room, ${ASTER_GRADE}`,
+      "She takes the girl's hands, the girl steps closer, camera slowly circles them"],
+
+    // Sahne 3 — Pusula kıpırdıyor (0:45–1:05)
+    [3, 10, false,
+      "Close-up of a dark glass orb in two hands, a faint turquoise spark flickering to life inside it",
+      "A tiny spark flickers, fades, then glows a little stronger"],
+    [3, 10, true,
+      `hopeful expression, eyes wide, holding up a faintly glowing orb in a dark room, turquoise light on her face`,
+      "The orb pulses weakly, she lifts it closer to her face and breathes out in relief"],
+
+    // Sahne 4 — Gece koridoru (1:05–1:35)
+    [4, 10, true,
+      `focused expression, sneaking down a dark glass corridor at night holding the hand of ${NIL}, ${ASTER_GRADE}`,
+      "They move quickly and quietly along the wall, camera tracks backward ahead of them"],
+    [4, 10, false,
+      `A ${SILGI} walking slowly past the end of a dark glass corridor at night, its shadow stretching long on the floor`,
+      "The figure walks steadily across the corridor end, its shadow slides along the floor"],
+    [4, 10, true,
+      `holding her breath, pressed flat against a glass pillar in the dark beside ${NIL}, cold light sweeping past`,
+      "A cold beam of light sweeps across the pillar, she squeezes her eyes shut, then opens them"],
+
+    // Sahne 5 — Kulenin dibi (1:35–1:50)
+    [5, 10, false,
+      `The base of a tall ice-glass spire at night, thin threads of glowing light flowing up into it from every direction, ${ASTER_GRADE}`,
+      "Camera slowly tilts up the spire as threads of light stream upward into it"],
+    [5, 5, false,
+      `${NIL} pointing up at a glowing spire, whispering, night, ${ASTER_GRADE}`,
+      "She points upward and pulls closer to the person beside her"],
+
+    // Sahne 6 — Anı odası (1:50–2:15)
+    [6, 10, false,
+      `A round glass chamber inside a spire, one calm man seated in a tall glass chair with eyes closed, a thin thread of warm light rising from his forehead into the ceiling, ${ASTER_GRADE}`,
+      "The thread of light pulls slowly upward, the man's face relaxes and goes blank"],
+    [6, 10, true,
+      "horrified expression, reaching out and touching a thin thread of warm light in a glass chamber",
+      "Her fingers touch the thread, a warm flash lights up her face, she gasps"],
+    [6, 5, false,
+      `A birthday cake with small candles being blown out in a warm cozy kitchen, ${MEMORY_GRADE}`,
+      "The candle flames bend and go out, warm smoke curls up"],
+
+    // Sahne 7 — Alarm (2:15–2:40)
+    [7, 10, true,
+      "fierce expression, grabbing a thread of light with both hands and pulling, the glass chamber flashing red",
+      "She pulls hard, the thread snaps, red warning light floods the chamber"],
+    [7, 10, false,
+      `Two ${SILGI} running down a glass staircase in red flashing light`,
+      "They rush down the stairs toward the camera, red light strobing"],
+    [7, 5, false,
+      `${NIL} hiding behind a glass chair, hands over her ears, red flashing light`,
+      "She curls up tighter and squeezes her eyes shut"],
+
+    // Sahne 8 — İtiraf (2:40–3:00)
+    [8, 10, false,
+      `${VAEL} stepping calmly into a glass chamber as the red light fades to cold white, hands behind his back`,
+      "He walks in slowly, the red light fades, he stops and looks with quiet sadness"],
+    [8, 10, true,
+      "devastated, shocked expression, tears in her eyes, no smile, standing frozen in a cold white glass chamber",
+      "Her eyes fill with tears, her lips tremble, slow push-in to an extreme close-up, cut to black"],
+  ],
+
+  lines: [
+    { scene: 1, speaker: "narrator", at: 3, text: t(
+      "Bazı şarkılar hafızadan silinse bile kalpte kalır.",
+      "Some songs stay in the heart even when they're erased from memory.",
+      "Manche Lieder bleiben im Herzen, selbst wenn sie aus der Erinnerung gelöscht werden.",
+      "Certaines chansons restent dans le cœur même effacées de la mémoire.",
+      "Algunas canciones se quedan en el corazón aunque se borren de la memoria.",
+      "Algumas canções ficam no coração mesmo quando são apagadas da memória.",
+      "بعض الأغاني تبقى في القلب حتى لو مُحيت من الذاكرة.",
+      "कुछ गीत याद से मिट जाने के बाद भी दिल में रह जाते हैं।") },
+    { scene: 2, speaker: "nil", at: 22, tag: "sings softly", text: t(
+      "Uyu küçük yıldız, gökyüzü seni bekler...",
+      "Sleep, little star, the sky is waiting for you...",
+      "Schlaf, kleiner Stern, der Himmel wartet auf dich...",
+      "Dors, petite étoile, le ciel t'attend...",
+      "Duerme, estrellita, el cielo te espera...",
+      "Dorme, estrelinha, o céu está te esperando...",
+      "نامي يا نجمتي الصغيرة، السماء تنتظركِ...",
+      "सो जा नन्हे तारे, आसमान तेरा इंतज़ार करता है...") },
+    { scene: 2, speaker: "ayshe", at: 31, tag: "whispers", text: t(
+      "Bu şarkıyı nereden biliyorsun?",
+      "How do you know this song?",
+      "Woher kennst du dieses Lied?",
+      "Comment tu connais cette chanson ?",
+      "¿Cómo conoces esta canción?",
+      "Como você conhece essa música?",
+      "من أين تعرفين هذه الأغنية؟",
+      "तुम्हें ये गीत कैसे पता है?") },
+    { scene: 2, speaker: "nil", at: 37, tag: "crying", text: t(
+      "Bilmiyorum. Biri bana öğretmişti. Çok önce. Neden ağlıyorum?",
+      "I don't know. Someone taught it to me. Long ago. Why am I crying?",
+      "Ich weiß nicht. Jemand hat es mir beigebracht. Vor langer Zeit. Warum weine ich?",
+      "Je ne sais pas. Quelqu'un me l'a apprise. Il y a longtemps. Pourquoi je pleure ?",
+      "No lo sé. Alguien me la enseñó. Hace mucho. ¿Por qué estoy llorando?",
+      "Não sei. Alguém me ensinou. Faz muito tempo. Por que eu tô chorando?",
+      "لا أعرف. علّمني إياها أحدهم. منذ زمن بعيد. لماذا أبكي؟",
+      "पता नहीं। किसी ने सिखाया था। बहुत पहले। मैं रो क्यों रही हूँ?") },
+    { scene: 3, speaker: "pusula", at: 56, tag: "weak", text: t(
+      "AyShe... müzik... anılar beni besliyor...",
+      "AyShe... the music... memories feed me...",
+      "AyShe... die Musik... Erinnerungen geben mir Kraft...",
+      "AyShe... la musique... les souvenirs me nourrissent...",
+      "AyShe... la música... los recuerdos me alimentan...",
+      "AyShe... a música... as lembranças me alimentam...",
+      "AyShe... الموسيقى... الذكريات تغذّيني...",
+      "AyShe... संगीत... यादें मुझे ताक़त देती हैं...") },
+    { scene: 4, speaker: "nil", at: 67, tag: "whispers", text: t(
+      "Kuleye gizli bir yol biliyorum. Ama sessiz olmalıyız.",
+      "I know a secret way to the tower. But we have to be quiet.",
+      "Ich kenne einen geheimen Weg zum Turm. Aber wir müssen leise sein.",
+      "Je connais un passage secret vers la tour. Mais il faut être silencieux.",
+      "Conozco un camino secreto a la torre. Pero tenemos que estar calladas.",
+      "Eu sei um caminho secreto pra torre. Mas a gente tem que ficar quieta.",
+      "أعرف طريقًا سريًا إلى البرج. لكن يجب أن نبقى هادئتين.",
+      "मुझे टावर तक का एक गुप्त रास्ता पता है। पर हमें चुप रहना होगा।") },
+    { scene: 4, speaker: "ayshe", at: 88, tag: "whispers", text: t(
+      "Kıpırdama... geçip gitsin.",
+      "Don't move... let it pass.",
+      "Nicht bewegen... lass ihn vorbeigehen.",
+      "Ne bouge pas... laisse-le passer.",
+      "No te muevas... deja que pase.",
+      "Não se mexe... deixa ele passar.",
+      "لا تتحركي... دعيه يمر.",
+      "हिलना मत... उसे गुज़र जाने दो।") },
+    { scene: 5, speaker: "nil", at: 104, tag: "whispers", text: t(
+      "Her gece ışıklar buraya gider. Sonra kimse ağlamaz.",
+      "Every night the lights go there. And then nobody cries.",
+      "Jede Nacht gehen die Lichter dorthin. Und dann weint niemand mehr.",
+      "Chaque nuit, les lumières vont là-haut. Et après, plus personne ne pleure.",
+      "Cada noche las luces van allí. Y luego nadie llora.",
+      "Toda noite as luzes vão pra lá. E aí ninguém chora.",
+      "كل ليلة تذهب الأضواء إلى هناك. ثم لا يبكي أحد.",
+      "हर रात रोशनियाँ वहाँ जाती हैं। फिर कोई नहीं रोता।") },
+    { scene: 6, speaker: "ayshe", at: 125, tag: "gasps", text: t(
+      "Bu bir anı... Birinin doğum günü. Onu ondan çalıyorlar!",
+      "It's a memory... Someone's birthday. They're stealing it from him!",
+      "Das ist eine Erinnerung... Ein Geburtstag. Sie stehlen sie ihm!",
+      "C'est un souvenir... Un anniversaire. Ils le lui volent !",
+      "Es un recuerdo... Un cumpleaños. ¡Se lo están robando!",
+      "É uma lembrança... Um aniversário. Estão roubando isso dele!",
+      "إنها ذكرى... عيد ميلاد أحدهم. إنهم يسرقونها منه!",
+      "ये एक याद है... किसी का जन्मदिन। वे इसे उससे छीन रहे हैं!") },
+    { scene: 7, speaker: "ayshe", at: 137, tag: "shouts", text: t(
+      "Bırak onu!",
+      "Let it go!",
+      "Lass sie los!",
+      "Lâche-le !",
+      "¡Suéltalo!",
+      "Solta!",
+      "اتركه!",
+      "छोड़ो इसे!") },
+    { scene: 7, speaker: "nil", at: 156, tag: "frightened", text: t(
+      "Geliyorlar!",
+      "They're coming!",
+      "Sie kommen!",
+      "Ils arrivent !",
+      "¡Ya vienen!",
+      "Eles estão vindo!",
+      "إنهم قادمون!",
+      "वे आ रहे हैं!") },
+    { scene: 8, speaker: "vael", at: 162, tag: "sadly", text: t(
+      "Onlara acıyı geri vermek mi istiyorsun, AyShe? Seninkini de ben aldım.",
+      "You want to give them their pain back, AyShe? I took yours too.",
+      "Du willst ihnen den Schmerz zurückgeben, AyShe? Deinen habe ich auch genommen.",
+      "Tu veux leur rendre leur douleur, AyShe ? J'ai pris la tienne aussi.",
+      "¿Quieres devolverles su dolor, AyShe? También me llevé el tuyo.",
+      "Você quer devolver a dor a eles, AyShe? Eu também tirei a sua.",
+      "تريدين أن تعيدي لهم ألمهم يا AyShe؟ لقد أخذتُ ألمكِ أيضًا.",
+      "तुम उन्हें उनका दर्द लौटाना चाहती हो, AyShe? तुम्हारा भी मैंने ही लिया था।") },
+    { scene: 8, speaker: "vael", at: 172, tag: "softly", text: t(
+      "Seni korumak için.",
+      "To protect you.",
+      "Um dich zu schützen.",
+      "Pour te protéger.",
+      "Para protegerte.",
+      "Para te proteger.",
+      "لأحميكِ.",
+      "तुम्हें बचाने के लिए।") },
+  ],
+  next: { n: 8, title: t("Kaçış", "The Escape", "Die Flucht", "L'Évasion", "La huida", "A fuga", "الهروب", "पलायन") },
+});
