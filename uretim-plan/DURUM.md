@@ -26,3 +26,11 @@
 - Bölüm 2'ye kullanıcının onayıyla geçilir.
 - Müzik konuşma altında kısık; konuşmalar net.
 - Uygulama: cihaz diline göre ses; altyazı varsayılan kapalı, oynatıcıdan seçilir.
+
+## 14.11.2026 — Bölüm 1 tamamlandı (v15, 3:00)
+- Dudak senkronu: MagicLight Reference-to-Video, **Wan 3.0** (810 kr/çekim, ses dosyası kabul eden en ucuz model; Minimax H3 Fast ses kabul etmiyor). Görsel+ses referansı GitHub `uretim-assets` dalından sayfaya fetch edilerek yükleniyor.
+- Wan 3.0 sesi klibe ~2 sn'de yerleştiriyor; dudaklar sesten ~0,3 sn önce açılabiliyor (Taran'da düzeltildi).
+- Yöntem: önemli replikler yüzde senkronlu; diğerleri ağız görünmeyen karelerde (arkadan, profil, Pusula, manzara).
+- Sesler (tüm dizi sabit): AyShe = Gözde Arıkan, Pusula = Dilara, Taran = Ergün Kalbak, Leon = Fatih Yıldırım, Anlatıcı = Hasan Yasin.
+- Müzik kuralı: ana tema Pieces of the Sky (kullanıcı dosyası). Az ve öz: duygusal yerde hafif duygusal, macerada hafif macera parçası; sürekli çalmaz, konuşmada hafif kısılır. Parçalar: cues/sakin_acilis, yukselis, doruk_heyecan, kapanis.
+- Kredi: 16.825 kaldı. Bölüm 2'ye kullanıcı onayıyla geçilecek.
