@@ -34,3 +34,18 @@
 - Sesler (tüm dizi sabit): AyShe = Gözde Arıkan, Pusula = Dilara, Taran = Ergün Kalbak, Leon = Fatih Yıldırım, Anlatıcı = Hasan Yasin.
 - Müzik kuralı: ana tema Pieces of the Sky (kullanıcı dosyası). Az ve öz: duygusal yerde hafif duygusal, macerada hafif macera parçası; sürekli çalmaz, konuşmada hafif kısılır. Parçalar: cues/sakin_acilis, yukselis, doruk_heyecan, kapanis.
 - Kredi: 16.825 kaldı. Bölüm 2'ye kullanıcı onayıyla geçilecek.
+
+## DEĞİŞMEZ SES KURALI (tüm dizi)
+| Karakter | ElevenLabs sesi |
+|---|---|
+| AyShe | Gozde Arikan - Soft, Warm and Clear |
+| Pusula | Dilara - Warm, Natural, Conversational |
+| Taran | Ergun Kalbak - Deep, Calm and Clear |
+| Leon | Fatih Yıldırım - Deep, Clear and Rich |
+| Anlatıcı | Hasan Yasin - Warm Turkish Narrator |
+| Mira | Nil - Dynamic, Playful and Clear |
+| Gölge | Celil-Documentary Narrator – Deep Male (+ pitch down/bozuk efekt) |
+| Asli | Gamze - Young, Warm and Friendly (isim "Az-lee" yazılır) |
+| Eray (13-14 yaş) | Polat Gunduz - Friendly and Energetic (isim "Ey-ray" yazılır) |
+Kullanılmayacak denemeler: Eray için Aslan ve Gamze-Cartoon. ElevenLabs çocuk sesi tasarımını yasaklıyor.
+Plan: 5 bölüm yapılıp Google Play'e yüklenecek, sonraki bölümler ardından.
